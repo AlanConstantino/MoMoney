@@ -17,3 +17,9 @@ Brandon Dupitas
      - [Click here](https://flutter.dev/docs/get-started/test-drive?tab=vscode) for more specific details on how run the
        application with your specific editor.
 4. If everything went correctly you should see something like [this](https://imgur.com/qAvDeuB).
+
+## Learning Resources
+- [Intro to Dart for Java Developers](https://codelabs.developers.google.com/codelabs/from-java-to-dart/#0)
+- [Video playlist for the Dart programming language](https://www.youtube.com/watch?v=5rtujDjt50I&list=PLlxmoA0rQ-LyHW9voBdNo4gEEIh0SjG-q)
+- [Flutter documentation](https://flutter.dev/docs)
+- [Video playlist for a crash course on Flutter](https://fluttercrashcourse.com/lessons/materialapp-scaffold-appbar-text)
