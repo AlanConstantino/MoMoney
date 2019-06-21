@@ -7,6 +7,11 @@ Stephanie Walker
 Brandon Dupitas
 
 
+## TODO:
+To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
+- [x] Sample task one.
+- [ ] Sample task two.
+
 
 ## Test your environment
 1. Clone this repository ```git clone https://github.com/AlanConstantino/MoMoney.git```
