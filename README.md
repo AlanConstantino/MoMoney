@@ -2,16 +2,31 @@
 COMP 380/L Project
 
 Developers:
-Alan Constatino
-Stephanie Walker
+Alan Constatino,
+Stephanie Walker,
 Brandon Dupitas
 
+<hr>
 
 ## TODO:
 To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
-- [x] Sample task one.
-- [ ] Sample task two.
 
+### Pending Tasks
+- [ ] Pending task 1.
+- [ ] Pending task 2.
+- [ ] Pending task 3.
+
+### In progress Tasks
+- [ ] In progress task 1. (Your Name)
+- [ ] In progress task 2. (Your Name)
+- [ ] In progress task 3. (Your Name)
+
+### Completed Tasks
+- [x] Completed task 1.
+- [x] Completed task 2.
+- [x] Completed task 3.
+
+<hr>
 
 ## Test your environment
 1. Clone this repository ```git clone https://github.com/AlanConstantino/MoMoney.git```
