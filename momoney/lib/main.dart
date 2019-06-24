@@ -1,73 +1,72 @@
 import 'package:flutter/material.dart';
 
+import './my_plan.dart';
+import './my_setting.dart';
+import './my_dashboard.dart';
+
 void main() {
-  runApp(new MyApp(
-  ));
+  runApp(new MyApp());
 }
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState()
+  {
+    return MyHomePage();
+}
+}
+
+
+class MyHomePage extends State<MyApp> {
+  //MyHomePage({Key key}) : super(key: key);
+  int _selectedPage = 0;
+  final _pageOptions = [
+  my_Dashboard(),
+  my_Plan(),
+  my_setting(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Generated App',
-      theme: new ThemeData(
+        title: 'Generated App',
+        theme: new ThemeData(
         primarySwatch: Colors.green,
         primaryColor: const Color(0xFF2196f3),
-        accentColor: const Color(0xFF2196f3),
-        canvasColor: const Color(0xFFfafafa),
-      ),
-      home: new MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedPage = 0;
-  final _pageOptions = [
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+    accentColor: const Color(0xFF2196f3),
+    canvasColor: const Color(0xFFfafafa),
+    ),
       home: Scaffold(
+
         appBar: new AppBar(
           title: new Text('Welcome To MoMoney!'),
         ),
         body: _pageOptions[_selectedPage],
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedPage,
-          onTap: (int index) {
-            setState(() {
-              _selectedPage = index;
-            });
-          },
-          items: [
-            new BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text("My Profile")
-            ),
-          new  BottomNavigationBarItem(
-                 icon: Icon(Icons.accessibility),
-                title: Text("My Plan")
-            ),
-            new BottomNavigationBarItem(
-                 icon: Icon(Icons.format_align_justify),
-                title: Text("My Settings")
-            ),
-          ]
+            currentIndex: _selectedPage,
+            onTap: (int index) {
+              setState(() {
+                _selectedPage = index;
+              });
+            },
+            items: [
+              new BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  title: Text("My Profile")
+              ),
+              new  BottomNavigationBarItem(
+                  icon: Icon(Icons.accessibility),
+                  title: Text("My Plan")
+              ),
+              new BottomNavigationBarItem(
+                  icon: Icon(Icons.format_align_justify),
+                  title: Text("My Settings")
+              ),
+            ]
         )
-    )
 
-    );
-  }
+    ),
+
+    );}
 }
 
 
