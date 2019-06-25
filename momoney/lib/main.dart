@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './pages/dashboard.dart';
 import './pages/login.dart';
 import './pages/signup.dart';
+import './pages/register.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,9 +20,12 @@ class MyApp extends StatelessWidget {
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),
-        home: Login(),
+        home: Register(),
         routes: {
           '/dashboard': (_) => Dashboard(),
+          '/register': (_) => Register(),
+
+          // may end up deleting the following later down the line
           '/login': (_) => Login(),
           '/signup': (_) => Signup(),
         });
