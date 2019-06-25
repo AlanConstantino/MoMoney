@@ -18,7 +18,7 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 
 ### In progress Tasks
 - [ ] Profile page set up for monthly income and expenses. (Alan Constantino)
-- [ ] In progress task. (Your Name)
+- [ ] My Profile -  Goals - Settings Page set up. (Brandon)
 
 ### Completed Tasks
 - [x] Completed task 1.
