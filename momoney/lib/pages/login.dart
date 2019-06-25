@@ -27,6 +27,7 @@ class _LoginState extends State<Login> {
                 padding: EdgeInsets.all(12.0),
                 margin: EdgeInsets.all(12.0),
                 child: TextField(
+                  autocorrect: false,
                   onChanged: (String value) {
                     setState(() {
                       username = value;
@@ -36,6 +37,7 @@ class _LoginState extends State<Login> {
                     contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     border: OutlineInputBorder(),
                     labelText: 'Username',
+                    
                   ),
                 ),
               ),
@@ -46,9 +48,11 @@ class _LoginState extends State<Login> {
                 padding: EdgeInsets.all(12.0),
                 margin: EdgeInsets.all(12.0),
                 child: TextField(
+                  autocorrect: false,
+                  obscureText: true,
                   onChanged: (String value) {
                     setState(() {
-                      username = value;
+                      password = value;
                     });
                   },
                   decoration: InputDecoration(
@@ -87,14 +91,12 @@ class _LoginState extends State<Login> {
                     textColor: Colors.white,
                     child: Text('Sign up'),
                     elevation: 5.0,
-                    onPressed: () =>  Navigator.pushNamed(context, '/signup'),
+                    onPressed: () => Navigator.pushNamed(context, '/signup'),
                     //Navigator.pushReplacementNamed(context, "/signup"),
                   ),
                 ),
               ],
             ),
-            Text(username),
-            Text(password),
           ],
         ),
       ),

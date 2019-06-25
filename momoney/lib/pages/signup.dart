@@ -30,6 +30,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.all(10.0),
                 margin: EdgeInsets.all(10.0),
                 child: TextField(
+                  autocorrect: false,
                   onChanged: (String value) {
                     setState(() {
                       username = value;
@@ -50,6 +51,8 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.all(10.0),
                 margin: EdgeInsets.all(10.0),
                 child: TextField(
+                  autocorrect: false,
+                  obscureText: true,
                   onChanged: (String value) {
                     setState(() {
                       password = value;
@@ -70,6 +73,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.all(10.0),
                 margin: EdgeInsets.all(10.0),
                 child: TextField(
+                  autocorrect: false,
                   onChanged: (String value) {
                     setState(() {
                       monthlyExpense = value;
@@ -90,6 +94,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.all(10.0),
                 margin: EdgeInsets.all(10.0),
                 child: TextField(
+                  autocorrect: false,
                   onChanged: (String value) {
                     setState(() {
                       monthlyIncome = value;
@@ -104,17 +109,17 @@ class _SignupState extends State<Signup> {
               ),
             ),
             // Button
-              RaisedButton(
-                color: Color(0xFF2196f3),
-                textColor: Colors.white,
-                child: Text('Sign up'),
-                elevation: 5.0,
-                onPressed: () =>
-                    // check data against database
-                    // if username matches one in database, error message
-                    // if username doesn't match, allow user to go to their dashboard
-                    Navigator.pushNamed(context, '/dashboard'),
-              ),
+            RaisedButton(
+              color: Color(0xFF2196f3),
+              textColor: Colors.white,
+              child: Text('Sign up'),
+              elevation: 5.0,
+              onPressed: () =>
+                  // check data against database
+                  // if username matches one in database, error message
+                  // if username doesn't match, allow user to go to their dashboard
+                  Navigator.pushNamed(context, '/dashboard'),
+            ),
           ],
         ),
       ),

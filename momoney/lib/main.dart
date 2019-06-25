@@ -28,23 +28,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// _read() async {
-//   DatabaseHelper helper = DatabaseHelper.instance;
-//   int rowId = 1;
-//   Word word = await helper.queryWord(rowId);
-//   if (word == null) {
-//     print('read row $rowId: empty');
-//   } else {
-//     print('read row $rowId: ${word.word} ${word.frequency}');
-//   }
-// }
-
-// _save() async {
-//   Word word = Word();
-//   word.word = 'hello';
-//   word.frequency = 15;
-//   DatabaseHelper helper = DatabaseHelper.instance;
-//   int id = await helper.insert(word);
-//   print('inserted row: $id');
-// }
