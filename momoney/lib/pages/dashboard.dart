@@ -7,6 +7,15 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  int _currentIndex= 0;
+  Widget callPage(int currentIndex){
+    switch(_currentIndex){
+      //this will how the pages get switched around.
+      // future feature
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,20 +23,31 @@ class _DashboardState extends State<Dashboard> {
         automaticallyImplyLeading: false,
         title: Text('Dashboard'),
       ),
-      bottomNavigationBar: BottomNavigationBar(items: [
+      body: callPage(_currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (value){
+          _currentIndex = value;
+          setState(() {
+
+          });
+        },
+        items: [
         BottomNavigationBarItem(
-          icon: const Icon(Icons.accessibility),
+          icon: Icon(Icons.accessibility),
           title: Text('My Profile'),
+
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.sentiment_satisfied),
+          icon: Icon(Icons.sentiment_satisfied),
           title: Text('Goals'),
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.format_align_justify),
+          icon: Icon(Icons.format_align_justify),
           title: Text('Settings'),
         )
-      ]),
+      ],
+      ),
     );
   }
 }
