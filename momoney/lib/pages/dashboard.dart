@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './myprofile.dart';
+import './settings.dart';
+import './mygoals.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -7,29 +10,26 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int _currentIndex= 0;
-  Widget callPage(int currentIndex){
-    switch(_currentIndex){
-      //this will how the pages get switched around.
-      // future feature
+  int _currentIndex = 0;
+  final _pageOptions = [
+        myprofile(),
+        mygoals(),
+        settings(),
+      ];
 
-    }
-  }
 
-  @override
+
+
+    @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Dashboard'),
-      ),
-      body: callPage(_currentIndex),
+    return MaterialApp(
+      home: Scaffold(
+      appBar: AppBar( automaticallyImplyLeading: false,title: Text('Dashboard'),),
+      body: _pageOptions[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (value){
-          _currentIndex = value;
+        onTap: (int value){
           setState(() {
-
+        _currentIndex = value;
           });
         },
         items: [
@@ -47,6 +47,7 @@ class _DashboardState extends State<Dashboard> {
           title: Text('Settings'),
         )
       ],
+         ),
       ),
     );
   }
