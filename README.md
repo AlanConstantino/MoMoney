@@ -12,8 +12,8 @@ Brandon Dupitas
 To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
 
 ### Pending Tasks
-- [ ] Pending task 1.
-- [ ] Pending task 2.
+- [ ] Flat File integration.
+- [ ] User Data.
 - [ ] Pending task 3.
 
 ### In progress Tasks
