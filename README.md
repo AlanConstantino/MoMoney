@@ -12,13 +12,14 @@ Brandon Dupitas
 To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
 
 ### Pending Tasks
+
 - [ ] Flat File integration.
 - [ ] User Data.
 - [ ] Pending task 3.
 
 ### In progress Tasks
 - [ ] Profile page set up for monthly income and expenses. (Alan Constantino)
-- [ ] My Profile -  Goals - Settings Page set up. (Brandon)
+- [ ] Goals Page set up. (Brandon)
 
 ### Completed Tasks
 - [x] Completed task 1.
