@@ -17,14 +17,11 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 - [ ] Pending task 3.
 
 ### In progress Tasks
-- [ ] In progress task 1. (Your Name)
-- [ ] In progress task 2. (Your Name)
-- [ ] In progress task 3. (Your Name)
+- [ ] Profile page set up for monthly income and expenses. (Alan Constantino)
+- [ ] In progress task. (Your Name)
 
 ### Completed Tasks
 - [x] Completed task 1.
-- [x] Completed task 2.
-- [x] Completed task 3.
 
 <hr>
 
