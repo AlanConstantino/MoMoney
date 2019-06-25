@@ -18,7 +18,7 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 - [ ] Pending task 3.
 
 ### In progress Tasks
-- [ ] Profile page set up for monthly income and expenses. (Alan Constantino)
+- [ ] (Register Page) Profile page set up for monthly income and expenses. (Alan Constantino)
 - [ ] Bottom Navigation bar (Brandon)
 
 ### Completed Tasks
