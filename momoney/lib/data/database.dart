@@ -13,14 +13,17 @@ class DBProvider {
   Database _database;
 
   Future<Database> get database async {
+    // if there is an already existing database return the database
     if (_database != null) {
       return _database;
     }
 
+    // if not database, initialize a database and return it
     _database = await initDB();
     return _database;
   }
 
+  // initialize method for databse
   initDB() async {
     // Get the location of our app directory. This is where files for our app,
     // and only our app, are stored. Files in this directory are deleted
@@ -44,7 +47,9 @@ class DBProvider {
   }
 
   insertNewUser(User user) async {
+    // await for databse
     final db = await database;
+    // await to insert a user into the database as JSON
     var res = await db.insert('user', user.toJson());
 
     return res;
@@ -52,11 +57,12 @@ class DBProvider {
 
   getUsers() async {
     final db = await database;
+    // query the database for a 'user'
     var res = await db.query('user');
-    List<User> notes =
+    List<User> users =
         res.isNotEmpty ? res.map((user) => User.fromJson(user)).toList() : [];
 
-    return notes;
+    return users;
   }
 
   getUser(int id) async {
