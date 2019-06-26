@@ -25,6 +25,10 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 ### Completed Tasks
 - [x] navigation bar.
 
+### Issues / Bugs
+
+- [ ] Bottom bar buttons not changing color when navigating between pages
+
 <hr>
 
 ## Test your environment
