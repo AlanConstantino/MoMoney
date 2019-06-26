@@ -3,6 +3,8 @@ import './MyProfile.dart';
 import './settings.dart';
 import './MyGoals.dart';
 
+void main() => runApp(Dashboard());
+
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
   @override
@@ -20,9 +22,59 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+            debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.white,
+            drawer: Drawer(
+              child: Container(
+                color: Colors.white,
+                child: ListView(
+                  padding: EdgeInsets.only(top: 40.0),
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('Profile'),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Monthly Expenses'),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Monthly Income'),
+                      onTap: (){
+                        Navigator.push(context,
+                         MaterialPageRoute(builder: (context){
+                           return MyProfile();
+                         }
+                         ));
+                      },
+                    ),
+                    ListTile(
+                        title: Text('Goals'),
+                      onTap: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) {
+                          return MyGoals();
+                        }
+                        ));
+                      }
+
+                    ),
+                    ListTile(
+                      title: Text('Log Out'),
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           title: Text('Dashboard'),
         ),
         body: _pageOptions[_selectedIndex],
