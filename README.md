@@ -12,7 +12,7 @@ Brandon Dupitas
 To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
 
 ### Pending Tasks
-
+- [ ] [Implement the drawer for my profile and settings.](https://flutter.dev/docs/cookbook/design/drawer)
 - [ ] Flat File integration.
 - [ ] User Data.
 - [ ] Pending task 3.
@@ -38,6 +38,7 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 4. If everything went correctly you should see something like [this](https://imgur.com/qAvDeuB).
 
 ## Learning Resources
+- [Effective Dart: Style](https://dart.dev/guides/language/effective-dart/style)
 - [Intro to Dart for Java Developers](https://codelabs.developers.google.com/codelabs/from-java-to-dart/#0)
 - [Video playlist for the Dart programming language](https://www.youtube.com/watch?v=5rtujDjt50I&list=PLlxmoA0rQ-LyHW9voBdNo4gEEIh0SjG-q)
 - [Flutter documentation](https://flutter.dev/docs)
