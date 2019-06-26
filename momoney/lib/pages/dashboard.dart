@@ -34,16 +34,17 @@ class _DashboardState extends State<Dashboard> {
         },
         items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.accessibility),
+          icon:  Icon(Icons.accessibility, color: Colors.blue),
           title: Text('My Profile'),
 
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.sentiment_satisfied),
+          icon: Icon(Icons.sentiment_satisfied,color: Colors.blue ),
           title: Text('Goals'),
+
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.format_align_justify),
+          icon: Icon(Icons.format_align_justify, color: Colors.blue),
           title: Text('Settings'),
         )
       ],
