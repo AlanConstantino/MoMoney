@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './pages/dashboard.dart';
-import './pages/login.dart';
-import './pages/signup.dart';
+import './pages/unused_pages/login.dart';
+import './pages/unused_pages/signup.dart';
 import './pages/register.dart';
 
 void main() {
