@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import './myprofile.dart';
+import './MyProfile.dart';
 import './settings.dart';
-import './mygoals.dart';
+import './MyGoals.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -12,9 +12,9 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0;
   final _pageOptions = [
-    myprofile(),
-    mygoals(),
-    settings(),
+    MyProfile(),
+    MyGoals(),
+    Settings(),
   ];
 
   @override
