@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 
-// void main() => runApp(
-//     MaterialApp(
-//       title: 'Goals',
-//       debugShowCheckedModeBanner: false,
-//       home: MyGoals(),
-//     )
-// );
-
 class MyGoals extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
