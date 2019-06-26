@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import './pages/dashboard.dart';
-import './pages/unused_pages/login.dart';
-import './pages/unused_pages/signup.dart';
-import './pages/register.dart';
+
+import 'package:momoney/pages/unused_pages/login.dart';
+import 'package:momoney/pages/unused_pages/signup.dart';
+import 'package:momoney/pages/dashboard.dart';
+import 'package:momoney/pages/register.dart';
 
 void main() {
   runApp(MyApp());
@@ -29,5 +30,4 @@ class MyApp extends StatelessWidget {
           '/login': (_) => Login(),
           '/signup': (_) => Signup(),
         });
-  }
-}
+  }}
