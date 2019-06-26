@@ -3,8 +3,6 @@ import './MyProfile.dart';
 import './settings.dart';
 import './MyGoals.dart';
 
-void main() => runApp(Dashboard());
-
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
   @override
