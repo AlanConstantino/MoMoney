@@ -12,43 +12,41 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   int _currentIndex = 0;
   final _pageOptions = [
-        myprofile(),
-        mygoals(),
-        settings(),
-      ];
+    myprofile(),
+    mygoals(),
+    settings(),
+  ];
 
-
-
-
-    @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-      appBar: AppBar( automaticallyImplyLeading: false,title: Text('Dashboard'),),
-      body: _pageOptions[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (int value){
-          setState(() {
-        _currentIndex = value;
-          });
-        },
-        items: [
-        BottomNavigationBarItem(
-          icon:  Icon(Icons.accessibility, color: Colors.blue),
-          title: Text('My Profile'),
-
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Dashboard'),
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.sentiment_satisfied,color: Colors.blue ),
-          title: Text('Goals'),
-
+        body: _pageOptions[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (int value) {
+            setState(() {
+              _currentIndex = value;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.accessibility, color: Colors.blue),
+              title: Text('My Profile'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.sentiment_satisfied, color: Colors.blue),
+              title: Text('Goals'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.format_align_justify, color: Colors.blue),
+              title: Text('Settings'),
+            )
+          ],
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.format_align_justify, color: Colors.blue),
-          title: Text('Settings'),
-        )
-      ],
-         ),
       ),
     );
   }

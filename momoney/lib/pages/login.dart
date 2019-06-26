@@ -37,7 +37,6 @@ class _LoginState extends State<Login> {
                     contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                     border: OutlineInputBorder(),
                     labelText: 'Username',
-                    
                   ),
                 ),
               ),
