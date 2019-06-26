@@ -52,7 +52,7 @@ class _RegisterState extends State<Register> {
                         }
                       },
                       onSaved: (val) =>
-                          setState(() => _user.monthlyIncome = val),
+                          setState(() => _user.monthlyIncome = double.parse(val)),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.number,
@@ -66,8 +66,8 @@ class _RegisterState extends State<Register> {
                           return 'Please enter your monthly expenses';
                         }
                       },
-                      onSaved: (val) =>
-                          setState(() => _user.monthlyExpense = val),
+                    onSaved: (val) =>
+                          setState(() => _user.monthlyExpense = double.parse(val)),
                     ),
                     Container(
                         padding: const EdgeInsets.symmetric(
