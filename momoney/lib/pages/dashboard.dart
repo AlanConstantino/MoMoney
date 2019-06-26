@@ -10,7 +10,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int _currentIndex = 0;
+  int _selectedIndex = 0;
   final _pageOptions = [
     myprofile(),
     mygoals(),
@@ -25,24 +25,25 @@ class _DashboardState extends State<Dashboard> {
           automaticallyImplyLeading: false,
           title: Text('Dashboard'),
         ),
-        body: _pageOptions[_currentIndex],
+        body: _pageOptions[_selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
           onTap: (int value) {
             setState(() {
-              _currentIndex = value;
+              _selectedIndex = value;
             });
           },
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.accessibility, color: Colors.blue),
+              icon: Icon(Icons.accessibility),
               title: Text('My Profile'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sentiment_satisfied, color: Colors.blue),
+              icon: Icon(Icons.sentiment_satisfied),
               title: Text('Goals'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.format_align_justify, color: Colors.blue),
+              icon: Icon(Icons.format_align_justify),
               title: Text('Settings'),
             )
           ],
