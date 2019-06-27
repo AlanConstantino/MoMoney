@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../model/user.dart';
+import 'package:momoney/data/database.dart';
+import 'package:momoney/model/user.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   final _user = User();
+  double monthlyIncome;
+  double monthlyExpense;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +31,6 @@ class _RegisterState extends State<Register> {
                         if (value.isEmpty) {
                           return 'Please enter your first name';
                         }
-                        if (!(double.parse(value) is double)) {
-                            return 'Value is not a decimal';
-                        }
                       },
                       onSaved: (val) => setState(() => _user.firstName = val),
                     ),
@@ -43,7 +43,10 @@ class _RegisterState extends State<Register> {
                         },
                         onSaved: (val) => setState(() => _user.lastName = val)),
                     TextFormField(
-                      keyboardType: TextInputType.number,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: false,
+                        decimal: true,
+                      ),
                       decoration: InputDecoration(
                         hintText: '0.00',
                         labelText: 'Monthly Income',
@@ -52,6 +55,9 @@ class _RegisterState extends State<Register> {
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Please enter your monthly income';
+                        }
+                        if (!(double.parse(value) is double)) {
+                          return 'Value is not a decimal';
                         }
                       },
                       onSaved: (String val) => setState(
@@ -86,6 +92,7 @@ class _RegisterState extends State<Register> {
                               if (form.validate()) {
                                 form.save();
                                 _user.save();
+                                DBProvider.db.addUserToDatabase(_user);
                                 _showDialog(context);
                                 Navigator.pushNamed(context, "/dashboard");
                               }
