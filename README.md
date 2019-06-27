@@ -15,7 +15,6 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 - [ ] [Implement the drawer for my profile and settings.](https://flutter.dev/docs/cookbook/design/drawer)
 - [ ] User Data.
 - [ ] building the ui of the my profile page
-- [ ] Add the [flutter_money_format dependency package](https://pub.dev/packages/flutter_money_formatter#-example-tab-) and apply it to lines 55 `setState(() => _user.monthlyIncome = double.parse(val)),` and 70 `setState(() => _user.monthlyExpense = double.parse(val)),` in the `/lib/pages/register.dart` file
 
 ### In progress Tasks
 - [ ] Figuring out SQFlite and BLoC pattern (Alan Constantino)
