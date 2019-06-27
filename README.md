@@ -19,11 +19,12 @@ To make a task, simply use the following format ```- [ ] First task.``` or ```- 
 
 ### In progress Tasks
 - [ ] Figuring out SQFlite and BLoC pattern (Alan Constantino)
-- [ ] Building the ui of the my profile page (Brandon Dupitas)
+- [ ] building the ui of goals( Brandon Dupitas)
 
 ### Completed Tasks
 - [x] navigation bar.
 - [x] Register page.
+- [x] Building the ui of the my profile page (Brandon Dupitas)
 
 <hr>
 
