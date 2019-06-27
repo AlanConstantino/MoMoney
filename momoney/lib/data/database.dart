@@ -19,26 +19,28 @@ class DBProvider {
     }
 
     // if not database, initialize a database and return it
-    _database = await initDB();
+    // _database = await initDB();
+    _database = await _initDB();
     return _database;
   }
 
   // initialize method for databse
-  initDB() async {
+  _initDB() async {
     // Get the location of our app directory. This is where files for our app,
     // and only our app, are stored. Files in this directory are deleted
     // when the app is deleted.
     Directory documentsDir = await getApplicationDocumentsDirectory();
-    String path = join(documentsDir.path, 'app.db');
+    String path = join(documentsDir.path, 'user.db');
 
     return await openDatabase(path, version: 1, onOpen: (db) async {},
         onCreate: (Database db, int version) async {
       // Create the user table
       await db.execute('''
                 CREATE TABLE user(
-                    id INTEGER PRIMARY KEY,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     firstName TEXT DEFAULT '',
                     lastName TEXT DEFAULT '',
+                    goal TEXT DEFAULT '',
                     monthlyIncome REAL DEFAULT '',
                     monthlyExpense REAL DEFAULT ''
                 )
@@ -46,43 +48,41 @@ class DBProvider {
     });
   }
 
-  insertNewUser(User user) async {
-    // await for databse
+  addUserToDatabase(User user) async {
     final db = await database;
-    // await to insert a user into the database as JSON
-    var res = await db.insert('user', user.toJson());
+    var res = await db.insert('user', user.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
 
     return res;
-  }
-
-  getUsers() async {
-    final db = await database;
-    // query the database for a 'user'
-    var res = await db.query('user');
-    List<User> users =
-        res.isNotEmpty ? res.map((user) => User.fromJson(user)).toList() : [];
-
-    return users;
-  }
-
-  getUser(int id) async {
-    final db = await database;
-    var res = await db.query('user', where: 'id = ?', whereArgs: [id]);
-
-    return res.isNotEmpty ? User.fromJson(res.first) : null;
   }
 
   updateUser(User user) async {
     final db = await database;
-    var res = await db
-        .update('user', user.toJson(), where: 'id = ?', whereArgs: [user.id]);
-
-    return res;
+    var response = await db
+        .update("user", user.toMap(), where: "id = ?", whereArgs: [user.id]);
+    return response;
   }
 
-  deleteUser(int id) async {
+  Future<User> getPersonWithId(int id) async {
     final db = await database;
+    var response = await db.query("user", where: "id = ?", whereArgs: [id]);
+    return response.isNotEmpty ? User.fromMap(response.first) : null;
+  }
 
-    db.delete('user', where: 'id = ?', whereArgs: [id]);
+  Future<List<User>> getAllPersons() async {
+    final db = await database;
+    var response = await db.query("user");
+    List<User> list = response.map((c) => User.fromMap(c)).toList();
+    return list;
+  }
+
+  deletePersonWithId(int id) async {
+    final db = await database;
+    return db.delete("user", where: "id = ?", whereArgs: [id]);
+  }
+
+  deleteAllPersons() async {
+    final db = await database;
+    db.delete("user");
   }
 }

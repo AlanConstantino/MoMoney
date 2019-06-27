@@ -28,6 +28,9 @@ class _RegisterState extends State<Register> {
                         if (value.isEmpty) {
                           return 'Please enter your first name';
                         }
+                        if (!(double.parse(value) is double)) {
+                            return 'Value is not a decimal';
+                        }
                       },
                       onSaved: (val) => setState(() => _user.firstName = val),
                     ),
@@ -51,24 +54,29 @@ class _RegisterState extends State<Register> {
                           return 'Please enter your monthly income';
                         }
                       },
-                      onSaved: (val) =>
-                          setState(() => _user.monthlyIncome = double.parse(val)),
+                      onSaved: (String val) => setState(
+                          () => _user.monthlyIncome = double.parse(val)),
                     ),
                     TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: '0.00',
-                        labelText: 'Monthly Expenses',
-                        prefixText: '\$',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your monthly expenses';
-                        }
-                      },
-                    onSaved: (val) =>
-                          setState(() => _user.monthlyExpense = double.parse(val)),
-                    ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          signed: false,
+                          decimal: true,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '0.00',
+                          labelText: 'Monthly Expenses',
+                          prefixText: '\$',
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your monthly expenses';
+                          }
+                          if (!(double.parse(value) is double)) {
+                            return 'Value is not a decimal';
+                          }
+                        },
+                        onSaved: (String val) => setState(
+                            () => _user.monthlyExpense = double.parse(val))),
                     Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 16.0, horizontal: 16.0),
