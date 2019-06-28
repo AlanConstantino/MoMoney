@@ -10,11 +10,9 @@ class MyGoals extends StatefulWidget {
 class _GoalsState extends State<MyGoals> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Goals'),
-      ),
-      body: Container(
+    return Stack(
+     children: <Widget>[
+       Container(
         child: Column(
           children: <Widget>[
             Padding(
@@ -47,6 +45,7 @@ class _GoalsState extends State<MyGoals> {
           ],
         ),
       ),
+    ]
     );
   }
 }
