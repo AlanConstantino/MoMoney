@@ -6,27 +6,6 @@ Alan Constatino,
 Stephanie Walker,
 Brandon Dupitas
 
-<hr>
-
-## TODO:
-To make a task, simply use the following format ```- [ ] First task.``` or ```- [x] Second task.``` for a completed task
-
-### Pending Tasks
-- [ ] [Implement the drawer for my profile and settings.](https://flutter.dev/docs/cookbook/design/drawer)
-- [ ] User Data.
-- [ ] building the ui of the my profile page
-
-### In progress Tasks
-- [ ] Figuring out SQFlite and BLoC pattern (Alan Constantino)
-- [ ] building the ui of goals( Brandon Dupitas)
-
-### Completed Tasks
-- [x] navigation bar.
-- [x] Register page.
-- [x] Building the ui of the my profile page (Brandon Dupitas)
-
-<hr>
-
 ## Test your environment
 1. Clone this repository ```git clone https://github.com/AlanConstantino/MoMoney.git```
 2. Open the file ```main.dart``` from the repository you just cloned under the directory ```momoney/lib/main.dart``` with your favorite text editor.
