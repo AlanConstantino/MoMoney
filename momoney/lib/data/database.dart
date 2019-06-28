@@ -19,7 +19,6 @@ class DBProvider {
     }
 
     // if not database, initialize a database and return it
-    // _database = await initDB();
     _database = await _initDB();
     return _database;
   }
@@ -35,14 +34,15 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) async {},
         onCreate: (Database db, int version) async {
       // Create the user table
+
       await db.execute('''
                 CREATE TABLE user(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     firstName TEXT DEFAULT '',
                     lastName TEXT DEFAULT '',
                     goal TEXT DEFAULT '',
-                    monthlyIncome REAL DEFAULT '',
-                    monthlyExpense REAL DEFAULT ''
+                    monthlyIncome REAL DEFAULT NOT NULL,
+                    monthlyExpense REAL DEFAULT NOT NULL
                 )
             ''');
     });
@@ -63,25 +63,25 @@ class DBProvider {
     return response;
   }
 
-  Future<User> getPersonWithId(int id) async {
+  Future<User> getUserWithId(int id) async {
     final db = await database;
     var response = await db.query("user", where: "id = ?", whereArgs: [id]);
     return response.isNotEmpty ? User.fromMap(response.first) : null;
   }
 
-  Future<List<User>> getAllPersons() async {
+  Future<List<User>> getAllUsers() async {
     final db = await database;
     var response = await db.query("user");
     List<User> list = response.map((c) => User.fromMap(c)).toList();
     return list;
   }
 
-  deletePersonWithId(int id) async {
+  deleteUserWithId(int id) async {
     final db = await database;
     return db.delete("user", where: "id = ?", whereArgs: [id]);
   }
 
-  deleteAllPersons() async {
+  deleteAllUsers() async {
     final db = await database;
     db.delete("user");
   }

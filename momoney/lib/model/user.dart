@@ -20,21 +20,21 @@ class User {
   // converting User map into object
   factory User.fromMap(Map<String, dynamic> json) => new User(
         id: json["id"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
         goal: json["goal"],
-        monthlyIncome: json["monthly_income"],
-        monthlyExpense: json["monthly_expense"],
+        monthlyIncome: json["monthlyIncome"],
+        monthlyExpense: json["monthlyExpense"],
       );
 
   // converting User object into map
   Map<String, dynamic> toMap() => {
         "id": id,
-        "first_name": firstName,
-        "last_name": lastName,
+        "firstName": firstName,
+        "lastName": lastName,
         "goal": goal,
-        "monthly_income": monthlyIncome,
-        "monthly_expense": monthlyExpense,
+        "monthlyIncome": monthlyIncome,
+        "monthlyExpense": monthlyExpense,
       };
 
   // only for debugging
