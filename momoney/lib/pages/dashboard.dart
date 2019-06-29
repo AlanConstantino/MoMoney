@@ -20,12 +20,6 @@ class _DashboardState extends State<Dashboard> {
           child: ListView(
             padding: EdgeInsets.only(top: 40.0),
             children: <Widget>[
-              DrawerHeader(
-              child: Text ("Your name here"),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-          ),
               ListTile(
                 title: Text('Profile'),
                 onTap: () {

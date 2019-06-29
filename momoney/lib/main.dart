@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
-          '/settings': (_) => Settings(), // not currently used
+          '/settings': (_) => Settings(), // not currently used in any page
           '/profile': (_) => Profile(),
           '/goals': (_) => Goals(),
           '/monthly_expenses': (_) => MonthlyExpenses(),
