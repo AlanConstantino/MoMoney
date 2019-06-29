@@ -8,6 +8,10 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  //place holders, just preparing for the database connections
+  int monthsLeft = 19;
+  double userBalance = 200.00;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,9 +89,18 @@ class _DashboardState extends State<Dashboard> {
         child: Row(children: <Widget>[
           Expanded(
               child: ListTile(
-            title: Text("Balance Left:"),
-            subtitle: Text('200.00'),
-          ))
+            title: Text("Balance left:"),
+            subtitle: Text("\$" + userBalance.toStringAsFixed(2)),
+          )),
+          Expanded(
+            child: ListTile(
+              title: Text("Months left until Goal:"),
+              subtitle: Text(
+                "$monthsLeft months",
+                textAlign: TextAlign.right,
+              ),
+            ),
+          )
         ]),
       ),
     );
