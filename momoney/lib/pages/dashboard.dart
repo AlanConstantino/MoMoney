@@ -10,9 +10,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-      ),
+      appBar: AppBar(title: Text('Dashboard')),
       backgroundColor: Colors.white,
       drawer: Drawer(
         child: Container(
@@ -36,6 +34,12 @@ class _DashboardState extends State<Dashboard> {
                 title: Text('Monthly Income'),
                 onTap: () {
                   Navigator.of(context).pushNamed('/monthly_income');
+                },
+              ),
+              ListTile(
+                title: Text('Settings'),
+                onTap: () {
+                  Navigator.of(context).pushNamed('/settings');
                 },
               ),
             ],
