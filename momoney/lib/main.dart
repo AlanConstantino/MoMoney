@@ -4,6 +4,7 @@ import 'package:momoney/pages/unused_pages/login.dart';
 import 'package:momoney/pages/unused_pages/signup.dart';
 import 'package:momoney/pages/dashboard.dart';
 import 'package:momoney/pages/register.dart';
+import 'package:momoney/pages/settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: true,
-        title: 'Generated App',
+        title: 'MoMoney',
         theme: ThemeData(
           primarySwatch: Colors.blue,
           primaryColor: const Color(0xFF2196f3),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
+          '/settings': (_) => Settings(),
 
           // may end up deleting the following later down the line
           '/login': (_) => Login(),
