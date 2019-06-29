@@ -40,7 +40,8 @@ class DBProvider {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     firstName TEXT DEFAULT '',
                     lastName TEXT DEFAULT '',
-                    goal TEXT DEFAULT '',
+                    goalTitle TEXT DEFAULT '',
+                    goalAmount REAL DEFAULT NOT NULL,
                     monthlyIncome REAL DEFAULT NOT NULL,
                     monthlyExpense REAL DEFAULT NOT NULL
                 )

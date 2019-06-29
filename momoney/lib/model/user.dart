@@ -3,7 +3,8 @@ class User {
   int id;
   String firstName;
   String lastName;
-  String goal;
+  String goalTitle;
+  int goalAmount;
   double monthlyIncome;
   double monthlyExpense;
 
@@ -12,7 +13,8 @@ class User {
     this.id,
     this.firstName,
     this.lastName,
-    this.goal,
+    this.goalTitle,
+    this.goalAmount,
     this.monthlyIncome,
     this.monthlyExpense,
   });
@@ -22,7 +24,8 @@ class User {
         id: json["id"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        goal: json["goal"],
+        goalTitle: json["goalTitle"],
+        goalAmount: json["goalAmount"],
         monthlyIncome: json["monthlyIncome"],
         monthlyExpense: json["monthlyExpense"],
       );
@@ -32,7 +35,8 @@ class User {
         "id": id,
         "firstName": firstName,
         "lastName": lastName,
-        "goal": goal,
+        "goalTitle": goalTitle,
+        "goalAmount": goalAmount,
         "monthlyIncome": monthlyIncome,
         "monthlyExpense": monthlyExpense,
       };
