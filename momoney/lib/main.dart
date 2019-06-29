@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:momoney/pages/unused_pages/login.dart';
-import 'package:momoney/pages/unused_pages/signup.dart';
 import 'package:momoney/pages/dashboard.dart';
+import 'package:momoney/pages/monthly_expenses.dart';
+import 'package:momoney/pages/goals.dart';
 import 'package:momoney/pages/register.dart';
+import 'package:momoney/pages/monthly_income.dart';
 import 'package:momoney/pages/settings.dart';
-import 'package:momoney/pages/mygoals.dart';
+import 'package:momoney/pages/profile.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,18 +24,15 @@ class MyApp extends StatelessWidget {
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),
-
-        home: Register(),
-
+        home: Dashboard(),
         routes: {
-          '/dashboard': (BuildContext context) => new Dashboard(),
-          '/register': (BuildContext context) => new Register(),
-          '/settings': (BuildContext context) => new Settings(),
-          '/mygoals': (BuildContext context) => new MyGoals(),
-
-
-          // may end up deleting the following later down the line
-          '/login': (_) => Login(),
-          '/signup': (_) => Signup(),
+          '/dashboard': (_) => Dashboard(),
+          '/register': (_) => Register(),
+          '/settings': (_) => Settings(), // not currently used
+          '/profile': (_) => Profile(),
+          '/goals': (_) => Goals(),
+          '/monthly_expenses': (_) => MonthlyExpenses(),
+          '/monthly_income': (_) => MonthlyIncome(),
         });
-  }}
+  }
+}

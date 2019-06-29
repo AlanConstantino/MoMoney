@@ -29,30 +29,25 @@ class _DashboardState extends State<Dashboard> {
               ListTile(
                 title: Text('Profile'),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/dashboard');
+                  Navigator.of(context).pushNamed('/profile');
                 },
               ),
               ListTile(
                 title: Text('Monthly Expenses'),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/dashboard');
+                  Navigator.of(context).pushNamed('/monthly_expenses');
                 },
               ),
               ListTile(
                 title: Text('Monthly Income'),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/dashboard');
+                  Navigator.of(context).pushNamed('/monthly_income');
                 },
               ),
               ListTile(
                 title: Text('Goals'),
                 onTap: () {
-                  Navigator.of(context).pushNamed('/mygoals');
-                },
-              ),
-              ListTile(
-                title: Text('Log Out'),
-                onTap: () {Navigator.of(context).pushNamed('/dashboard');
+                  Navigator.of(context).pushNamed('/goals');
                 },
               ),
             ],
