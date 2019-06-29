@@ -12,7 +12,38 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
-
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            icon: Icon(Icons.add),
+            onSelected: (valueSelected) {
+              switch (valueSelected) {
+                case 'income':
+                  Navigator.of(context).pushNamed('/add_income_form');
+                  break;
+                case 'expense':
+                  Navigator.of(context).pushNamed('/add_expense_form');
+                  break;
+                default: // should never happen... hopefully...
+                  print('Switch statement hit default case in dashbaord.dart');
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                  value: 'income',
+                  child: ListTile(
+                    leading: Icon(Icons.attach_money),
+                    title: Text('Income'),
+                  )),
+              const PopupMenuItem<String>(
+                value: 'expense',
+                child: ListTile(
+                  leading: Icon(Icons.money_off),
+                  title: Text('Expense'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       backgroundColor: Colors.white,
       drawer: Drawer(
