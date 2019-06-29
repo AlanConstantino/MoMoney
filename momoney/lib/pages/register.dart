@@ -12,6 +12,9 @@ class _RegisterState extends State<Register> {
   final _user = User();
   double monthlyIncome;
   double monthlyExpense;
+  var userPercentages = ['5%', '10%', '15%', '20%'];
+
+  String currentValue = '5%'; //default
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +86,20 @@ class _RegisterState extends State<Register> {
                         },
                         onSaved: (String val) => setState(
                             () => _user.monthlyExpense = double.parse(val))),
+                    DropdownButton<String>(
+                      items: userPercentages.map((String dropDownStringItem) {
+                        return DropdownMenuItem<String>(
+                          value: dropDownStringItem,
+                          child: Text(dropDownStringItem),
+                        );
+                      }).toList(),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          this.currentValue = newValue;
+                        });
+                      },
+                      value: currentValue,
+                    ),
                     Container(
                         padding: const EdgeInsets.symmetric(
                             vertical: 16.0, horizontal: 16.0),
