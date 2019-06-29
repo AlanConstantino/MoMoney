@@ -3,20 +3,18 @@ class User {
   int id;
   String firstName;
   String lastName;
-  String goalTitle;
-  int goalAmount;
   double monthlyIncome;
   double monthlyExpense;
+  int percentageToSaveMonthly;
 
   // constructor
   User({
     this.id,
     this.firstName,
     this.lastName,
-    this.goalTitle,
-    this.goalAmount,
     this.monthlyIncome,
     this.monthlyExpense,
+    this.percentageToSaveMonthly,
   });
 
   // converting User map into object
@@ -24,10 +22,9 @@ class User {
         id: json["id"],
         firstName: json["firstName"],
         lastName: json["lastName"],
-        goalTitle: json["goalTitle"],
-        goalAmount: json["goalAmount"],
         monthlyIncome: json["monthlyIncome"],
         monthlyExpense: json["monthlyExpense"],
+        percentageToSaveMonthly: json["percentageToSaveMonthly"],
       );
 
   // converting User object into map
@@ -35,10 +32,9 @@ class User {
         "id": id,
         "firstName": firstName,
         "lastName": lastName,
-        "goalTitle": goalTitle,
-        "goalAmount": goalAmount,
         "monthlyIncome": monthlyIncome,
         "monthlyExpense": monthlyExpense,
+        "percentageToSaveMonthly": percentageToSaveMonthly,
       };
 
   // only for debugging
