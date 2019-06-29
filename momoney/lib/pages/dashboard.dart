@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -28,20 +29,20 @@ class _DashboardState extends State<Dashboard> {
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                  value: 'income',
-                  child: ListTile(
-                    leading: Icon(Icons.attach_money),
-                    title: Text('Income'),
-                  )),
-              const PopupMenuItem<String>(
-                value: 'expense',
-                child: ListTile(
-                  leading: Icon(Icons.money_off),
-                  title: Text('Expense'),
-                ),
-              ),
-            ],
+                  const PopupMenuItem<String>(
+                      value: 'income',
+                      child: ListTile(
+                        leading: Icon(Icons.attach_money),
+                        title: Text('Income'),
+                      )),
+                  const PopupMenuItem<String>(
+                    value: 'expense',
+                    child: ListTile(
+                      leading: Icon(Icons.money_off),
+                      title: Text('Expense'),
+                    ),
+                  ),
+                ],
           ),
         ],
       ),
@@ -79,6 +80,15 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Container(
+        child: Row(children: <Widget>[
+          Expanded(
+              child: ListTile(
+            title: Text("Balance Left:"),
+            subtitle: Text('200.00'),
+          ))
+        ]),
       ),
     );
   }
