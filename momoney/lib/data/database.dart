@@ -14,9 +14,9 @@ class DBProvider {
 
   Future<Database> get database async {
     // if there is an already existing database return the database
-    if (_database != null) {
-      return _database;
-    }
+    // if (_database != null) {
+    //   return _database;
+    // }
 
     // if not database, initialize a database and return it
     _database = await _initDB();
