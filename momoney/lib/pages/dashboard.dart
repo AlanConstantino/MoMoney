@@ -38,12 +38,6 @@ class _DashboardState extends State<Dashboard> {
                   Navigator.of(context).pushNamed('/monthly_income');
                 },
               ),
-              ListTile(
-                title: Text('Goals'),
-                onTap: () {
-                  Navigator.of(context).pushNamed('/goals');
-                },
-              ),
             ],
           ),
         ),
