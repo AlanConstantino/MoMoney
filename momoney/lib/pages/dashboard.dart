@@ -20,27 +20,40 @@ class _DashboardState extends State<Dashboard> {
           child: ListView(
             padding: EdgeInsets.only(top: 40.0),
             children: <Widget>[
+              DrawerHeader(
+              child: Text ("Your name here"),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+          ),
               ListTile(
                 title: Text('Profile'),
                 onTap: () {
-                  Text('Hi');
+                  Navigator.of(context).pushNamed('/dashboard');
                 },
               ),
               ListTile(
                 title: Text('Monthly Expenses'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed('/dashboard');
+                },
               ),
               ListTile(
                 title: Text('Monthly Income'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed('/dashboard');
+                },
               ),
               ListTile(
                 title: Text('Goals'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).pushNamed('/mygoals');
+                },
               ),
               ListTile(
                 title: Text('Log Out'),
-                onTap: () {},
+                onTap: () {Navigator.of(context).pushNamed('/dashboard');
+                },
               ),
             ],
           ),
