@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
+
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
+  //place holders, just preparing for the database connections
+  int monthsLeft = 19;
+  double userBalance = 200.00;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,20 +33,20 @@ class _DashboardState extends State<Dashboard> {
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                  value: 'income',
-                  child: ListTile(
-                    leading: Icon(Icons.attach_money),
-                    title: Text('Income'),
-                  )),
-              const PopupMenuItem<String>(
-                value: 'expense',
-                child: ListTile(
-                  leading: Icon(Icons.money_off),
-                  title: Text('Expense'),
-                ),
-              ),
-            ],
+                  const PopupMenuItem<String>(
+                      value: 'income',
+                      child: ListTile(
+                        leading: Icon(Icons.attach_money),
+                        title: Text('Income'),
+                      )),
+                  const PopupMenuItem<String>(
+                    value: 'expense',
+                    child: ListTile(
+                      leading: Icon(Icons.money_off),
+                      title: Text('Expense'),
+                    ),
+                  ),
+                ],
           ),
         ],
       ),
@@ -79,6 +84,24 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Container(
+        child: Row(children: <Widget>[
+          Expanded(
+              child: ListTile(
+            title: Text("Balance left:"),
+            subtitle: Text("\$" + userBalance.toStringAsFixed(2)),
+          )),
+          Expanded(
+            child: ListTile(
+              title: Text("Months left until Goal:"),
+              subtitle: Text(
+                "$monthsLeft months",
+                textAlign: TextAlign.right,
+              ),
+            ),
+          )
+        ]),
       ),
     );
   }
