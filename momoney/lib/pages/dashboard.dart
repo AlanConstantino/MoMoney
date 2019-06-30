@@ -11,6 +11,7 @@ class _DashboardState extends State<Dashboard> {
   //place holders, just preparing for the database connections
   int monthsLeft = 19;
   double userBalance = 200.00;
+  Animation<Color> progressColor =  AlwaysStoppedAnimation<Color>(Colors.green);
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +86,30 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
+
+
+      body: Container(
+        alignment: Alignment(0,-.75),
+        child: SizedBox(
+          height: 20 ,
+          width: 300,
+        child:LinearProgressIndicator (
+          value: .75 ,
+          backgroundColor: Colors.red,
+          valueColor: progressColor,
+
+        ),
+
+      ) ),
+
+
+
+
+
+
+
+
+
       bottomNavigationBar: Container(
         child: Row(children: <Widget>[
           Expanded(
