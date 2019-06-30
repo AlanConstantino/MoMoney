@@ -9,8 +9,15 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   //place holders, just preparing for the database connections
-  int monthsLeft = 19;
-  double userBalance = 200.00;
+
+  double dummyMonthlyContribution = 200.00;
+  double dummyUserGoal = 10000.00;
+  double dummyIncome = 5000.00;
+  double dummyExpenses = 600.00;
+  double monthsLeft = 0.0;
+  double dummyUserBalance = 400.0;
+
+  Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
 
   @override
   Widget build(BuildContext context) {
@@ -85,18 +92,107 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
+      body: Container(
+        child: Stack(children: <Widget>[
+          Align(
+              alignment: Alignment(0, -.8),
+              child: Text("Your Monthly Progress:")),
+          Container(
+              alignment: Alignment(0, -.75),
+              child: SizedBox(
+                  height: 20,
+                  width: 300,
+                  child: LinearProgressIndicator(
+                    value: (dummyIncome -
+                            dummyExpenses -
+                            dummyMonthlyContribution) /
+                        dummyUserGoal,
+                    backgroundColor: Colors.red,
+                    valueColor: progressColor,
+                  ))),
+          Container(
+              alignment: Alignment(0, -.60),
+              child: SizedBox(
+                height: 40,
+                width: 300,
+                child: Text("Income"),
+              )),
+          Container(
+              alignment: Alignment(0, -.60),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text(
+                    "\$" + dummyIncome.toStringAsFixed(2),
+                    textAlign: TextAlign.right,
+                  ))),
+          Container(
+              alignment: Alignment(0, -.50),
+              child:
+                  SizedBox(height: 40, width: 300, child: Text("Expenses "))),
+          Container(
+              alignment: Alignment(0, -.50),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text(
+                    "\$" + dummyExpenses.toStringAsFixed(2),
+                    textAlign: TextAlign.right,
+                  ))),
+          Container(
+              alignment: Alignment(0, -.40),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text("Monthly Contribution:"))),
+          Container(
+              alignment: Alignment(0, -.40),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text(
+                    "\$" + dummyMonthlyContribution.toStringAsFixed(2),
+                    textAlign: TextAlign.right,
+                  ))),
+          Align(
+              alignment: Alignment(0, -.3),
+              child: Divider(height: 3, color: Colors.black)),
+          Container(
+              alignment: Alignment(0, -.25),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text(
+                    "\$" +
+                        (dummyIncome - dummyExpenses - dummyMonthlyContribution)
+                            .toStringAsFixed(2),
+                    textAlign: TextAlign.right,
+                  ))),
+          Container(
+              alignment: Alignment(0, -.25),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Text(
+                    "Balance Left Over",
+                    textAlign: TextAlign.left,
+                  ))),
+        ]),
+      ),
       bottomNavigationBar: Container(
         child: Row(children: <Widget>[
           Expanded(
               child: ListTile(
-            title: Text("Balance left:"),
-            subtitle: Text("\$" + userBalance.toStringAsFixed(2)),
+            title: Text("Current Goal Balance:"),
+            subtitle: Text("\$" + ((dummyUserBalance)).toStringAsFixed(2)),
           )),
           Expanded(
             child: ListTile(
               title: Text("Months left until Goal:"),
               subtitle: Text(
-                "$monthsLeft months",
+                ((dummyUserGoal - dummyUserBalance) / dummyMonthlyContribution)
+                        .toString() +
+                    " months",
                 textAlign: TextAlign.right,
               ),
             ),
