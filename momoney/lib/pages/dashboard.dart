@@ -15,7 +15,7 @@ class _DashboardState extends State<Dashboard> {
   double dummyIncome = 5000.00;
   double dummyExpenses = 600.00;
   double monthsLeft = 0.0;
-  double dummyUserBalance = 6500.0;
+  double dummyUserBalance = 400.0;
 
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
 
