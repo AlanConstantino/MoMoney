@@ -34,7 +34,7 @@ class _RegisterState extends State<Register> {
                     if (value.isEmpty) {
                       return 'Please enter your first name';
                     }
-                    return '';
+                    return null;
                   },
                   onSaved: (val) => setState(() => _user.firstName = val),
                 ),
@@ -44,7 +44,7 @@ class _RegisterState extends State<Register> {
                       if (value.isEmpty) {
                         return 'Please enter your last name.';
                       }
-                      return '';
+                      return null;
                     },
                     onSaved: (val) => setState(() => _user.lastName = val)),
                 TextFormField(
@@ -64,7 +64,7 @@ class _RegisterState extends State<Register> {
                     if (!(double.parse(value) is double)) {
                       return 'Value is not a decimal';
                     }
-                    return '';
+                    return null;
                   },
                   onSaved: (String val) =>
                       setState(() => _user.monthlyIncome = double.parse(val)),
@@ -86,7 +86,7 @@ class _RegisterState extends State<Register> {
                     if (!(double.parse(value) is double)) {
                       return 'Value is not a decimal';
                     }
-                    return '';
+                    return null;
                   },
                   onSaved: (String val) => setState(
                     () => _user.monthlyExpense = double.parse(val),
