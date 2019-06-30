@@ -92,6 +92,11 @@ class _RegisterState extends State<Register> {
                     () => _user.monthlyExpense = double.parse(val),
                   ),
                 ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                  alignment: Alignment.center,
+                  child: Text('Percentage you would like to save each month'),
+                ),
                 DropdownButton<String>(
                   items: userPercentages.map((String dropDownStringItem) {
                     return DropdownMenuItem<String>(
