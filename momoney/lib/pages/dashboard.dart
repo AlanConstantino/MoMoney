@@ -29,8 +29,6 @@ class _DashboardState extends State<Dashboard> {
 //test for list
   Key refreshKey = GlobalKey<RefreshIndicatorState>();
 
-
-
   get columnsToSelect => null; // list of expenses
 
   Future<User> _query() async {
@@ -70,6 +68,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         title: Text('Dashboard'),
         actions: <Widget>[
@@ -140,7 +139,8 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      body: Stack(children: <Widget>[
+      body:
+      Stack(children: <Widget>[
         Stack(children: <Widget>[
           // A button that prints the first user in the database
           Container(
@@ -246,16 +246,16 @@ class _DashboardState extends State<Dashboard> {
         Container(
             child: RefreshIndicator(
           child: Container(
-            alignment: Alignment(0, .7),
+              alignment: Alignment(0, .7),
               child: SizedBox(
-            height: 400,
-            width: 400,
-            child: ListView.builder(
-                itemCount: listStack.length,
-                itemBuilder: (context, i) => ListTile(
-                      title: Text(listStack.elementAt(i)),
-                    )),
-          )),
+                height: 400,
+                width: 400,
+                child: ListView.builder(
+                    itemCount: listStack.length,
+                    itemBuilder: (context, i) => ListTile(
+                          title: Text(listStack.elementAt(i)),
+                        )),
+              )),
           onRefresh: refreshList,
         )),
       ]),
@@ -283,11 +283,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<Null> refreshList() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
     setState(() {
       double d = counter++;
       String number = d.toString();
-      listStack.addFirst("Expense item"+ number);
+      listStack.addFirst("Expense/Income item " + number);
     });
     return null;
   }
