@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
@@ -19,19 +21,15 @@ class _DashboardState extends State<Dashboard> {
   double dummyExpenses = 600.00;
   double monthsLeft = 0.0;
   double dummyUserBalance = 400.0;
+  double counter = 0;
+  ListQueue listStack;
 
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
 
 //test for list
   Key refreshKey = GlobalKey<RefreshIndicatorState>();
-  var list = [
-    "brandon",
-    "dupitas",
-    "is",
-    "the",
-    "best",
-    "ever",
-  ];
+
+
 
   get columnsToSelect => null; // list of expenses
 
@@ -64,15 +62,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-    list = [
-      "brandon",
-      "dupitas",
-      "is",
-      "the",
-      "best",
-      "ever",
-    ];
     super.initState();
+    listStack = new ListQueue();
+    listStack.add("Pull to update");
   }
 
   @override
@@ -259,9 +251,9 @@ class _DashboardState extends State<Dashboard> {
             height: 400,
             width: 400,
             child: ListView.builder(
-                itemCount: list.length,
+                itemCount: listStack.length,
                 itemBuilder: (context, i) => ListTile(
-                      title: Text(list[i]),
+                      title: Text(listStack.elementAt(i)),
                     )),
           )),
           onRefresh: refreshList,
@@ -291,9 +283,11 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<Null> refreshList() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 2));
     setState(() {
-      list.add("ever");
+      double d = counter++;
+      String number = d.toString();
+      listStack.addFirst("Expense item"+ number);
     });
     return null;
   }
