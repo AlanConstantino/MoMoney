@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:momoney/data/database.dart';
 import 'package:momoney/model/user.dart';
 
 class Profile extends StatefulWidget {
@@ -19,7 +18,6 @@ class _ProfileState extends State<Profile> {
       ),
       body: Container(
         child: FutureBuilder<List<User>>(
-          future: DBProvider.db.getAllUsers(),
           builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -31,7 +29,6 @@ class _ProfileState extends State<Profile> {
                     key: UniqueKey(),
                     background: Container(color: Colors.red),
                     onDismissed: (direction) {
-                      DBProvider.db.deleteUserWithId(item.id);
                       Navigator.of(context).pop();
                     },
                     child: ListTile(

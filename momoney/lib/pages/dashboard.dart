@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:momoney/data/database_helper.dart';
+import 'package:momoney/model/user.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -18,6 +21,33 @@ class _DashboardState extends State<Dashboard> {
   double dummyUserBalance = 400.0;
 
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
+
+  Future<User> _query() async {
+    // get a reference to the database
+    Database db = await DatabaseHelper.instance.database;
+
+    // get single row
+    List<String> columnsToSelect = [
+      DatabaseHelper.columnId,
+      DatabaseHelper.columnFirstName,
+      DatabaseHelper.columnLastName,
+      DatabaseHelper.columnMonthlyIncome,
+      DatabaseHelper.columnMonthlyExpense,
+      DatabaseHelper.columnPercentageToSaveMonthly,
+    ];
+
+    String whereString = '${DatabaseHelper.columnId} = ?';
+    int rowId = 1;
+    List<dynamic> whereArguments = [rowId];
+    List<Map> result = await db.query(DatabaseHelper.table,
+        columns: columnsToSelect,
+        where: whereString,
+        whereArgs: whereArguments);
+
+    User user;
+    result.forEach((row) => user = User.fromMap(row));
+    return user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +124,24 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: Container(
         child: Stack(children: <Widget>[
+          // A button that prints the first user in the database
+          Container(
+            alignment: Alignment.center,
+            child: RaisedButton(
+              child: Text('Print user info to debug console'),
+              onPressed: () async {
+                User user = await _query();
+                print(user.id);
+                print(user.firstName);
+                print(user.lastName);
+                print(user.monthlyIncome);
+                print(user.monthlyExpense);
+                print(user.percentageToSaveMonthly);
+              },
+            ),
+          ),
+          // end of button that prints user
+
           Align(
               alignment: Alignment(0, -.8),
               child: Text("Your Monthly Progress:")),

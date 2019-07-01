@@ -44,8 +44,9 @@ class User {
   set percentageToSaveMonthly(int newPercentageToSaveMonthly) =>
       this._percentageToSaveMonthly = newPercentageToSaveMonthly;
 
+  // converting map into User object
   User.fromMap(Map<String, dynamic> map) {
-    this._id = map['id'];
+    this._id = map['_id'];
     this._firstName = map['firstName'];
     this._lastName = map['lastName'];
     this._monthlyIncome = map['monthlyIncome'];
@@ -55,7 +56,7 @@ class User {
 
   // converting User object into map
   Map<String, dynamic> toMap() => {
-        'id': _id,
+        '_id': _id,
         'firstName': _firstName,
         'lastName': _lastName,
         'monthlyIncome': _monthlyIncome,
