@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/user.dart';
@@ -12,7 +13,6 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   //place holders, just preparing for the database connections
-
   double dummyMonthlyContribution = 200.00;
   double dummyUserGoal = 10000.00;
   double dummyIncome = 5000.00;
@@ -21,6 +21,19 @@ class _DashboardState extends State<Dashboard> {
   double dummyUserBalance = 400.0;
 
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
+
+//test for list
+  Key refreshKey = GlobalKey<RefreshIndicatorState>();
+  var list = [
+    "brandon",
+    "dupitas",
+    "is",
+    "the",
+    "best",
+    "ever",
+  ];
+
+  get columnsToSelect => null; // list of expenses
 
   Future<User> _query() async {
     // get a reference to the database
@@ -47,6 +60,19 @@ class _DashboardState extends State<Dashboard> {
     User user;
     result.forEach((row) => user = User.fromMap(row));
     return user;
+  }
+
+  @override
+  void initState() {
+    list = [
+      "brandon",
+      "dupitas",
+      "is",
+      "the",
+      "best",
+      "ever",
+    ];
+    super.initState();
   }
 
   @override
@@ -122,8 +148,8 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      body: Container(
-        child: Stack(children: <Widget>[
+      body: Stack(children: <Widget>[
+        Stack(children: <Widget>[
           // A button that prints the first user in the database
           Container(
             alignment: Alignment.center,
@@ -141,7 +167,6 @@ class _DashboardState extends State<Dashboard> {
             ),
           ),
           // end of button that prints user
-
           Align(
               alignment: Alignment(0, -.8),
               child: Text("Your Monthly Progress:")),
@@ -226,7 +251,22 @@ class _DashboardState extends State<Dashboard> {
                     textAlign: TextAlign.left,
                   ))),
         ]),
-      ),
+        Container(
+            child: RefreshIndicator(
+          child: Container(
+            alignment: Alignment(0, .7),
+              child: SizedBox(
+            height: 400,
+            width: 400,
+            child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, i) => ListTile(
+                      title: Text(list[i]),
+                    )),
+          )),
+          onRefresh: refreshList,
+        )),
+      ]),
       bottomNavigationBar: Container(
         child: Row(children: <Widget>[
           Expanded(
@@ -248,5 +288,13 @@ class _DashboardState extends State<Dashboard> {
         ]),
       ),
     );
+  }
+
+  Future<Null> refreshList() async {
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      list.add("ever");
+    });
+    return null;
   }
 }
