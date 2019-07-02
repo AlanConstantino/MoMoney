@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   
-  static final _databaseName = "MyDatabase.db";
+  static final _databaseName = "OtherName.db";
   static final _databaseVersion = 1;
 
   static final table = 'user';

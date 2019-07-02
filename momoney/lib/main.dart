@@ -9,6 +9,7 @@ import 'package:momoney/pages/drawer/profile.dart';
 import 'package:momoney/pages/drawer/settings.dart';
 import 'package:momoney/pages/drawer/monthly_expenses.dart';
 import 'package:momoney/pages/drawer/monthly_income.dart';
+import 'package:momoney/pages/check_for_returning_user.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),
-        home: Register(),
+        home: CheckIfReturningUser(),
         routes: {
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
