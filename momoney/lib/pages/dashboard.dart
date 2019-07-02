@@ -138,140 +138,136 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: RefreshIndicator(
+      body: RefreshIndicator(
           onRefresh: refreshList,
-          child: ListView(
-                shrinkWrap :true,
-               children: <Widget>[
+          child: SingleChildScrollView(
+              child: Column(children: <Widget>[
             // A button that prints the first user in the database
             // end of button that prints user
             Align(
-                  alignment: Alignment(0, -.8),
-                  child: Text("Your Monthly Progress:")),
+                alignment: Alignment(0, -.8),
+                child: Text("Your Monthly Progress:")),
             Container(
-                  alignment: Alignment(0, -.75),
-                  child: SizedBox(
-                      height: 20,
-                      width: 300,
-                      child: LinearProgressIndicator(
-                        value: (dummyIncome -
-                                dummyExpenses -
-                                dummyMonthlyContribution) /
-                            dummyUserGoal,
-                        backgroundColor: Colors.red,
-                        valueColor: progressColor,
-                      ))),
-            Container(
-                  alignment: Alignment(0, -.60),
-                  child: SizedBox(
-                    height: 40,
+                alignment: Alignment(0, -.75),
+                child: SizedBox(
+                    height: 20,
                     width: 300,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Income",
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          "\$" + dummyIncome.toStringAsFixed(2),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
-                  )),
+                    child: LinearProgressIndicator(
+                      value: (dummyIncome -
+                              dummyExpenses -
+                              dummyMonthlyContribution) /
+                          dummyUserGoal,
+                      backgroundColor: Colors.red,
+                      valueColor: progressColor,
+                    ))),
+            Container(
+                alignment: Alignment(0, -.60),
+                child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "Income",
+                        textAlign: TextAlign.left,
+                      ),
+                      Text(
+                        "\$" + dummyIncome.toStringAsFixed(2),
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
+                  ),
+                )),
 
             Container(
-                  alignment: Alignment(0, -.50),
-                  child: SizedBox(
-                    height: 40,
-                    width: 300,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "\$" + dummyExpenses.toStringAsFixed(2),
-                          textAlign: TextAlign.right,
-                        ),
-                        Text(
-                          "Expenses ",
-                          textAlign: TextAlign.left,
-                        )
-                      ],
-                    ),
-                  )),
+                alignment: Alignment(0, -.50),
+                child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        "\$" + dummyExpenses.toStringAsFixed(2),
+                        textAlign: TextAlign.right,
+                      ),
+                      Text(
+                        "Expenses ",
+                        textAlign: TextAlign.left,
+                      )
+                    ],
+                  ),
+                )),
             Container(
-                alignment: Alignment(0, -.40),
+              alignment: Alignment(0, -.40),
+              child: SizedBox(
+                  height: 40,
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text("Monthly Contribution:", textAlign: TextAlign.left),
+                      Text(
+                        "\$" + dummyMonthlyContribution.toStringAsFixed(2),
+                        textAlign: TextAlign.right,
+                      )
+                    ],
+                  )),
+            ),
+
+            Align(
+                alignment: Alignment(0, -.3),
+                child: Divider(height: 3, color: Colors.black)),
+
+            Container(
+                alignment: Alignment(0, -.25),
                 child: SizedBox(
                     height: 40,
                     width: 300,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text("Monthly Contribution:", textAlign: TextAlign.left),
-                        Text(
-                          "\$" + dummyMonthlyContribution.toStringAsFixed(2),
-                          textAlign: TextAlign.right,
-                        )
-                      ],
-                    )),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Balance Left Over",
+                            textAlign: TextAlign.left,
+                          ),
+                          Text(
+                            "\$" +
+                                (dummyIncome -
+                                        dummyExpenses -
+                                        dummyMonthlyContribution)
+                                    .toStringAsFixed(2),
+                            textAlign: TextAlign.right,
+                          ),
+                        ]))),
+            Container(
+                alignment: Alignment(0, .7),
+                child: SizedBox(
+                  height: 400,
+                  width: 400,
+                  child: ListView.builder(
+                      itemCount: listStack.length,
+                      itemBuilder: (context, i) => ListTile(
+                            title: Text(listStack.elementAt(i)),
+                          )),
+                )),
+            Container(
+              alignment: Alignment(0, 1),
+              child: RaisedButton(
+                child: Text('Print user info to debug console'),
+                onPressed: () async {
+                  User user = await _query();
+                  print(user.id);
+                  print(user.firstName);
+                  print(user.lastName);
+                  print(user.monthlyIncome);
+                  print(user.monthlyExpense);
+                  print(user.percentageToSaveMonthly);
+                },
+              ),
             ),
-
-            Align(
-                  alignment: Alignment(0, -.3),
-                  child: Divider(height: 3, color: Colors.black)),
-
-            Container(
-                  alignment: Alignment(0, -.25),
-                  child: SizedBox(
-                      height: 40,
-                      width: 300,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              "Balance Left Over",
-                              textAlign: TextAlign.left,
-                            ),
-                            Text(
-                              "\$" +
-                                  (dummyIncome -
-                                          dummyExpenses -
-                                          dummyMonthlyContribution)
-                                      .toStringAsFixed(2),
-                              textAlign: TextAlign.right,
-                            ),
-                          ]))),
-            Container(
-                  alignment: Alignment(0, .7),
-                  child: SizedBox(
-                    height: 400,
-                    width: 400,
-                    child: ListView.builder(
-                        itemCount: listStack.length,
-                        itemBuilder: (context, i) => ListTile(
-                              title: Text(listStack.elementAt(i)),
-                            )),
-                  )),
-            Container(
-                alignment: Alignment(0, 1),
-                child: RaisedButton(
-                  child: Text('Print user info to debug console'),
-                  onPressed: () async {
-                    User user = await _query();
-                    print(user.id);
-                    print(user.firstName);
-                    print(user.lastName);
-                    print(user.monthlyIncome);
-                    print(user.monthlyExpense);
-                    print(user.percentageToSaveMonthly);
-                  },
-                ),
-            ),
-          ]),
-        ),
-      ),
+          ]))),
       bottomNavigationBar: Container(
         child: Row(children: <Widget>[
           Expanded(
