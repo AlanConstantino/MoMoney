@@ -269,12 +269,17 @@ class _DashboardState extends State<Dashboard> {
                               child: SizedBox(
                                 height: 400,
                                 width: 400,
-                                child: ListView.builder(
+                                child: ListView.separated(
+                                    separatorBuilder: (context, index) => Divider(
+                                      color: Colors.black,
+                                    ),
                                     itemCount: listStack.length,
                                     itemBuilder: (context, i) => ListTile(
                                           title: Text(listStack.elementAt(i)),
                                         )),
-                              )),
+                              ),
+                              color: Colors.blue.shade100,
+                          ),
                           Container(
                             alignment: Alignment.center,
                             child: RaisedButton(
@@ -293,11 +298,6 @@ class _DashboardState extends State<Dashboard> {
                               },
                             ),
                           ),
-                          Container(
-                            // A fixed-height child.
-                            color: const Color(0xff808000), // Yellow
-                            height: 120.0,
-                          )
                         ],
                       ),
                     )));
