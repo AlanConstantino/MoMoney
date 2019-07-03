@@ -90,7 +90,7 @@ class _DashboardState extends State<Dashboard> {
                     const PopupMenuItem<String>(
                         value: 'income',
                         child: ListTile(
-                          leading: Icon( Icons.attach_money),
+                          leading: Icon(Icons.attach_money),
                           title: Text('Income'),
                         )),
                     const PopupMenuItem<String>(
@@ -152,6 +152,22 @@ class _DashboardState extends State<Dashboard> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
+                      Container(
+                      alignment: Alignment(0, .7),
+                      child: SizedBox(
+                        height: 400,
+                        width: 400,
+                        child: ListView.separated(
+                            separatorBuilder: (context, index) => Divider(
+                              color: Colors.black,
+                            ),
+                            itemCount: listStack.length,
+                            itemBuilder: (context, i) => ListTile(
+                              title: Text(listStack.elementAt(i)),
+                            )),
+                      ),
+                      color: Colors.blue.shade100,
+                    ),
                           Container(
                             child: Align(child: Text("Your Monthly Progress:")),
                             height: 60.0,
@@ -238,7 +254,7 @@ class _DashboardState extends State<Dashboard> {
                                 alignment: Alignment(0, -.3),
                                 child: Divider(height: 3, color: Colors.black)),
                             // Yellow
-                            height: 60.0,
+                            height: 20.0,
                           ),
                           Container(
                             alignment: Alignment(0, -.25),
@@ -265,20 +281,12 @@ class _DashboardState extends State<Dashboard> {
                             height: 60.0,
                           ),
                           Container(
-                              alignment: Alignment(0, .7),
-                              child: SizedBox(
-                                height: 400,
-                                width: 400,
-                                child: ListView.separated(
-                                    separatorBuilder: (context, index) => Divider(
-                                      color: Colors.black,
-                                    ),
-                                    itemCount: listStack.length,
-                                    itemBuilder: (context, i) => ListTile(
-                                          title: Text(listStack.elementAt(i)),
-                                        )),
-                              ),
-                              color: Colors.blue.shade100,
+                            child: Align(
+                                alignment: Alignment(0, -.3),
+                                child: Divider(height: 5, color: Colors.black)),
+
+                            height: 6.0,
+
                           ),
                           Container(
                             alignment: Alignment.center,
@@ -294,7 +302,8 @@ class _DashboardState extends State<Dashboard> {
                                 print(user.monthlyExpense);
                                 dummyExpenses = user.monthlyExpense;
                                 print(user.percentageToSaveMonthly);
-                                dummyMonthlyContribution = dummyUserBalance * user.percentageToSaveMonthly;
+                                dummyMonthlyContribution = dummyUserBalance *
+                                    user.percentageToSaveMonthly;
                               },
                             ),
                           ),
@@ -332,7 +341,8 @@ class _DashboardState extends State<Dashboard> {
     setState(() {
       dummyIncome = user.monthlyIncome;
       dummyExpenses = user.monthlyExpense;
-      dummyMonthlyContribution = dummyUserBalance * (user.percentageToSaveMonthly)/100;
+      dummyMonthlyContribution =
+          dummyUserBalance * (user.percentageToSaveMonthly) / 100;
       listStack.addFirst("Expense/Income item ");
     });
     return null;
