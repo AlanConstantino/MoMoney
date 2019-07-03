@@ -31,7 +31,6 @@ class _DashboardState extends State<Dashboard> {
 
   get columnsToSelect => null; // list of expenses
 
-  // ignore: unused_element
   Future<User> _query() async {
     // get a reference to the database
     Database db = await DatabaseHelper.instance.database;
@@ -267,6 +266,21 @@ class _DashboardState extends State<Dashboard> {
                               title: Text(listStack.elementAt(i)),
                             )),
                       )
+                  ),
+                  Container(
+                  alignment: Alignment.center,
+                  child: RaisedButton(
+                    child: Text('Print user info to debug console'),
+                    onPressed: () async {
+                      User user = await _query();
+                      print(user.id);
+                      print(user.firstName);
+                      print(user.lastName);
+                      print(user.monthlyIncome);
+                      print(user.monthlyExpense);
+                      print(user.percentageToSaveMonthly);
+                    },
+                  ),
                   ),
                   Container(
                     // A fixed-height child.
