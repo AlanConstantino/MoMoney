@@ -339,10 +339,10 @@ class _DashboardState extends State<Dashboard> {
     User user = await _query();
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      dummyIncome = user.monthlyIncome;
-      dummyExpenses = user.monthlyExpense;
-      dummyMonthlyContribution =
-          dummyUserBalance * (user.percentageToSaveMonthly) / 100;
+      //dummyIncome = user.monthlyIncome;
+     // dummyExpenses = user.monthlyExpense;
+     // dummyMonthlyContribution =
+         // dummyUserBalance * (user.percentageToSaveMonthly) / 100;
       listStack.addFirst("Expense/Income item ");
     });
     return null;
