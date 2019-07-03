@@ -31,6 +31,7 @@ class _DashboardState extends State<Dashboard> {
 
   get columnsToSelect => null; // list of expenses
 
+  // ignore: unused_element
   Future<User> _query() async {
     // get a reference to the database
     Database db = await DatabaseHelper.instance.database;
@@ -138,156 +139,166 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      body: RefreshIndicator(
-          onRefresh: refreshList,
-          child: SingleChildScrollView(
-              child: Column(children: <Widget>[
-            // A button that prints the first user in the database
-            // end of button that prints user
-            Align(
-                alignment: Alignment(0, -.8),
-                child: Text("Your Monthly Progress:")),
-            Container(
-                alignment: Alignment(0, -.75),
-                child: SizedBox(
-                    height: 20,
-                    width: 300,
-                    child: LinearProgressIndicator(
-                      value: (dummyIncome -
-                              dummyExpenses -
-                              dummyMonthlyContribution) /
-                          dummyUserGoal,
-                      backgroundColor: Colors.red,
-                      valueColor: progressColor,
-                    ))),
-            Container(
-                alignment: Alignment(0, -.60),
-                child: SizedBox(
-                  height: 40,
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "Income",
-                        textAlign: TextAlign.left,
-                      ),
-                      Text(
-                        "\$" + dummyIncome.toStringAsFixed(2),
-                        textAlign: TextAlign.right,
-                      ),
-                    ],
+      body:LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: RefreshIndicator(
+              onRefresh: refreshList,
+            child:ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    child:Align(
+                       child: Text("Your Monthly Progress:")),
+                    height: 60.0,
                   ),
-                )),
-
-            Container(
-                alignment: Alignment(0, -.50),
-                child: SizedBox(
-                  height: 40,
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        "\$" + dummyExpenses.toStringAsFixed(2),
-                        textAlign: TextAlign.right,
-                      ),
-                      Text(
-                        "Expenses ",
-                        textAlign: TextAlign.left,
-                      )
-                    ],
+                  Container(
+                      child: SizedBox(
+                          height: 20,
+                          width: 300,
+                          child: LinearProgressIndicator(
+                            value: (dummyIncome -
+                                dummyExpenses -
+                                dummyMonthlyContribution) /
+                                dummyUserGoal,
+                            backgroundColor: Colors.red,
+                            valueColor: progressColor,
+                          ))
                   ),
-                )),
-            Container(
-              alignment: Alignment(0, -.40),
-              child: SizedBox(
-                  height: 40,
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Monthly Contribution:", textAlign: TextAlign.left),
-                      Text(
-                        "\$" + dummyMonthlyContribution.toStringAsFixed(2),
-                        textAlign: TextAlign.right,
-                      )
-                    ],
-                  )),
-            ),
-
-            Align(
-                alignment: Alignment(0, -.3),
-                child: Divider(height: 3, color: Colors.black)),
-
-            Container(
-                alignment: Alignment(0, -.25),
-                child: SizedBox(
-                    height: 40,
-                    width: 300,
-                    child: Row(
+                  Container(
+                    alignment: Alignment(0, -.60),
+                    child: SizedBox(
+                      height: 40,
+                      width: 300,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            "Balance Left Over",
+                            "Income",
                             textAlign: TextAlign.left,
                           ),
                           Text(
-                            "\$" +
-                                (dummyIncome -
-                                        dummyExpenses -
-                                        dummyMonthlyContribution)
-                                    .toStringAsFixed(2),
+                            "\$" + dummyIncome.toStringAsFixed(2),
                             textAlign: TextAlign.right,
                           ),
-                        ]))),
-            Container(
-                alignment: Alignment(0, .7),
-                child: SizedBox(
-                  height: 400,
-                  width: 400,
-                  child: ListView.builder(
-                      itemCount: listStack.length,
-                      itemBuilder: (context, i) => ListTile(
-                            title: Text(listStack.elementAt(i)),
-                          )),
-                )),
-            Container(
-              alignment: Alignment(0, 1),
-              child: RaisedButton(
-                child: Text('Print user info to debug console'),
-                onPressed: () async {
-                  User user = await _query();
-                  print(user.id);
-                  print(user.firstName);
-                  print(user.lastName);
-                  print(user.monthlyIncome);
-                  print(user.monthlyExpense);
-                  print(user.percentageToSaveMonthly);
-                },
+                        ],
+                      ),
+                    ), // Yellow
+                    height: 60.0,
+                  ),
+                  Container(
+                    alignment: Alignment(0, -.50),
+                    child: SizedBox(
+                      height: 40,
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                        Text(
+                        "Expenses ",
+                        textAlign: TextAlign.left,
+                      ),
+                          Text(
+                            "\$" + dummyExpenses.toStringAsFixed(2),
+                            textAlign: TextAlign.right,
+                          ),
+                        ],
+                      ),
+                    ), // Yellow
+                    height: 60.0,
+
+                  ),Container(alignment: Alignment(0, -.40),
+                    child: SizedBox(
+                        height: 40,
+                        width: 300,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Monthly Contribution:", textAlign: TextAlign.left),
+                            Text(
+                              "\$" + dummyMonthlyContribution.toStringAsFixed(2),
+                              textAlign: TextAlign.right,
+                            )
+                          ],
+                        )), // Yellow
+                    height: 60.0,
+                  ),Container(
+                  child:Align(
+                  alignment: Alignment(0, -.3),
+                  child: Divider(height: 3, color: Colors.black)) ,// Yellow
+                    height: 60.0,
+                  ),
+                  Container(
+                    alignment: Alignment(0, -.25),
+                    child: SizedBox(
+                        height: 40,
+                        width: 300,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                "Balance Left Over",
+                                textAlign: TextAlign.left,
+                              ),
+                              Text(
+                                "\$" +
+                                    (dummyIncome -
+                                        dummyExpenses -
+                                        dummyMonthlyContribution)
+                                        .toStringAsFixed(2),
+                                textAlign: TextAlign.right,
+                              ),
+                            ])), // Yellow
+                    height: 60.0,
+                  ),
+                  Container(
+                      alignment: Alignment(0, .7),
+                      child: SizedBox(
+                        height: 400,
+                        width: 400,
+                        child: ListView.builder(
+                            itemCount: listStack.length,
+                            itemBuilder: (context, i) => ListTile(
+                              title: Text(listStack.elementAt(i)),
+                            )),
+                      )
+                  ),
+                  Container(
+                    // A fixed-height child.
+                    color: const Color(0xff808000), // Yellow
+                    height: 120.0,
+                  )
+                ],
               ),
-            ),
-          ]))),
-      bottomNavigationBar: Container(
-        child: Row(children: <Widget>[
-          Expanded(
-              child: ListTile(
-            title: Text("Current Goal Balance:"),
-            subtitle: Text("\$" + ((dummyUserBalance)).toStringAsFixed(2)),
-          )),
-          Expanded(
-            child: ListTile(
-              title: Text("Months left until Goal:"),
-              subtitle: Text(
-                ((dummyUserGoal - dummyUserBalance) / dummyMonthlyContribution)
-                        .toString() +
-                    " months",
-                textAlign: TextAlign.right,
-              ),
-            ),
-          )
-        ]),
+            )
+            ));
+        },
       ),
+        bottomNavigationBar: Container(
+          child: Row(children: <Widget>[
+            Expanded(
+                child: ListTile(
+                  title: Text("Current Goal Balance:"),
+                  subtitle: Text("\$" + ((dummyUserBalance)).toStringAsFixed(2)),
+                )),
+            Expanded(
+              child: ListTile(
+                title: Text("Months left until Goal:"),
+                subtitle: Text(
+                  ((dummyUserGoal - dummyUserBalance) / dummyMonthlyContribution)
+                      .toString() +
+                      " months",
+                  textAlign: TextAlign.right,
+                ),
+              ),
+            )
+          ]),
+        )
     );
   }
 
