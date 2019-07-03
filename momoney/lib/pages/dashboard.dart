@@ -203,7 +203,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ],
                               ),
-                            ), // Yellow
+                            ),
                             height: 60.0,
                           ),
                           Container(
@@ -225,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ],
                               ),
-                            ), // Yellow
+                            ),
                             height: 60.0,
                           ),
                           Container(
@@ -246,14 +246,14 @@ class _DashboardState extends State<Dashboard> {
                                       textAlign: TextAlign.right,
                                     )
                                   ],
-                                )), // Yellow
+                                )),
                             height: 60.0,
                           ),
                           Container(
                             child: Align(
                                 alignment: Alignment(0, -.3),
                                 child: Divider(height: 3, color: Colors.black)),
-                            // Yellow
+
                             height: 20.0,
                           ),
                           Container(
@@ -277,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
                                                 .toStringAsFixed(2),
                                         textAlign: TextAlign.right,
                                       ),
-                                    ])), // Yellow
+                                    ])),
                             height: 60.0,
                           ),
                           Container(
@@ -336,7 +336,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<Null> refreshList() async {
-    User user = await _query();
+    //User user = await _query();
     await Future.delayed(Duration(seconds: 1));
     setState(() {
       //dummyIncome = user.monthlyIncome;
