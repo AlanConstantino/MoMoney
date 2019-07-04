@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class Goals extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _GoalsState();
-  }
+  _GoalsState createState() => _GoalsState();
 }
 
 class _GoalsState extends State<Goals> {

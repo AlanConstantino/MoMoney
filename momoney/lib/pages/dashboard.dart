@@ -31,32 +31,32 @@ class _DashboardState extends State<Dashboard> {
 
   get columnsToSelect => null; // list of expenses
 
-  Future<User> _query() async {
-    // get a reference to the database
-    Database db = await DatabaseHelper.instance.database;
+  // Future<User> _query() async {
+  //   // get a reference to the database
+  //   Database db = await DatabaseHelper.instance.database;
 
-    // get single row
-    List<String> columnsToSelect = [
-      DatabaseHelper.columnId,
-      DatabaseHelper.columnFirstName,
-      DatabaseHelper.columnLastName,
-      DatabaseHelper.columnMonthlyIncome,
-      DatabaseHelper.columnMonthlyExpense,
-      DatabaseHelper.columnPercentageToSaveMonthly,
-    ];
+  //   // get single row
+  //   List<String> columnsToSelect = [
+  //     DatabaseHelper.columnId,
+  //     DatabaseHelper.columnFirstName,
+  //     DatabaseHelper.columnLastName,
+  //     DatabaseHelper.columnMonthlyIncome,
+  //     DatabaseHelper.columnMonthlyExpense,
+  //     DatabaseHelper.columnPercentageToSaveMonthly,
+  //   ];
 
-    String whereString = '${DatabaseHelper.columnId} = ?';
-    int rowId = 1;
-    List<dynamic> whereArguments = [rowId];
-    List<Map> result = await db.query(DatabaseHelper.table,
-        columns: columnsToSelect,
-        where: whereString,
-        whereArgs: whereArguments);
+  //   String whereString = '${DatabaseHelper.columnId} = ?';
+  //   int rowId = 1;
+  //   List<dynamic> whereArguments = [rowId];
+  //   List<Map> result = await db.query(DatabaseHelper.tableUser,
+  //       columns: columnsToSelect,
+  //       where: whereString,
+  //       whereArgs: whereArguments);
 
-    User user;
-    result.forEach((row) => user = User.fromMap(row));
-    return user;
-  }
+  //   User user;
+  //   result.forEach((row) => user = User.fromMap(row));
+  //   return user;
+  // }
 
   @override
   void initState() {
@@ -152,22 +152,22 @@ class _DashboardState extends State<Dashboard> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                      Container(
-                      alignment: Alignment(0, .7),
-                      child: SizedBox(
-                        height: 400,
-                        width: 400,
-                        child: ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                              color: Colors.black,
+                          Container(
+                            alignment: Alignment(0, .7),
+                            child: SizedBox(
+                              height: 400,
+                              width: 400,
+                              child: ListView.separated(
+                                  separatorBuilder: (context, index) => Divider(
+                                        color: Colors.black,
+                                      ),
+                                  itemCount: listStack.length,
+                                  itemBuilder: (context, i) => ListTile(
+                                        title: Text(listStack.elementAt(i)),
+                                      )),
                             ),
-                            itemCount: listStack.length,
-                            itemBuilder: (context, i) => ListTile(
-                              title: Text(listStack.elementAt(i)),
-                            )),
-                      ),
-                      color: Colors.blue.shade100,
-                    ),
+                            color: Colors.blue.shade100,
+                          ),
                           Container(
                             child: Align(child: Text("Your Monthly Progress:")),
                             height: 60.0,
@@ -253,7 +253,6 @@ class _DashboardState extends State<Dashboard> {
                             child: Align(
                                 alignment: Alignment(0, -.3),
                                 child: Divider(height: 3, color: Colors.black)),
-
                             height: 20.0,
                           ),
                           Container(
@@ -284,26 +283,25 @@ class _DashboardState extends State<Dashboard> {
                             child: Align(
                                 alignment: Alignment(0, -.3),
                                 child: Divider(height: 5, color: Colors.black)),
-
                             height: 6.0,
-
                           ),
                           Container(
                             alignment: Alignment.center,
                             child: RaisedButton(
                               child: Text('Print user info to debug console'),
                               onPressed: () async {
-                                User user = await _query();
-                                print(user.id);
-                                print(user.firstName);
-                                print(user.lastName);
-                                print(user.monthlyIncome);
-                                dummyUserBalance = user.monthlyIncome;
-                                print(user.monthlyExpense);
-                                dummyExpenses = user.monthlyExpense;
-                                print(user.percentageToSaveMonthly);
-                                dummyMonthlyContribution = dummyUserBalance *
-                                    user.percentageToSaveMonthly;
+                                print('onPressed action is empty for now.');
+                                // User user = await _query();
+                                // print(user.id);
+                                // print(user.firstName);
+                                // print(user.lastName);
+                                // print(user.monthlyIncome);
+                                // dummyUserBalance = user.monthlyIncome;
+                                // print(user.monthlyExpense);
+                                // dummyExpenses = user.monthlyExpense;
+                                // print(user.percentageToSaveMonthly);
+                                // dummyMonthlyContribution = dummyUserBalance *
+                                //     user.percentageToSaveMonthly;
                               },
                             ),
                           ),
@@ -336,13 +334,13 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<Null> refreshList() async {
-    //User user = await _query();
+    // User user = await _query();
     await Future.delayed(Duration(seconds: 1));
     setState(() {
       //dummyIncome = user.monthlyIncome;
-     // dummyExpenses = user.monthlyExpense;
-     // dummyMonthlyContribution =
-         // dummyUserBalance * (user.percentageToSaveMonthly) / 100;
+      // dummyExpen ses = user.monthlyExpense;
+      // dummyMonthlyContribution =
+      // dummyUserBalance * (user.percentageToSaveMonthly) / 100;
       listStack.addFirst("Expense/Income item ");
     });
     return null;

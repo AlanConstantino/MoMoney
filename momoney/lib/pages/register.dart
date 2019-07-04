@@ -24,12 +24,12 @@ class _RegisterState extends State<Register> {
 
   void _insertUser(User user) async {
     var row = user.toMap();
-    final id = await dbHelper.insert(row);
+    final id = await dbHelper.insert('user', row);
     print('inserted row id: $id');
   }
 
   void _printAllUsersInDatabase() async {
-    final allRows = await dbHelper.queryAllRows();
+    final allRows = await dbHelper.queryAllRows('user');
     print('query all rows:');
     allRows.forEach((row) => print(row));
   }

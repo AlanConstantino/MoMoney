@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class MonthlyExpenses extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _MonthlyExpensesState();
-  }
+  State<StatefulWidget> createState() => _MonthlyExpensesState();
 }
 
 class _MonthlyExpensesState extends State<MonthlyExpenses> {

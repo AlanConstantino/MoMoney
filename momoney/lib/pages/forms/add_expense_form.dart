@@ -3,9 +3,7 @@ import 'package:intl/intl.dart';
 
 class AddExpenseForm extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _AddExpenseFormState();
-  }
+  State<StatefulWidget> createState() => _AddExpenseFormState();
 }
 
 class _AddExpenseFormState extends State<AddExpenseForm> {
@@ -77,55 +75,55 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         child: Builder(
           builder: (context) => Form(
-            child: ListView(
-              children: <Widget>[
-                TextFormField(
-                  keyboardType: const TextInputType.numberWithOptions(
-                    signed: false,
-                    decimal: true,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '0.00',
-                    labelText: 'Expense Amount',
-                    prefixText: '\$',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter an expense amount';
-                    }
-                    if (!(double.parse(value) is double)) {
-                      return 'Value is not a decimal';
-                    }
-                    return null;
-                  },
-                  onSaved: (String str) {},
+                child: ListView(
+                  children: <Widget>[
+                    TextFormField(
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: false,
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '0.00',
+                        labelText: 'Expense Amount',
+                        prefixText: '\$',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter an expense amount';
+                        }
+                        if (!(double.parse(value) is double)) {
+                          return 'Value is not a decimal';
+                        }
+                        return null;
+                      },
+                      onSaved: (String str) {},
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'Description'),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter a description about your expense';
+                        }
+                        return null;
+                      },
+                      onSaved: (String str) {},
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 16.0),
+                      child: Center(child: Text('Select Category')),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: createRadioList(),
+                      ),
+                    ),
+                  ],
                 ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Description'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter a description about your expense';
-                    }
-                    return null;
-                  },
-                  onSaved: (String str) {},
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 16.0),
-                  child: Center(child: Text('Select Category')),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 16.0, horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: createRadioList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
         ),
       ),
     );

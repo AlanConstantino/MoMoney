@@ -11,9 +11,7 @@ import 'package:momoney/pages/drawer/monthly_expenses.dart';
 import 'package:momoney/pages/drawer/monthly_income.dart';
 import 'package:momoney/pages/check_for_returning_user.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -27,10 +25,10 @@ class MyApp extends StatelessWidget {
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),
-        home: Dashboard(),
-        // initialRoute: '/profile',
+        home: CheckIfReturningUser(),
+        // initialRoute: '/',
         routes: {
-          // '/check_returning': (_) => CheckIfReturningUser(),
+          // '/': (_) => CheckIfReturningUser(),
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
           '/settings': (_) => Settings(),

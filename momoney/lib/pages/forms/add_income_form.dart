@@ -3,9 +3,7 @@ import 'package:intl/intl.dart';
 
 class AddIncomeForm extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _AddIncomeFormState();
-  }
+  State<StatefulWidget> createState() => _AddIncomeFormState();
 }
 
 class _AddIncomeFormState extends State<AddIncomeForm> {
@@ -30,32 +28,32 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
         child: Builder(
           builder: (context) => Form(
-            child: Column(
-              children: <Widget>[
-                TextFormField(
-                  keyboardType: const TextInputType.numberWithOptions(
-                    signed: false,
-                    decimal: true,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: '0.00',
-                    labelText: 'Income Amount',
-                    prefixText: '\$',
-                  ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter an expense amount';
-                    }
-                    if (!(double.parse(value) is double)) {
-                      return 'Value is not a decimal';
-                    }
-                    return null;
-                  },
-                  onSaved: (String str) {},
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: false,
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: '0.00',
+                        labelText: 'Income Amount',
+                        prefixText: '\$',
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter an expense amount';
+                        }
+                        if (!(double.parse(value) is double)) {
+                          return 'Value is not a decimal';
+                        }
+                        return null;
+                      },
+                      onSaved: (String str) {},
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
         ),
       ),
     );
