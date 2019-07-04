@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),
-        home: CheckIfReturningUser(),
+        home: Dashboard(),
+        // initialRoute: '/profile',
         routes: {
+          // '/check_returning': (_) => CheckIfReturningUser(),
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
           '/settings': (_) => Settings(),
