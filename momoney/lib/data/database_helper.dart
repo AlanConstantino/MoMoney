@@ -42,6 +42,11 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
+
+    // uncomment the following line to delete all the .db files in the documentsDirectory
+
+    // documentsDirectory.deleteSync(recursive: true);
+
     String path = join(documentsDirectory.path, _databaseName);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);

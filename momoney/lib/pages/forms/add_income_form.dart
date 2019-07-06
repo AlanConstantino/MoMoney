@@ -73,9 +73,9 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
 
             // uncomment the following to see all the rows within the income table
 
-            final allRows = await dbHelper.queryAllRows('income');
-            print('query all rows:');
-            allRows.forEach((row) => print(row));
+            // final allRows = await dbHelper.queryAllRows('income');
+            // print('query all rows:');
+            // allRows.forEach((row) => print(row));
 
             Navigator.pop(context);
           }
