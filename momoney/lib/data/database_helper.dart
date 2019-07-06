@@ -9,16 +9,6 @@ class DatabaseHelper {
   static final _databaseName = "database.db";
   static final _databaseVersion = 1;
 
-  // user table
-  static final tableUser = 'user';
-
-  static final columnId = '_id';
-  static final columnFirstName = 'firstName';
-  static final columnLastName = 'lastName';
-  static final columnMonthlyIncome = 'monthlyIncome';
-  static final columnMonthlyExpense = 'monthlyExpense';
-  static final columnPercentageToSaveMonthly = 'percentageToSaveMonthly';
-
   // income table
   static final tableIncome = 'income';
 
@@ -57,16 +47,6 @@ class DatabaseHelper {
 
   // SQL code to create the database tables
   Future _onCreate(Database db, int version) async {
-    await db.execute('''
-          CREATE TABLE $tableUser (
-            $columnId INTEGER PRIMARY KEY,
-            $columnFirstName TEXT NOT NULL,
-            $columnLastName TEXT NOT NULL,
-            $columnMonthlyIncome REAL NOT NULL,
-            $columnMonthlyExpense REAL NOT NULL,
-            $columnPercentageToSaveMonthly INTEGER NOT NULL
-          )
-          ''');
     await db.execute('''
           CREATE TABLE $tableIncome (
             $incomeColumnId INTEGER PRIMARY KEY,
@@ -112,15 +92,14 @@ class DatabaseHelper {
   // column values will be used to update the row.
   Future<int> update(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
-    int id = row[columnId];
-    return await db
-        .update(tableName, row, where: '$columnId = ?', whereArgs: [id]);
+    int id = row['_id'];
+    return await db.update(tableName, row, where: '_id = ?', whereArgs: [id]);
   }
 
   // Deletes the row specified by the id. The number of affected rows is
   // returned. This should be 1 as long as the row exists.
   Future<int> delete(String tableName, int id) async {
     Database db = await instance.database;
-    return await db.delete(tableName, where: '$columnId = ?', whereArgs: [id]);
+    return await db.delete(tableName, where: '_id = ?', whereArgs: [id]);
   }
 }
