@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,26 +13,11 @@ class _RegisterState extends State<Register> {
   String currentValue = '5'; //default
 
   // variables to use later for creation of user object
-  String firstName;
-  String lastName;
-  double monthlyIncome;
-  double monthlyExpense;
-  int percentageToSaveMonthly;
-
-  // // reference to our single class that manages the database
-  // final dbHelper = DatabaseHelper.instance;
-
-  // void _insertUser(User user) async {
-  //   var row = user.toMap();
-  //   final id = await dbHelper.insert('user', row);
-  //   print('inserted row id: $id');
-  // }
-
-  // void _printAllUsersInDatabase() async {
-  //   final allRows = await dbHelper.queryAllRows('user');
-  //   print('query all rows:');
-  //   allRows.forEach((row) => print(row));
-  // }
+  String _firstName;
+  String _lastName;
+  double _monthlyIncome;
+  double _monthlyExpense;
+  int _percentageToSaveMonthly;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +41,7 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                         onSaved: (String value) {
-                          setState(() => this.firstName = value);
+                          setState(() => this._firstName = value);
                         },
                       ),
                       TextFormField(
@@ -69,7 +53,7 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                         onSaved: (String value) {
-                          setState(() => this.lastName = value);
+                          setState(() => this._lastName = value);
                         },
                       ),
                       TextFormField(
@@ -82,18 +66,15 @@ class _RegisterState extends State<Register> {
                           labelText: 'Monthly Income',
                           prefixText: '\$',
                         ),
-                        validator: (value) {
+                        validator: (String value) {
                           if (value.isEmpty) {
                             return 'Please enter your monthly income';
-                          }
-                          if (!(double.parse(value) is double)) {
-                            return 'Value is not a decimal';
                           }
                           return null;
                         },
                         onSaved: (String value) {
                           setState(
-                              () => this.monthlyIncome = double.parse(value));
+                              () => this._monthlyIncome = double.parse(value));
                         },
                       ),
                       TextFormField(
@@ -110,20 +91,20 @@ class _RegisterState extends State<Register> {
                           if (value.isEmpty) {
                             return 'Please enter your monthly expenses';
                           }
-                          if (!(double.parse(value) is double)) {
-                            return 'Value is not a decimal';
-                          }
                           return null;
                         },
                         onSaved: (String value) {
                           setState(
-                              () => this.monthlyExpense = double.parse(value));
+                            () => this._monthlyExpense = double.parse(value),
+                          );
                         },
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16.0),
                         alignment: Alignment.center,
-                        child: Text('Percentage you would like to save each month'),
+                        child: Text(
+                            'Percentage you would like to save each month'),
                       ),
                       DropdownButton<String>(
                         items: userPercentages.map((String dropDownStringItem) {
@@ -135,7 +116,7 @@ class _RegisterState extends State<Register> {
                         onChanged: (String newValue) {
                           setState(() {
                             this.currentValue = newValue;
-                            percentageToSaveMonthly = int.parse(newValue);
+                            _percentageToSaveMonthly = int.parse(newValue);
                           });
                         },
                         value: currentValue,
@@ -148,14 +129,15 @@ class _RegisterState extends State<Register> {
                                 final form = _formKey.currentState;
                                 if (form.validate()) {
                                   form.save();
-                                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                                  SharedPreferences preferences =
+                                      await SharedPreferences.getInstance();
 
                                   // save user data to shared preferences
-                                  preferences.setString('firstName', firstName);
-                                  preferences.setString('lastName', lastName);
-                                  preferences.setDouble('monthlyIncome', monthlyIncome);
-                                  preferences.setDouble('monthlyExpense', monthlyExpense);
-                                  preferences.setInt('percentageToSaveMonthly', percentageToSaveMonthly);
+                                  preferences.setString('firstName', _firstName);
+                                  preferences.setString('lastName', _lastName);
+                                  preferences.setDouble('monthlyIncome', _monthlyIncome);
+                                  preferences.setDouble('monthlyExpense', _monthlyExpense);
+                                  preferences.setInt('percentageToSaveMonthly',_percentageToSaveMonthly);
 
                                   Navigator.pushNamed(context, "/dashboard");
                                 }

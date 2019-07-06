@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   // database info
-  static final _databaseName = "database.db";
+  static final _databaseName = "data.db";
   static final _databaseVersion = 1;
 
   // income table
@@ -14,6 +14,7 @@ class DatabaseHelper {
 
   static final incomeColumnId = '_id';
   static final incomeColumnIncomeAmount = 'incomeAmount';
+  static final incomeColumnDateAdded = 'dateAdded';
 
   // expense table
   static final tableExpense = 'expense';
@@ -22,6 +23,7 @@ class DatabaseHelper {
   static final expenseColumnExpenseAmount = 'expenseAmount';
   static final expenseColumnDescription = 'description';
   static final expenseColumnCategory = 'category';
+  static final expenseColumnDateAdded = 'dateAdded';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -40,6 +42,11 @@ class DatabaseHelper {
   // this opens the database (and creates it if it doesn't exist)
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
+
+    // uncomment the following line to delete all the .db files in the documentsDirectory
+
+    // documentsDirectory.deleteSync(recursive: true);
+
     String path = join(documentsDirectory.path, _databaseName);
     return await openDatabase(path,
         version: _databaseVersion, onCreate: _onCreate);
@@ -50,7 +57,8 @@ class DatabaseHelper {
     await db.execute('''
           CREATE TABLE $tableIncome (
             $incomeColumnId INTEGER PRIMARY KEY,
-            $incomeColumnIncomeAmount REAL NOT NULL
+            $incomeColumnIncomeAmount REAL NOT NULL,
+            $incomeColumnDateAdded TEXT NOT NULL
           )
           ''');
     await db.execute('''
@@ -58,7 +66,8 @@ class DatabaseHelper {
             $expenseColumnId INTEGER PRIMARY KEY,
             $expenseColumnExpenseAmount REAL NOT NULL,
             $expenseColumnDescription TEXT NOT NULL,
-            $expenseColumnCategory TEXT NOT NULL
+            $expenseColumnCategory TEXT NOT NULL,
+            $expenseColumnDateAdded TEXT NOT NULL
           )
           ''');
   }
