@@ -30,8 +30,8 @@ class _DashboardState extends State<Dashboard> {
   get columnsToSelect => null; // list of expenses
 
   // Future<User> _query() async {
-  //   // get a reference to the database
-  //   Database db = await DatabaseHelper.instance.database;
+    // // get a reference to the database
+    // Database db = await DatabaseHelper.instance.database;
 
   //   // get single row
   //   List<String> columnsToSelect = [

@@ -115,13 +115,16 @@ class _RegisterState extends State<Register> {
                         },
                         onSaved: (String value) {
                           setState(
-                              () => this.monthlyExpense = double.parse(value));
+                            () => this.monthlyExpense = double.parse(value),
+                          );
                         },
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16.0),
                         alignment: Alignment.center,
-                        child: Text('Percentage you would like to save each month'),
+                        child: Text(
+                            'Percentage you would like to save each month'),
                       ),
                       DropdownButton<String>(
                         items: userPercentages.map((String dropDownStringItem) {
@@ -146,14 +149,18 @@ class _RegisterState extends State<Register> {
                                 final form = _formKey.currentState;
                                 if (form.validate()) {
                                   form.save();
-                                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                                  SharedPreferences preferences =
+                                      await SharedPreferences.getInstance();
 
                                   // save user data to shared preferences
                                   preferences.setString('firstName', firstName);
                                   preferences.setString('lastName', lastName);
-                                  preferences.setDouble('monthlyIncome', monthlyIncome);
-                                  preferences.setDouble('monthlyExpense', monthlyExpense);
-                                  preferences.setInt('percentageToSaveMonthly', percentageToSaveMonthly);
+                                  preferences.setDouble(
+                                      'monthlyIncome', monthlyIncome);
+                                  preferences.setDouble(
+                                      'monthlyExpense', monthlyExpense);
+                                  preferences.setInt('percentageToSaveMonthly',
+                                      percentageToSaveMonthly);
 
                                   Navigator.pushNamed(context, "/dashboard");
                                 }
