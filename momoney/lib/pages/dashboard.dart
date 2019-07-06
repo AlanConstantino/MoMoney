@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
 class Dashboard extends StatefulWidget {
@@ -290,7 +291,16 @@ class _DashboardState extends State<Dashboard> {
                             child: RaisedButton(
                               child: Text('Print user info to debug console'),
                               onPressed: () async {
-                                print('onPressed action is empty for now.');
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                // prints whatever the user entered in the registration page
+                                print('\nThe following is what was saved in shared preferences\n');
+                                print(prefs.getString('firstName'));
+                                print(prefs.getString('lastName'));
+                                print(prefs.getDouble('monthlyIncome'));
+                                print(prefs.getDouble('monthlyExpense'));
+                                print(prefs.getInt('percentageToSaveMonthly'));
+                                
                                 // User user = await _query();
                                 // print(user.id);
                                 // print(user.firstName);
