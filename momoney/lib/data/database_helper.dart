@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   // database info
-  static final _databaseName = "database.db";
+  static final _databaseName = "data.db";
   static final _databaseVersion = 1;
 
   // income table
@@ -14,6 +14,7 @@ class DatabaseHelper {
 
   static final incomeColumnId = '_id';
   static final incomeColumnIncomeAmount = 'incomeAmount';
+  static final incomeColumnDateAdded = 'dateAdded';
 
   // expense table
   static final tableExpense = 'expense';
@@ -50,7 +51,8 @@ class DatabaseHelper {
     await db.execute('''
           CREATE TABLE $tableIncome (
             $incomeColumnId INTEGER PRIMARY KEY,
-            $incomeColumnIncomeAmount REAL NOT NULL
+            $incomeColumnIncomeAmount REAL NOT NULL,
+            $incomeColumnDateAdded TEXT NOT NULL
           )
           ''');
     await db.execute('''

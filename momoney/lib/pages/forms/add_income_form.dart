@@ -83,21 +83,21 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           final form = _formKey.currentState;
           if (form.validate()) {
             form.save();
+
+            // gets current time
+            String formattedDate =
+                DateFormat('EEE M/d/y h:mm a').format(DateTime.now());
+
+            // saves income object to database as a map
             final dbHelper = DatabaseHelper.instance;
-            Income income = Income.withoutID(_incomeAmount);
+            Income income = Income.withoutID(_incomeAmount, formattedDate);
             dbHelper.insert('income', income.toMap());
-
-            // will print the current time
-
-            // DateTime now = DateTime.now();
-            // String formattedDate = DateFormat('EEE M/d/y h:mm a').format(now);
-            // print(formattedDate);
 
             // uncomment the following to see all the rows within the income table
 
-            // final allRows = await dbHelper.queryAllRows('income');
-            // print('query all rows:');
-            // allRows.forEach((row) => print(row));
+            final allRows = await dbHelper.queryAllRows('income');
+            print('query all rows:');
+            allRows.forEach((row) => print(row));
 
             Navigator.pop(context);
           }
