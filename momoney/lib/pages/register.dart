@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -19,20 +20,20 @@ class _RegisterState extends State<Register> {
   double monthlyExpense;
   int percentageToSaveMonthly;
 
-  // reference to our single class that manages the database
-  final dbHelper = DatabaseHelper.instance;
+  // // reference to our single class that manages the database
+  // final dbHelper = DatabaseHelper.instance;
 
-  void _insertUser(User user) async {
-    var row = user.toMap();
-    final id = await dbHelper.insert(row);
-    print('inserted row id: $id');
-  }
+  // void _insertUser(User user) async {
+  //   var row = user.toMap();
+  //   final id = await dbHelper.insert('user', row);
+  //   print('inserted row id: $id');
+  // }
 
-  void _printAllUsersInDatabase() async {
-    final allRows = await dbHelper.queryAllRows();
-    print('query all rows:');
-    allRows.forEach((row) => print(row));
-  }
+  // void _printAllUsersInDatabase() async {
+  //   final allRows = await dbHelper.queryAllRows('user');
+  //   print('query all rows:');
+  //   allRows.forEach((row) => print(row));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,11 +121,9 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
                         alignment: Alignment.center,
-                        child: Text(
-                            'Percentage you would like to save each month'),
+                        child: Text('Percentage you would like to save each month'),
                       ),
                       DropdownButton<String>(
                         items: userPercentages.map((String dropDownStringItem) {
@@ -149,17 +148,14 @@ class _RegisterState extends State<Register> {
                                 final form = _formKey.currentState;
                                 if (form.validate()) {
                                   form.save();
-                                  print('\nInside of if block');
-                                  print(firstName);
-                                  print(lastName);
-                                  print(monthlyIncome);
-                                  print(monthlyExpense);
-                                  print(percentageToSaveMonthly);
+                                  SharedPreferences preferences = await SharedPreferences.getInstance();
 
-                                  User newUser = User.withoutID(firstName, lastName, monthlyIncome, monthlyExpense, percentageToSaveMonthly);
-
-                                  _insertUser(newUser);
-                                  _printAllUsersInDatabase();
+                                  // save user data to shared preferences
+                                  preferences.setString('firstName', firstName);
+                                  preferences.setString('lastName', lastName);
+                                  preferences.setDouble('monthlyIncome', monthlyIncome);
+                                  preferences.setDouble('monthlyExpense', monthlyExpense);
+                                  preferences.setInt('percentageToSaveMonthly', percentageToSaveMonthly);
 
                                   Navigator.pushNamed(context, "/dashboard");
                                 }

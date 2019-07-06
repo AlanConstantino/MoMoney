@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:momoney/pages/register.dart';
-import 'package:momoney/pages/dashboard.dart';
 
 class CheckIfReturningUser extends StatefulWidget {
   @override
-  CheckIfReturningUserState createState() => new CheckIfReturningUserState();
+  CheckIfReturningUserState createState() => CheckIfReturningUserState();
 }
 
 class CheckIfReturningUserState extends State<CheckIfReturningUser> {
@@ -15,18 +13,16 @@ class CheckIfReturningUserState extends State<CheckIfReturningUser> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // uncomment the line below to clear the SharedPreferences cache
-    
+
     // prefs.clear();
 
-    bool _seen = (prefs.getBool('seen') ?? false);
+    bool returningUser = (prefs.getBool('seen') ?? false);
 
-    if (_seen) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Dashboard()));
+    if (returningUser) {
+      Navigator.of(context).pushReplacementNamed('/dashboard');
     } else {
       prefs.setBool('seen', true);
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Register()));
+      Navigator.of(context).pushReplacementNamed('/register');
     }
   }
 
@@ -34,17 +30,12 @@ class CheckIfReturningUserState extends State<CheckIfReturningUser> {
   void initState() {
     super.initState();
     checkFirstSeen();
-    // new Timer(new Duration(milliseconds: 500), () {
-    // checkFirstSeen();
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    // return new Scaffold(
     return Center(
       child: Center(child: CircularProgressIndicator()),
-      // ),
     );
   }
 }
