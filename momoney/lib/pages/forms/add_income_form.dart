@@ -2,33 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/income.dart';
-import 'package:sqflite/sqflite.dart';
 
 class AddIncomeForm extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _AddIncomeFormState();
 }
-
-// Future<Income> _query() async {
-//   // get a reference to the database
-//   Database db = await DatabaseHelper.instance.database;
-
-//   // get single row
-//   List<String> columnsToSelect = [
-//     DatabaseHelper.incomeColumnId,
-//     DatabaseHelper.incomeColumnIncomeAmount
-//   ];
-
-//   String whereString = '${DatabaseHelper.incomeColumnId} = ?';
-//   int rowId = 1;
-//   List<dynamic> whereArguments = [rowId];
-//   List<Map> result = await db.query(DatabaseHelper.tableIncome,
-//       columns: columnsToSelect, where: whereString, whereArgs: whereArguments);
-
-//   Income income;
-//   result.forEach((row) => income = Income.fromMap(row));
-//   return income;
-// }
 
 class _AddIncomeFormState extends State<AddIncomeForm> {
   final _formKey = GlobalKey<FormState>();
@@ -48,7 +26,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
-                      enableInteractiveSelection: false, // diables copy/paste
+                      enableInteractiveSelection: false, // disables copy/paste
                       keyboardType: const TextInputType.numberWithOptions(
                         signed: false,
                         decimal: true,

@@ -5,8 +5,16 @@ class Income {
   String _dateAdded;
 
   // constructors
-  Income(this._id, this._incomeAmount, this._dateAdded);
-  Income.withoutID(this._incomeAmount, this._dateAdded);
+  Income(
+    this._id,
+    this._incomeAmount,
+    this._dateAdded,
+  );
+  
+  Income.withoutID(
+    this._incomeAmount,
+    this._dateAdded,
+  );
 
   // getters
   int get id => _id;
@@ -14,8 +22,8 @@ class Income {
   String get dateAdded => _dateAdded;
 
   // setter
-  // set incomeAmount(double newIncomeAmount) =>
-  //     this._incomeAmount = newIncomeAmount;
+  set incomeAmount(double newIncomeAmount) =>
+      this._incomeAmount = newIncomeAmount;
 
   // converting a map into an Income object
   Income.fromMap(Map<String, dynamic> map) {

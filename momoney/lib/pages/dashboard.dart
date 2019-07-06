@@ -29,33 +29,6 @@ class _DashboardState extends State<Dashboard> {
 
   get columnsToSelect => null; // list of expenses
 
-  // Future<User> _query() async {
-    // // get a reference to the database
-    // Database db = await DatabaseHelper.instance.database;
-
-  //   // get single row
-  //   List<String> columnsToSelect = [
-  //     DatabaseHelper.columnId,
-  //     DatabaseHelper.columnFirstName,
-  //     DatabaseHelper.columnLastName,
-  //     DatabaseHelper.columnMonthlyIncome,
-  //     DatabaseHelper.columnMonthlyExpense,
-  //     DatabaseHelper.columnPercentageToSaveMonthly,
-  //   ];
-
-  //   String whereString = '${DatabaseHelper.columnId} = ?';
-  //   int rowId = 1;
-  //   List<dynamic> whereArguments = [rowId];
-  //   List<Map> result = await db.query(DatabaseHelper.tableUser,
-  //       columns: columnsToSelect,
-  //       where: whereString,
-  //       whereArgs: whereArguments);
-
-  //   User user;
-  //   result.forEach((row) => user = User.fromMap(row));
-  //   return user;
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -344,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
     // User user = await _query();
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      //dummyIncome = user.monthlyIncome;
+      // dummyIncome = user.monthlyIncome;
       // dummyExpen ses = user.monthlyExpense;
       // dummyMonthlyContribution =
       // dummyUserBalance * (user.percentageToSaveMonthly) / 100;

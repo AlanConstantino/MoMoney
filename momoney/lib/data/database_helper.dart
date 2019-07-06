@@ -23,6 +23,7 @@ class DatabaseHelper {
   static final expenseColumnExpenseAmount = 'expenseAmount';
   static final expenseColumnDescription = 'description';
   static final expenseColumnCategory = 'category';
+  static final expenseColumnDateAdded = 'dateAdded';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -60,7 +61,8 @@ class DatabaseHelper {
             $expenseColumnId INTEGER PRIMARY KEY,
             $expenseColumnExpenseAmount REAL NOT NULL,
             $expenseColumnDescription TEXT NOT NULL,
-            $expenseColumnCategory TEXT NOT NULL
+            $expenseColumnCategory TEXT NOT NULL,
+            $expenseColumnDateAdded TEXT NOT NULL
           )
           ''');
   }

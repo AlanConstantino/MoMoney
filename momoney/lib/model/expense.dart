@@ -4,6 +4,7 @@ class Expense {
   double _expenseAmount;
   String _description;
   String _category;
+  String _dateAdded;
 
   // constructors
   Expense(
@@ -11,12 +12,14 @@ class Expense {
     this._expenseAmount,
     this._description,
     this._category,
+    this._dateAdded,
   );
 
   Expense.withoutID(
     this._expenseAmount,
     this._description,
     this._category,
+    this._dateAdded,
   );
 
   // getters
@@ -24,6 +27,7 @@ class Expense {
   double get expenseAmount => _expenseAmount;
   String get description => _description;
   String get category => _category;
+  String get dateAdded => _dateAdded;
 
   // setters
   set expenseAmount(double newExpenseAmount) =>
@@ -37,6 +41,7 @@ class Expense {
     this._expenseAmount = map['expenseAmount'];
     this._description = map['description'];
     this._category = map['category'];
+    this._dateAdded = map['dateAdded'];
   }
 
   // converting an Expense object into a map
@@ -45,5 +50,6 @@ class Expense {
         'expenseAmount': _expenseAmount,
         'description': _description,
         'category': _category,
+        'dateAdded': _dateAdded,
       };
 }
