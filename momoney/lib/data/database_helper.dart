@@ -89,6 +89,13 @@ class DatabaseHelper {
     return await db.query(tableName);
   }
 
+  // All of the rows are returned as a list of maps, where each map is
+  // a key-value list of columns and is sorted by descending id.
+  Future<List<Map<String, dynamic>>> queryAllRowsByDescending(String tableName) async {
+    Database db = await instance.database;
+    return await db.rawQuery('SELECT * FROM $tableName ORDER BY _id DESC');
+  }
+
   // All of the methods (insert, query, update, delete) can also be done using
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int> queryRowCount(String tableName) async {
