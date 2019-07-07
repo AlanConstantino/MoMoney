@@ -118,4 +118,11 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.delete(tableName, where: '_id = ?', whereArgs: [id]);
   }
+
+  // Deletes all the rows from the specified tableName.
+  Future<int> deleteAllRows(String tableName) async {
+    Database db = await instance.database;
+    return Sqflite.firstIntValue(
+        await db.rawQuery('DELETE FROM $tableName'));
+  }
 }
