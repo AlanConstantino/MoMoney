@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momoney/model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -7,41 +7,147 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final _formKey = GlobalKey<FormState>();
+  var _userPercentages = ['5', '10', '15', '20'];
+  String _currentValue = '5'; //default
+
+  // user variables to save later in shared preferences
+  String _firstName;
+  String _lastName;
+  double _monthlyIncome;
+  double _monthlyExpense;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text('My Profile'),
+        title: Text('Profile Set Up'),
       ),
-      body: Container(
-        child: FutureBuilder<List<User>>(
-          builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  User item = snapshot.data[index];
-                  return Dismissible(
-                    key: UniqueKey(),
-                    background: Container(color: Colors.red),
-                    onDismissed: (direction) {
-                      Navigator.of(context).pop();
-                    },
-                    child: ListTile(
-                      title: Text(item.firstName),
-                      subtitle: Text(item.monthlyExpense.toString()),
-                      leading: CircleAvatar(child: Text(item.id.toString())),
-                      onTap: () {},
-                    ),
-                  );
-                },
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
+          child: Builder(
+            builder: (context) => Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'First name'),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your first name';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          setState(() => this._firstName = value);
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Last name'),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your last name.';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          setState(() => this._lastName = value);
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: const TextInputType.numberWithOptions(
+                          signed: false,
+                          decimal: true,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '0.00',
+                          labelText: 'Monthly Income',
+                          prefixText: '\$',
+                        ),
+                        validator: (String value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your monthly income';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          setState(
+                              () => this._monthlyIncome = double.parse(value));
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: const TextInputType.numberWithOptions(
+                          signed: false,
+                          decimal: true,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: '0.00',
+                          labelText: 'Monthly Expenses',
+                          prefixText: '\$',
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your monthly expenses';
+                          }
+                          return null;
+                        },
+                        onSaved: (String value) {
+                          setState(
+                            () => this._monthlyExpense = double.parse(value),
+                          );
+                        },
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16.0, horizontal: 16.0),
+                        alignment: Alignment.center,
+                        child: Text(
+                            'Percentage you would like to save each month'),
+                      ),
+                      DropdownButton<String>(
+                        iconSize: 28.0,
+                        items:
+                            _userPercentages.map((String dropDownStringItem) {
+                          return DropdownMenuItem<String>(
+                            value: dropDownStringItem,
+                            child: Text(dropDownStringItem),
+                          );
+                        }).toList(),
+                        onChanged: (String newValue) {
+                          setState(() {
+                            this._currentValue = newValue;
+                          });
+                        },
+                        value: _currentValue,
+                      ),
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 16.0),
+                          child: RaisedButton(
+                              onPressed: () async {
+                                final form = _formKey.currentState;
+                                if (form.validate()) {
+                                  form.save();
+                                  SharedPreferences preferences =
+                                      await SharedPreferences.getInstance();
+
+                                  // save user data to shared preferences
+                                  preferences.setString('firstName', _firstName);
+                                  preferences.setString('lastName', _lastName);
+                                  preferences.setDouble('monthlyIncome', _monthlyIncome);
+                                  preferences.setDouble('monthlyExpense', _monthlyExpense);
+                                  preferences.setInt('percentageToSaveMonthly', int.parse(_currentValue));
+
+                                  Navigator.pushNamed(context, "/dashboard");
+                                }
+                              },
+                              child: Text('Save'))),
+                    ],
+                  ),
+                ),
+          ),
         ),
       ),
     );
