@@ -30,7 +30,6 @@ class Expense {
   String get description => _description;
   String get category => _category;
   String get dateAdded => _dateAdded;
-  Key get key => ObjectKey(this);
 
   // setters
   set expenseAmount(double newExpenseAmount) =>

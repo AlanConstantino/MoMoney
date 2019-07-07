@@ -9,31 +9,17 @@ class MonthlyExpenses extends StatefulWidget {
 
 class _MonthlyExpensesState extends State<MonthlyExpenses> {
   final dbHelper = DatabaseHelper.instance;
-  List<Expense> expenseList = [];
 
   Future<List<Expense>> _getExpenseData() async {
     var data = await dbHelper.queryAllRowsByDescending('expense');
-    // List<Expense> list = [];
+    List<Expense> list = [];
 
-    for (var item in data) {
-      Expense expense = Expense(item['_id'], item['expenseAmount'],
-          item['description'], item['category'], item['dateAdded']);
-      // list.add(income);
-      expenseList.add(expense);
+    for (var map in data) {
+      list.add(Expense.fromMap(map));
     }
 
-    // return list;
-    return expenseList;
+    return list;
   }
-
-  // void dismissExpense(Expense expense) {
-  //   // expenseList.forEach((n) => print(n.expenseAmount));
-  //   if (expenseList.contains(expense)) {
-  //     setState(() {
-  //       expenseList.remove(expense);
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,95 +38,95 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                   return Center(child: Text("${snapshot.error}"));
                 }
                 return ListView.builder(
-                    itemCount: expenseList.length,
+                    itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return Dismissible(
-                          key: Key(UniqueKey().toString()),
-                          background: Container(
-                            padding: EdgeInsets.only(left: 28.0),
-                            alignment: AlignmentDirectional.centerStart,
-                            color: Colors.red,
-                            child: Icon(
-                              Icons.delete_forever,
-                              color: Colors.white,
-                            ),
+                        key: Key(snapshot.data[index].id.toString()),
+                        onDismissed: (direction) {
+                          setState(() {
+                            dbHelper.delete('expense', snapshot.data[index].id);
+                            snapshot.data.removeAt(index);
+                          });
+                        },
+                        background: Container(
+                          padding: EdgeInsets.only(left: 28.0),
+                          alignment: AlignmentDirectional.centerStart,
+                          color: Colors.red,
+                          child: Icon(
+                            Icons.delete_forever,
+                            color: Colors.white,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Card(
-                                child: ListTile(
-                                  // isThreeLine: true,
-                                  leading: Icon(
-                                    Icons.minimize,
-                                    color: Colors.red,
-                                  ),
-                                  title: Text(
-                                      '\$${expenseList[index].expenseAmount.toString()}'),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      // Text(snapshot.data[index].category),
-                                      Text(expenseList[index].id.toString()),
-                                      // Text('${snapshot.data[index].description}'),
-                                    ],
-                                  ),
-                                  trailing: Text(expenseList[index].dateAdded),
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                            "Expense",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          content: Text(
-                                            'Amount: \$' +
-                                                expenseList[index]
-                                                    .expenseAmount
-                                                    .toString() +
-                                                '\n'
-                                                    'Category: ' +
-                                                expenseList[index].category +
-                                                '\n'
-                                                    'Date: ' +
-                                                expenseList[index].dateAdded +
-                                                '\n\n'
-                                                    'Description:\n' +
-                                                expenseList[index].description,
-                                          ),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text("Close"),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Card(
+                              child: ListTile(
+                                leading: Icon(
+                                  Icons.minimize,
+                                  color: Colors.red,
                                 ),
-                              )
-                            ],
-                          ),
-                          onDismissed: (direction) {
-                            // dismissExpense(expenseList[index]);
-                          }
-                          // setState(() {
-                          //   dbHelper.delete('expense', snapshot.data[index].id);
-                          //   expenseList.removeAt(index);
-                          // });
-                          // setState(() {
-                          //   incomeList.removeAt(index);
-                          //   dbHelper.delete('expense', snapshot.data[index].id);
-                          //   snapshot.data.removeAt(index);
-                          // });
-                          // },
-                          );
+                                title: Text(
+                                    '\$${snapshot.data[index].expenseAmount.toString()}'),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(snapshot.data[index].category),
+                                  ],
+                                ),
+                                trailing: Text(snapshot.data[index].dateAdded),
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          "Expense",
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        content: Text(
+                                          'Amount: \$' +
+                                              snapshot.data[index].expenseAmount
+                                                  .toString() +
+                                              '\n'
+                                                  'Category: ' +
+                                              snapshot.data[index].category +
+                                              '\n'
+                                                  'Date: ' +
+                                              snapshot.data[index].dateAdded +
+                                              '\n\n'
+                                                  'Description:\n' +
+                                              snapshot.data[index].description,
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            textColor: Colors.red,
+                                            child: Text("Delete"),
+                                            onPressed: () {
+                                              setState(() {
+                                                dbHelper.delete('expense',
+                                                    snapshot.data[index].id);
+                                                snapshot.data.removeAt(index);
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          FlatButton(
+                                            child: Text("Close"),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      );
                     });
               }),
         ));

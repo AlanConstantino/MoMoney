@@ -89,6 +89,18 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                                   ),
                                   actions: <Widget>[
                                     FlatButton(
+                                      textColor: Colors.red,
+                                      child: Text("Delete"),
+                                      onPressed: () {
+                                        setState(() {
+                                          dbHelper.delete('income',
+                                              snapshot.data[index].id);
+                                          snapshot.data.removeAt(index);
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    FlatButton(
                                       child: Text("Close"),
                                       onPressed: () {
                                         Navigator.of(context).pop();

@@ -23,7 +23,6 @@ class Income {
   double get incomeAmount => _incomeAmount;
   String get dateAdded => _dateAdded;
   Key get key => ObjectKey(this);
-  // Key get key => ObjectKey(this);
 
   // setter
   set incomeAmount(double newIncomeAmount) =>
