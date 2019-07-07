@@ -21,7 +21,6 @@ class CheckIfReturningUserState extends State<CheckIfReturningUser> {
     if (returningUser) {
       Navigator.of(context).pushReplacementNamed('/dashboard');
     } else {
-      prefs.setBool('seen', true);
       Navigator.of(context).pushReplacementNamed('/register');
     }
   }

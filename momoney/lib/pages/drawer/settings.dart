@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
-import 'package:momoney/pages/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings extends StatefulWidget {
@@ -11,19 +10,17 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final dbHelper = DatabaseHelper.instance;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  _displaySnackBar(BuildContext context) {
-    // final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
-    final snackbar = SnackBar(content: Text('All data has been deleted.'));
-    // Scaffold.of(context)..removeCurrentSnackBar()..showSnackBar(snackbar);
-    _scaffoldKey.currentState.showSnackBar(snackbar);
-  }
+  // _displaySnackBar(BuildContext context) {
+  //   final snackbar = SnackBar(content: Text('All data has been deleted.'));
+  //   _scaffoldKey.currentState.showSnackBar(snackbar);
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      // key: _scaffoldKey,
       appBar: AppBar(automaticallyImplyLeading: true, title: Text('Settings')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +41,7 @@ class _SettingsState extends State<Settings> {
                           textAlign: TextAlign.center,
                         ),
                         content: Text(
-                          "Once all data is deleted it won't be recoverable and you will be returned to the register page.",
+                          "Once all data is deleted, it won't be recoverable and you will be returned to the register page.",
                         ),
                         actions: <Widget>[
                           FlatButton(
@@ -57,12 +54,9 @@ class _SettingsState extends State<Settings> {
                                 dbHelper.deleteAllRows('income');
                                 dbHelper.deleteAllRows('expense');
                               });
-                              prefs.setDouble('monthlyIncome', 0.0);
-                              prefs.setDouble('monthlyExpense', 0.0);
-                              prefs.setInt('percentageToSaveMonthly', 0);
-                              // await prefs.clear();
+                              await prefs.clear();
                               Navigator.of(context).pop();
-                              _displaySnackBar(context);
+                              Navigator.of(context).pushReplacementNamed('/register');
                             },
                           ),
                           FlatButton(
