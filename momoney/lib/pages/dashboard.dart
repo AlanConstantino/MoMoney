@@ -4,7 +4,6 @@ import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:momoney/data/database_helper.dart';
-import 'package:momoney/model/expense.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ListQueue listStack;
@@ -354,27 +353,14 @@ class _DashboardState extends State<Dashboard> {
   Future<Null> refreshList() async {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      // _getExpenseData();
+      listStack.clear();
+
+      addExpenseItem();
+      addIncomeItem();
     });
     return null;
   }
 
-  void addIncome() {}
-
-  // ignore: unused_element
-  Future<List<Expense>> _getExpenseData() async {
-    var data = await dbHelper.queryAllRowsByDescending('expense');
-    List<Expense> list = [];
-
-    for (var item in data) {
-      Expense income = Expense(item['_id'], item['expenseAmount'],
-          item['description'], item['category'], item['dateAdded']);
-      listStack.addFirst(income);
-    }
-
-    return list;
-    // return incomeList;
-  }
 
   static Future<Null> getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -389,13 +375,17 @@ class _DashboardState extends State<Dashboard> {
   static Future<Null> addIncomeItem() async {
     var data = await dbHelper.queryAllRows('income');
     for (var item in data) {
+      double amount = item['incomeAmount'];
+      String date = item['dateAdded'];
+
       counter++;
       listStack.addFirst(ListTile(
         leading: Icon(
           Icons.add,
           color: Colors.green,
         ),
-        title: Text("Income" + counter.toString()),
+        title: Text( amount.toStringAsFixed(2)),
+        trailing:  Text(date),
       ));
     }
   }
@@ -403,13 +393,17 @@ class _DashboardState extends State<Dashboard> {
   static Future<Null> addExpenseItem() async {
     var data = await dbHelper.queryAllRows('expense');
     for (var item in data) {
-      counter++;
+      double amount = item['expenseAmount'];
+      String date = item['dateAdded'];
+      String description = item['description'];
       listStack.addFirst(ListTile(
         leading: Icon(
-          Icons.add,
-          color: Colors.green,
+          Icons.remove,
+          color: Colors.red,
         ),
-        title: Text("Expense " + counter.toString()),
+        title: Text(amount.toStringAsFixed(2)),
+        subtitle: Text(description),
+        trailing: Text(date),
       ));
     }
   }
