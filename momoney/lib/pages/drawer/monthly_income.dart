@@ -62,10 +62,8 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                     children: <Widget>[
                       Card(
                         child: ListTile(
-                          leading: Icon(
-                            Icons.add,
-                            color: Colors.green,
-                          ),
+                          leading:
+                              Icon(Icons.attach_money, color: Colors.green),
                           title: Text('\$' +
                               snapshot.data[index].incomeAmount.toString()),
                           trailing: Text(snapshot.data[index].dateAdded),

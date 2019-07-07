@@ -106,7 +106,8 @@ class _RegisterState extends State<Register> {
                       ),
                       DropdownButton<String>(
                         iconSize: 28.0,
-                        items: _userPercentages.map((String dropDownStringItem) {
+                        items:
+                            _userPercentages.map((String dropDownStringItem) {
                           return DropdownMenuItem<String>(
                             value: dropDownStringItem,
                             child: Text(dropDownStringItem),

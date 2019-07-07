@@ -61,14 +61,15 @@ class _DashboardState extends State<Dashboard> {
                     const PopupMenuItem<String>(
                         value: 'income',
                         child: ListTile(
-                          leading: Icon(Icons.attach_money),
-                          title: Text('Income'),
+                          leading:
+                              Icon(Icons.attach_money, color: Colors.green),
+                          title: Text('Add income'),
                         )),
                     const PopupMenuItem<String>(
                       value: 'expense',
                       child: ListTile(
-                        leading: Icon(Icons.money_off),
-                        title: Text('Expense'),
+                        leading: Icon(Icons.money_off, color: Colors.red),
+                        title: Text('Add expense'),
                       ),
                     ),
                   ],
@@ -261,10 +262,12 @@ class _DashboardState extends State<Dashboard> {
                             child: RaisedButton(
                               child: Text('Print user info to debug console'),
                               onPressed: () async {
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
 
                                 // prints whatever the user entered in the registration page
-                                print('\nThe following is what was saved in shared preferences\n');
+                                print(
+                                    '\nThe following is what was saved in shared preferences\n');
                                 print(prefs.getString('firstName'));
                                 print(prefs.getString('lastName'));
                                 print(prefs.getDouble('monthlyIncome'));

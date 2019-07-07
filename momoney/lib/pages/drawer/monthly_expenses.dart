@@ -62,10 +62,8 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                           children: <Widget>[
                             Card(
                               child: ListTile(
-                                leading: Icon(
-                                  Icons.minimize,
-                                  color: Colors.red,
-                                ),
+                                leading:
+                                    Icon(Icons.money_off, color: Colors.red),
                                 title: Text(
                                     '\$${snapshot.data[index].expenseAmount.toString()}'),
                                 subtitle: Column(
