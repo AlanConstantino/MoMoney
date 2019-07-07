@@ -9,21 +9,16 @@ class MonthlyExpenses extends StatefulWidget {
 
 class _MonthlyExpensesState extends State<MonthlyExpenses> {
   final dbHelper = DatabaseHelper.instance;
-  // List<Expense> incomeList = [];
 
   Future<List<Expense>> _getExpenseData() async {
     var data = await dbHelper.queryAllRowsByDescending('expense');
     List<Expense> list = [];
 
-    for (var item in data) {
-      Expense income = Expense(item['_id'], item['expenseAmount'],
-          item['description'], item['category'], item['dateAdded']);
-      list.add(income);
-      // incomeList.add(income);
+    for (var map in data) {
+      list.add(Expense.fromMap(map));
     }
 
     return list;
-    // return incomeList;
   }
 
   @override
@@ -43,10 +38,16 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                   return Center(child: Text("${snapshot.error}"));
                 }
                 return ListView.builder(
-                    itemCount: snapshot?.data?.length ?? 0,
+                    itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return Dismissible(
-                        key: ObjectKey(snapshot.data[index].id),
+                        key: Key(snapshot.data[index].id.toString()),
+                        onDismissed: (direction) {
+                          setState(() {
+                            dbHelper.delete('expense', snapshot.data[index].id);
+                            snapshot.data.removeAt(index);
+                          });
+                        },
                         background: Container(
                           padding: EdgeInsets.only(left: 28.0),
                           alignment: AlignmentDirectional.centerStart,
@@ -61,7 +62,6 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                           children: <Widget>[
                             Card(
                               child: ListTile(
-                                // isThreeLine: true,
                                 leading: Icon(
                                   Icons.minimize,
                                   color: Colors.red,
@@ -72,7 +72,6 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(snapshot.data[index].category),
-                                    // Text('${snapshot.data[index].description}'),
                                   ],
                                 ),
                                 trailing: Text(snapshot.data[index].dateAdded),
@@ -86,12 +85,32 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                                           textAlign: TextAlign.center,
                                         ),
                                         content: Text(
-                                          'Amount: \$' + snapshot.data[index].expenseAmount.toString() + '\n'
-                                          'Category: ' + snapshot.data[index].category + '\n'
-                                          'Date: ' + snapshot.data[index].dateAdded + '\n\n'
-                                          'Description:\n' + snapshot.data[index].description,
+                                          'Amount: \$' +
+                                              snapshot.data[index].expenseAmount
+                                                  .toString() +
+                                              '\n'
+                                                  'Category: ' +
+                                              snapshot.data[index].category +
+                                              '\n'
+                                                  'Date: ' +
+                                              snapshot.data[index].dateAdded +
+                                              '\n\n'
+                                                  'Description:\n' +
+                                              snapshot.data[index].description,
                                         ),
                                         actions: <Widget>[
+                                          FlatButton(
+                                            textColor: Colors.red,
+                                            child: Text("Delete"),
+                                            onPressed: () {
+                                              setState(() {
+                                                dbHelper.delete('expense',
+                                                    snapshot.data[index].id);
+                                                snapshot.data.removeAt(index);
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
                                           FlatButton(
                                             child: Text("Close"),
                                             onPressed: () {
@@ -107,13 +126,6 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                             )
                           ],
                         ),
-                        onDismissed: (direction) {
-                          // setState(() {
-                          //   incomeList.removeAt(index);
-                          //   dbHelper.delete('expense', snapshot.data[index].id);
-                          //   snapshot.data.removeAt(index);
-                          // });
-                        },
                       );
                     });
               }),
