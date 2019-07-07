@@ -9,16 +9,13 @@ class MonthlyIncome extends StatefulWidget {
 
 class _MonthlyIncomeState extends State<MonthlyIncome> {
   final dbHelper = DatabaseHelper.instance;
-  static List<Income> incomeList = [];
 
-  Future<List<Income>> _getIncomeData() async {
-    var data = await dbHelper.queryAllRowsByDescending('income');
+  Future _getIncomeData() async {
+    var data = await dbHelper.queryAllRows('income');
     List<Income> list = [];
 
-    for (var item in data) {
-      Income income =
-          Income(item['_id'], item['incomeAmount'], item['dateAdded']);
-      list.add(income);
+    for (var map in data) {
+      list.add(Income.fromMap(map));
     }
 
     return list;
@@ -34,7 +31,6 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
         child: FutureBuilder(
           future: _getIncomeData(),
           builder: (context, snapshot) {
-            // var item = _getIncomeData();
             if (snapshot.data == null) {
               return Center(child: CircularProgressIndicator());
             }
@@ -42,10 +38,16 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
               return Center(child: Text("${snapshot.error}"));
             }
             return ListView.builder(
-              itemCount: snapshot?.data?.length ?? 0,
+              itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  key: ObjectKey(snapshot.data[index].id),
+                  key: Key(snapshot.data[index].id.toString()),
+                  onDismissed: (direction) {
+                    setState(() {
+                      dbHelper.delete('income', snapshot.data[index].id);
+                      snapshot.data.removeAt(index);
+                    });
+                  },
                   background: Container(
                     padding: EdgeInsets.only(left: 28.0),
                     alignment: AlignmentDirectional.centerStart,
@@ -60,16 +62,12 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                     children: <Widget>[
                       Card(
                         child: ListTile(
-                          // dense: true,
-                          // isThreeLine: true,
                           leading: Icon(
                             Icons.add,
                             color: Colors.green,
                           ),
-                          title: Text(
-                              '\$' + snapshot.data[index].incomeAmount.toString()),
-                          // subtitle: Text(''),
-                          // subtitle: Text('${snapshot.data[index].dateAdded}'),
+                          title: Text('\$' +
+                              snapshot.data[index].incomeAmount.toString()),
                           trailing: Text(snapshot.data[index].dateAdded),
                           onTap: () {
                             showDialog(
@@ -81,8 +79,12 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                                     textAlign: TextAlign.center,
                                   ),
                                   content: Text(
-                                    'Amount: \$' + snapshot.data[index].incomeAmount.toString() + '\n' +
-                                    'Date: ' + snapshot.data[index].dateAdded,
+                                    'Amount: \$' +
+                                        snapshot.data[index].incomeAmount
+                                            .toString() +
+                                        '\n' +
+                                        'Date: ' +
+                                        snapshot.data[index].dateAdded,
                                     textAlign: TextAlign.left,
                                   ),
                                   actions: <Widget>[
@@ -101,19 +103,6 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                       )
                     ],
                   ),
-                  onDismissed: (direction) {
-                    // print(index);
-                    // print(snapshot.data[index].id);
-                    // var item = snapshot.data;
-                    // var oldData = snapshot.data[index].incomeAmount;
-                    // setState(() {
-                    //   item.removeAt(index);
-                    //   dbHelper.delete('income', snapshot.data[index].id);
-                    // });
-
-                    // Scaffold.of(context).showSnackBar(
-                    //     SnackBar(content: Text("Deleted \$$oldData of income")));
-                  },
                 );
               },
             );

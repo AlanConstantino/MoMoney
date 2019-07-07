@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   // database info
-  static final _databaseName = "data.db";
+  static final _databaseName = "a.db";
   static final _databaseVersion = 1;
 
   // income table
@@ -56,14 +56,14 @@ class DatabaseHelper {
   Future _onCreate(Database db, int version) async {
     await db.execute('''
           CREATE TABLE $tableIncome (
-            $incomeColumnId INTEGER PRIMARY KEY,
+            $incomeColumnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $incomeColumnIncomeAmount REAL NOT NULL,
             $incomeColumnDateAdded TEXT NOT NULL
           )
           ''');
     await db.execute('''
           CREATE TABLE $tableExpense (
-            $expenseColumnId INTEGER PRIMARY KEY,
+            $expenseColumnId INTEGER PRIMARY KEY AUTOINCREMENT,
             $expenseColumnExpenseAmount REAL NOT NULL,
             $expenseColumnDescription TEXT NOT NULL,
             $expenseColumnCategory TEXT NOT NULL,
