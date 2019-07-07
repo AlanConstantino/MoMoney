@@ -1,4 +1,5 @@
 import 'dart:collection';
+
 //import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/expense.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
- ListQueue listStack;
+ListQueue listStack;
 final dbHelper = DatabaseHelper.instance;
 
 double dummyMonthlyContribution = 0.0;
@@ -17,7 +18,6 @@ double monthsLeft = 0.0;
 double dummyUserBalance = 0.0;
 double counter = 0.0;
 
-
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
 
@@ -26,7 +26,7 @@ class Dashboard extends StatefulWidget {
 
   void addExpense(double expenseAmount, String date, String description) {
     dummyExpenses -= expenseAmount;
-    listStack.addFirst(ListTile(
+    /*listStack.addFirst(ListTile(
       leading: Icon(
         Icons.remove,
         color: Colors.red,
@@ -34,28 +34,25 @@ class Dashboard extends StatefulWidget {
       title: Text("-\$" + expenseAmount.toStringAsFixed(2)),
       trailing: Text(date),
       subtitle: Text(description),
+    ));
 
-
-    )
-    );
-
+     */
   }
+
   void addIncome(double incomeAmount, String date) {
     dummyIncome += incomeAmount;
-    listStack.addFirst(ListTile(
+    /*listStack.addFirst(ListTile(
       leading: Icon(
         Icons.add,
         color: Colors.green,
       ),
       title: Text("\$" + incomeAmount.toStringAsFixed(2)),
       trailing: Text(date),
-    )
-    );
+    ));
+
+     */
   }
-
-
-
-  }
+}
 
 class _DashboardState extends State<Dashboard> {
   //place holders, just preparing for the database connections
@@ -68,11 +65,12 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
+    addIncomeItem();
+    addExpenseItem();
     getUserPrefs();
     super.initState();
     listStack = new ListQueue();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -167,13 +165,12 @@ class _DashboardState extends State<Dashboard> {
                               height: 400,
                               width: 400,
                               child: ListView.separated(
-                                  separatorBuilder: (context, index) => Divider(
-                                        color: Colors.black,
-                                      ),
-                                  itemCount: listStack.length,
-                                  itemBuilder: (context, i) =>
-                                      listStack.elementAt(i),
-
+                                separatorBuilder: (context, index) => Divider(
+                                      color: Colors.black,
+                                    ),
+                                itemCount: listStack.length,
+                                itemBuilder: (context, i) =>
+                                    listStack.elementAt(i),
                               ),
                             ),
                             color: Colors.blue.shade100,
@@ -300,10 +297,12 @@ class _DashboardState extends State<Dashboard> {
                             child: RaisedButton(
                               child: Text('Print user info to debug console'),
                               onPressed: () async {
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
 
                                 // prints whatever the user entered in the registration page
-                                print('\nThe following is what was saved in shared preferences\n');
+                                print(
+                                    '\nThe following is what was saved in shared preferences\n');
                                 print(prefs.getString('firstName'));
                                 print(prefs.getString('lastName'));
                                 print(prefs.getDouble('monthlyIncome'));
@@ -355,15 +354,12 @@ class _DashboardState extends State<Dashboard> {
   Future<Null> refreshList() async {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-     // _getExpenseData();
+      // _getExpenseData();
     });
     return null;
   }
 
-  void addIncome(){
-
-
-  }
+  void addIncome() {}
 
   // ignore: unused_element
   Future<List<Expense>> _getExpenseData() async {
@@ -374,29 +370,47 @@ class _DashboardState extends State<Dashboard> {
       Expense income = Expense(item['_id'], item['expenseAmount'],
           item['description'], item['category'], item['dateAdded']);
       listStack.addFirst(income);
-
     }
 
     return list;
     // return incomeList;
   }
 
-  static Future<Null> getUserPrefs() async{
+  static Future<Null> getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    dummyIncome +=  prefs.get('monthlyIncome');
+    dummyIncome += prefs.get('monthlyIncome');
     dummyExpenses += prefs.get('monthlyExpense');
-   dummyMonthlyContribution += dummyIncome / prefs.get('percentageToSaveMonthly');
-
-
+    dummyMonthlyContribution +=
+        dummyIncome / prefs.get('percentageToSaveMonthly');
   }
 
-  static Future<Null> addItem() async {
-
-
-
+  //Reloads the lists
+  static Future<Null> addIncomeItem() async {
+    var data = await dbHelper.queryAllRows('income');
+    for (var item in data) {
+      counter++;
+      listStack.addFirst(ListTile(
+        leading: Icon(
+          Icons.add,
+          color: Colors.green,
+        ),
+        title: Text("Income" + counter.toString()),
+      ));
+    }
   }
 
-
-
+  static Future<Null> addExpenseItem() async {
+    var data = await dbHelper.queryAllRows('expense');
+    for (var item in data) {
+      counter++;
+      listStack.addFirst(ListTile(
+        leading: Icon(
+          Icons.add,
+          color: Colors.green,
+        ),
+        title: Text("Expense " + counter.toString()),
+      ));
+    }
+  }
 }
