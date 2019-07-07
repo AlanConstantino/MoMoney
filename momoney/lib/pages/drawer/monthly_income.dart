@@ -4,11 +4,12 @@ import 'package:momoney/model/income.dart';
 
 class MonthlyIncome extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MonthlyIncomeState();
+  _MonthlyIncomeState createState() => _MonthlyIncomeState();
 }
 
 class _MonthlyIncomeState extends State<MonthlyIncome> {
   final dbHelper = DatabaseHelper.instance;
+  static List<Income> incomeList = [];
 
   Future<List<Income>> _getIncomeData() async {
     var data = await dbHelper.queryAllRowsByDescending('income');
@@ -33,6 +34,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
         child: FutureBuilder(
           future: _getIncomeData(),
           builder: (context, snapshot) {
+            // var item = _getIncomeData();
             if (snapshot.data == null) {
               return Center(child: CircularProgressIndicator());
             }
@@ -42,19 +44,42 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
             return ListView.builder(
               itemCount: snapshot?.data?.length ?? 0,
               itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Card(
-                      child: ListTile(
-                        leading: Text('${snapshot.data[index].id.toString()}'),
-                        title: Text(
-                            'Amount: \$${snapshot.data[index].incomeAmount.toString()}'),
-                        subtitle: Text('${snapshot.data[index].dateAdded}'),
-                        onTap: () {},
-                      ),
-                    )
-                  ],
+                return Dismissible(
+                  key: ObjectKey(snapshot.data[index].id),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Card(
+                        child: ListTile(
+                          leading: Icon(
+                            Icons.add,
+                            color: Colors.green,
+                          ),
+                          title: Text(
+                              '\$${snapshot.data[index].incomeAmount.toString()}'),
+                          subtitle: Text('${snapshot.data[index].dateAdded}'),
+                          onTap: () {
+                            setState(() {
+                              // snapshot.data.removeAt(index);
+                            });
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  onDismissed: (direction) {
+                    // print(index);
+                    // print(snapshot.data[index].id);
+                    // var item = snapshot.data;
+                    // var oldData = snapshot.data[index].incomeAmount;
+                    // setState(() {
+                    //   item.removeAt(index);
+                    //   dbHelper.delete('income', snapshot.data[index].id);
+                    // });
+
+                    // Scaffold.of(context).showSnackBar(
+                    //     SnackBar(content: Text("Deleted \$$oldData of income")));
+                  },
                 );
               },
             );
