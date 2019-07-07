@@ -46,22 +46,56 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
               itemBuilder: (context, index) {
                 return Dismissible(
                   key: ObjectKey(snapshot.data[index].id),
+                  background: Container(
+                    padding: EdgeInsets.only(left: 28.0),
+                    alignment: AlignmentDirectional.centerStart,
+                    color: Colors.red,
+                    child: Icon(
+                      Icons.delete_forever,
+                      color: Colors.white,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Card(
                         child: ListTile(
+                          // dense: true,
+                          // isThreeLine: true,
                           leading: Icon(
                             Icons.add,
                             color: Colors.green,
                           ),
                           title: Text(
-                              '\$${snapshot.data[index].incomeAmount.toString()}'),
-                          subtitle: Text('${snapshot.data[index].dateAdded}'),
+                              '\$' + snapshot.data[index].incomeAmount.toString()),
+                          // subtitle: Text(''),
+                          // subtitle: Text('${snapshot.data[index].dateAdded}'),
+                          trailing: Text(snapshot.data[index].dateAdded),
                           onTap: () {
-                            setState(() {
-                              // snapshot.data.removeAt(index);
-                            });
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Income',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  content: Text(
+                                    'Amount: \$' + snapshot.data[index].incomeAmount.toString() + '\n' +
+                                    'Date: ' + snapshot.data[index].dateAdded,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text("Close"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                         ),
                       )
