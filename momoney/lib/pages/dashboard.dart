@@ -1,27 +1,64 @@
 import 'dart:collection';
-
+//import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:momoney/data/database_helper.dart';
+import 'package:momoney/model/expense.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+ ListQueue listStack;
+final dbHelper = DatabaseHelper.instance;
+
+double dummyMonthlyContribution = 0.0;
+double dummyUserGoal = 1.0;
+double dummyIncome = 0.0;
+double dummyExpenses = 0.0;
+double monthsLeft = 0.0;
+double dummyUserBalance = 0.0;
+double counter = 0.0;
+
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
 
   @override
   _DashboardState createState() => _DashboardState();
-}
+
+  void addExpense(double expenseAmount, String date, String description) {
+    dummyExpenses -= expenseAmount;
+    listStack.addFirst(ListTile(
+      leading: Icon(
+        Icons.remove,
+        color: Colors.red,
+      ),
+      title: Text("-\$" + expenseAmount.toStringAsFixed(2)),
+      trailing: Text(date),
+      subtitle: Text(description),
+
+
+    )
+    );
+
+  }
+  void addIncome(double incomeAmount, String date) {
+    dummyIncome += incomeAmount;
+    listStack.addFirst(ListTile(
+      leading: Icon(
+        Icons.add,
+        color: Colors.green,
+      ),
+      title: Text("\$" + incomeAmount.toStringAsFixed(2)),
+      trailing: Text(date),
+    )
+    );
+  }
+
+
+
+  }
 
 class _DashboardState extends State<Dashboard> {
   //place holders, just preparing for the database connections
-  double dummyMonthlyContribution = 0.0;
-  double dummyUserGoal = 1.0;
-  double dummyIncome = 0.0;
-  double dummyExpenses = 0.0;
-  double monthsLeft = 0.0;
-  double dummyUserBalance = 0.0;
-  double counter = 0.0;
-  ListQueue listStack;
-
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
 
 //test for list
@@ -31,10 +68,11 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
+    getUserPrefs();
     super.initState();
     listStack = new ListQueue();
-    listStack.add("Pull to update");
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +171,10 @@ class _DashboardState extends State<Dashboard> {
                                         color: Colors.black,
                                       ),
                                   itemCount: listStack.length,
-                                  itemBuilder: (context, i) => ListTile(
-                                        title: Text(listStack.elementAt(i)),
-                                      )),
+                                  itemBuilder: (context, i) =>
+                                      listStack.elementAt(i),
+
+                              ),
                             ),
                             color: Colors.blue.shade100,
                           ),
@@ -241,7 +280,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Text(
                                         "\$" +
-                                            (dummyIncome -
+                                            (dummyIncome +
                                                     dummyExpenses -
                                                     dummyMonthlyContribution)
                                                 .toStringAsFixed(2),
@@ -303,7 +342,7 @@ class _DashboardState extends State<Dashboard> {
                 subtitle: Text(
                   ((dummyUserGoal - dummyUserBalance) /
                               dummyMonthlyContribution)
-                          .toString() +
+                          .toStringAsFixed(2) +
                       " months",
                   textAlign: TextAlign.right,
                 ),
@@ -314,15 +353,50 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<Null> refreshList() async {
-    // User user = await _query();
     await Future.delayed(Duration(seconds: 1));
     setState(() {
-      // dummyIncome = user.monthlyIncome;
-      // dummyExpen ses = user.monthlyExpense;
-      // dummyMonthlyContribution =
-      // dummyUserBalance * (user.percentageToSaveMonthly) / 100;
-      listStack.addFirst("Expense/Income item ");
+     // _getExpenseData();
     });
     return null;
   }
+
+  void addIncome(){
+
+
+  }
+
+  // ignore: unused_element
+  Future<List<Expense>> _getExpenseData() async {
+    var data = await dbHelper.queryAllRowsByDescending('expense');
+    List<Expense> list = [];
+
+    for (var item in data) {
+      Expense income = Expense(item['_id'], item['expenseAmount'],
+          item['description'], item['category'], item['dateAdded']);
+      listStack.addFirst(income);
+
+    }
+
+    return list;
+    // return incomeList;
+  }
+
+  static Future<Null> getUserPrefs() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    dummyIncome +=  prefs.get('monthlyIncome');
+    dummyExpenses += prefs.get('monthlyExpense');
+   dummyMonthlyContribution += dummyIncome / prefs.get('percentageToSaveMonthly');
+
+
+  }
+
+  static Future<Null> addItem() async {
+
+
+
+  }
+
+
+
 }

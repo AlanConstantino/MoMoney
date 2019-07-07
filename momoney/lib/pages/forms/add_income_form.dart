@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/income.dart';
+import 'package:momoney/pages/dashboard.dart';
 
 class AddIncomeForm extends StatefulWidget {
   @override
@@ -70,7 +71,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             final dbHelper = DatabaseHelper.instance;
             Income income = Income.withoutID(_incomeAmount, formattedDate);
             dbHelper.insert('income', income.toMap());
-
+            Dashboard().addIncome(_incomeAmount,formattedDate);
             // uncomment the following to see all the rows within the income table
 
             // final allRows = await dbHelper.queryAllRows('income');
