@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Expense {
   // attributes
   int _id;

@@ -11,7 +11,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
   final dbHelper = DatabaseHelper.instance;
 
   Future _getIncomeData() async {
-    var data = await dbHelper.queryAllRows('income');
+    var data = await dbHelper.queryAllRowsByDescending('income');
     List<Income> list = [];
 
     for (var map in data) {
