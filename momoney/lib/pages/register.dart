@@ -140,6 +140,7 @@ class _RegisterState extends State<Register> {
                                   preferences.setDouble('monthlyIncome', _monthlyIncome);
                                   preferences.setDouble('monthlyExpense', _monthlyExpense);
                                   preferences.setInt('percentageToSaveMonthly', int.parse(_currentValue));
+                                  preferences.setBool('seen', true);
 
                                   Navigator.pushNamed(context, "/dashboard");
                                 }
