@@ -8,15 +8,14 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  var userPercentages = ['5', '10', '15', '20'];
-  String currentValue = '5'; //default
+  var _userPercentages = ['5', '10', '15', '20'];
+  String _currentValue = '5'; //default
 
-  // variables to use later for creation of user object
+  // user variables to save later in shared preferences
   String _firstName;
   String _lastName;
   double _monthlyIncome;
   double _monthlyExpense;
-  int _percentageToSaveMonthly;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +105,8 @@ class _RegisterState extends State<Register> {
                             'Percentage you would like to save each month'),
                       ),
                       DropdownButton<String>(
-                        items: userPercentages.map((String dropDownStringItem) {
+                        iconSize: 28.0,
+                        items: _userPercentages.map((String dropDownStringItem) {
                           return DropdownMenuItem<String>(
                             value: dropDownStringItem,
                             child: Text(dropDownStringItem),
@@ -114,11 +114,10 @@ class _RegisterState extends State<Register> {
                         }).toList(),
                         onChanged: (String newValue) {
                           setState(() {
-                            this.currentValue = newValue;
-                            _percentageToSaveMonthly = int.parse(newValue);
+                            this._currentValue = newValue;
                           });
                         },
-                        value: currentValue,
+                        value: _currentValue,
                       ),
                       Container(
                           padding: const EdgeInsets.symmetric(
@@ -136,7 +135,7 @@ class _RegisterState extends State<Register> {
                                   preferences.setString('lastName', _lastName);
                                   preferences.setDouble('monthlyIncome', _monthlyIncome);
                                   preferences.setDouble('monthlyExpense', _monthlyExpense);
-                                  preferences.setInt('percentageToSaveMonthly',_percentageToSaveMonthly);
+                                  preferences.setInt('percentageToSaveMonthly', int.parse(_currentValue));
 
                                   Navigator.pushNamed(context, "/dashboard");
                                 }
