@@ -4,7 +4,7 @@ import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/expense.dart';
 import 'package:momoney/model/income.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+// import 'package:percent_indicator/percent_indicator.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -97,10 +97,8 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      backgroundColor: Colors.white,
       drawer: Drawer(
         child: Container(
-          color: Colors.white,
           child: ListView(
             padding: EdgeInsets.only(top: 40.0),
             children: <Widget>[
@@ -155,12 +153,16 @@ class _DashboardState extends State<Dashboard> {
           // double _getPercent(){
           //   // can't have negative values
           //   if((totalIncome - totalExpense).isNegative){
-          //     return 0;
+          //     return 0.0;
           //   }
 
           //   if((totalIncome - totalExpense) > monthlyIncome){
-          //     return 1;
+          //     return 1.0;
           //   }
+
+          //   // zeros needed to multiply
+          //   int length = monthlyIncome.toInt().toString().length - 2;
+
 
           //   return (totalIncome - totalExpense) * 0.001;
           // }

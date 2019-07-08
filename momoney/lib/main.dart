@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:momoney/pages/goals.dart';
+// import 'package:momoney/pages/goals.dart';
 import 'package:momoney/pages/register.dart';
 import 'package:momoney/pages/dashboard.dart';
 import 'package:momoney/pages/forms/add_expense_form.dart';
@@ -19,23 +19,50 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'MoMoney',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          // primarySwatch: Colors.teal,
-          // primaryColor: const Color(0xFF2196f3),
-          primaryColor: Colors.blueAccent,
-          // primaryColor: Colors.greenAccent,
-          accentColor: const Color(0xFF2196f3),
-          canvasColor: const Color(0xFFfafafa),
+          brightness: Brightness.dark,
+          hintColor: Colors.grey,
+          textTheme: TextTheme(
+              button: TextStyle(color: Colors.white),
+              title: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              )),
+          appBarTheme: AppBarTheme(
+            color: Colors.black,
+            iconTheme: IconThemeData(color: Colors.greenAccent),
+            textTheme: TextTheme(
+              title: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          iconTheme: IconThemeData(color: Colors.greenAccent),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.greenAccent,
+          ),
+          dialogTheme: DialogTheme(
+            backgroundColor: Colors.black,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+          buttonColor: Colors.black,
         ),
-        home: CheckIfReturningUser(),
-        // initialRoute: '/',
+        // home: Register(),
+        initialRoute: '/',
         routes: {
-          // '/': (_) => CheckIfReturningUser(),
+          '/': (_) => CheckIfReturningUser(),
           '/dashboard': (_) => Dashboard(),
           '/register': (_) => Register(),
           '/settings': (_) => Settings(),
           '/profile': (_) => Profile(),
-          '/goals': (_) => Goals(), // not currently being used
+          // '/goals': (_) => Goals(), // not currently being used
           '/monthly_expenses': (_) => MonthlyExpenses(),
           '/monthly_income': (_) => MonthlyIncome(),
           '/add_income_form': (_) => AddIncomeForm(),

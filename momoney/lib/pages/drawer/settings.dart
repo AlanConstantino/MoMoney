@@ -42,6 +42,7 @@ class _SettingsState extends State<Settings> {
                         ),
                         content: Text(
                           "Once all data is deleted, it won't be recoverable and you will be returned to the register page.",
+                          style: TextStyle(color: Colors.grey[400]),
                         ),
                         actions: <Widget>[
                           FlatButton(
@@ -56,7 +57,8 @@ class _SettingsState extends State<Settings> {
                               });
                               await prefs.clear();
                               Navigator.of(context).pop();
-                              Navigator.of(context).pushReplacementNamed('/register');
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/register');
                             },
                           ),
                           FlatButton(

@@ -77,11 +77,10 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                                     textAlign: TextAlign.center,
                                   ),
                                   content: Text(
-                                    'Amount: \$' +
+                                    '\$' +
                                         snapshot.data[index].incomeAmount
                                             .toString() +
                                         '\n' +
-                                        'Date: ' +
                                         snapshot.data[index].dateAdded,
                                     textAlign: TextAlign.left,
                                   ),
