@@ -83,17 +83,14 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                                           textAlign: TextAlign.center,
                                         ),
                                         content: Text(
-                                          'Amount: \$' +
+                                          '\$' +
                                               snapshot.data[index].expenseAmount
                                                   .toString() +
-                                              '\n'
-                                                  'Category: ' +
-                                              snapshot.data[index].category +
-                                              '\n'
-                                                  'Date: ' +
+                                              '\n' +
                                               snapshot.data[index].dateAdded +
-                                              '\n\n'
-                                                  'Description:\n' +
+                                              '\n' +
+                                              snapshot.data[index].category +
+                                              '\n\n' +
                                               snapshot.data[index].description,
                                         ),
                                         actions: <Widget>[
