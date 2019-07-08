@@ -52,8 +52,9 @@ class MyApp extends StatelessWidget {
               fontSize: 20,
             ),
           ),
+          buttonColor: Colors.black,
         ),
-        // home: CheckIfReturningUser(),
+        // home: Register(),
         initialRoute: '/',
         routes: {
           '/': (_) => CheckIfReturningUser(),
