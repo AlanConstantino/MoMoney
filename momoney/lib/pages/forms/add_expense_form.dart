@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/expense.dart';
+import 'package:momoney/model/transact.dart';
 import 'package:momoney/pages/dashboard.dart';
 
 class AddExpenseForm extends StatefulWidget {
@@ -92,7 +93,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                       },
                       onSaved: (String value) {
                         setState(
-                          () => this._expenseAmount = double.parse(value),
+                          () => this._expenseAmount = -1*(double.parse(value)),
                         );
                       },
                     ),
@@ -144,6 +145,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             Expense expense = Expense.withoutID(_expenseAmount, _description,
                 _selectedRadioFromList, formattedDate);
             dbHelper.insert('expense', expense.toMap());
+            Transact transact = Transact.withoutID(_expenseAmount,_description,_selectedRadioFromList, formattedDate);
+            dbHelper.insert('transact', transact.toMap());
+
             Dashboard().addExpense(_expenseAmount,formattedDate,_description);
             // uncomment the following to see all the rows within the income table
 

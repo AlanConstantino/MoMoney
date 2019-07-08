@@ -64,8 +64,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-    addIncomeItem();
-    addExpenseItem();
+    addDashItem();
     getUserPrefs();
     super.initState();
     listStack = new ListQueue();
@@ -354,13 +353,10 @@ class _DashboardState extends State<Dashboard> {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
       listStack.clear();
-
-      addExpenseItem();
-      addIncomeItem();
+      addDashItem();
     });
     return null;
   }
-
 
   static Future<Null> getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -372,27 +368,38 @@ class _DashboardState extends State<Dashboard> {
   }
 
   //Reloads the lists
-  static Future<Null> addIncomeItem() async {
-    var data = await dbHelper.queryAllRows('income');
-    for (var item in data) {
-      double amount = item['incomeAmount'];
-      String date = item['dateAdded'];
+  static Future<Null> addDashItem() async {
+    //var incomeData = await dbHelper.queryAllRows('income');
+   // var expenseData = await dbHelper.queryAllRows('expense');
+    var transactData = await dbHelper.queryAllRows('transact');
 
+    for (var item in transactData) {
+      var icon;
+      var iconColor;
+
+      double amount = item['amount'];
+      String date = item['dateAdded'];
       counter++;
+      if(amount < 0){
+        icon = Icons.remove;
+        iconColor = Colors.red;
+      }
+      else if(amount >= 0){
+       icon = Icons.add;
+       iconColor = Colors.green;
+      }
+
       listStack.addFirst(ListTile(
         leading: Icon(
-          Icons.add,
-          color: Colors.green,
+          icon,
+          color: iconColor,
         ),
-        title: Text( amount.toStringAsFixed(2)),
-        trailing:  Text(date),
+        title: Text(amount.toStringAsFixed(2)),
+        trailing: Text(date),
       ));
     }
-  }
 
-  static Future<Null> addExpenseItem() async {
-    var data = await dbHelper.queryAllRows('expense');
-    for (var item in data) {
+   /* for (var item in expenseData) {
       double amount = item['expenseAmount'];
       String date = item['dateAdded'];
       String description = item['description'];
@@ -405,6 +412,10 @@ class _DashboardState extends State<Dashboard> {
         subtitle: Text(description),
         trailing: Text(date),
       ));
+
+
     }
+
+    */
   }
 }
