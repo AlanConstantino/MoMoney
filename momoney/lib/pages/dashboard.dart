@@ -8,15 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ListQueue listStack;
 final dbHelper = DatabaseHelper.instance;
-double progressbarValue = dummyExpenses/dummyIncome;
+double progressbarValue = dummyExpenses / dummyIncome;
 double dummyMonthlyContribution = 0.0;
 double dummyUserGoal = 1.0;
 double dummyIncome = 0.001;
 double dummyExpenses = 0.0;
 double monthsLeft = 0.0;
 double dummyUserBalance = 0.0;
-double counter = 0.0;
-double balanceLeftOver = dummyIncome - dummyExpenses + dummyMonthlyContribution;
+double balanceLeftOver = dummyIncome - dummyExpenses - dummyMonthlyContribution;
+
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
 
@@ -42,7 +42,7 @@ class _DashboardState extends State<Dashboard> {
   get columnsToSelect => null; // list of expenses
 
   @override
-  void initState(){
+  void initState() {
     getUserPrefs();
     addDashItem();
     super.initState();
@@ -252,7 +252,8 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Text(
                                         "\$" +
-                                            (balanceLeftOver).toStringAsFixed(2),
+                                            (balanceLeftOver)
+                                                .toStringAsFixed(2),
                                         textAlign: TextAlign.right,
                                       ),
                                     ])),
@@ -280,7 +281,6 @@ class _DashboardState extends State<Dashboard> {
                                 print(prefs.getDouble('monthlyIncome'));
                                 print(prefs.getDouble('monthlyExpense'));
                                 print(prefs.getInt('percentageToSaveMonthly'));
-
                               },
                             ),
                           ),
@@ -323,18 +323,17 @@ class _DashboardState extends State<Dashboard> {
     return null;
   }
 
-  static Future<Null> getUserPrefs() async{
+  static Future<Null> getUserPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     dummyIncome += prefs.get('monthlyIncome');
     dummyExpenses += prefs.get('monthlyExpense');
-    dummyMonthlyContribution -= dummyIncome / prefs.get('percentageToSaveMonthly');
+    dummyMonthlyContribution -= dummyIncome * (prefs.get('percentageToSaveMonthly')/100);
   }
 
   //Reloads the lists
   static Future<Null> addDashItem() async {
     //var incomeData = await dbHelper.queryAllRows('income');
-   // var expenseData = await dbHelper.queryAllRows('expense');
+    // var expenseData = await dbHelper.queryAllRows('expense');
     var transactData = await dbHelper.queryAllRows('transact');
     var result = 0.0;
     for (var item in transactData) {
@@ -345,14 +344,15 @@ class _DashboardState extends State<Dashboard> {
       String date = item['dateAdded'];
       result += amount;
 
-      if(amount < 0){ //expense
+      if (amount < 0) {
+        //expense
         icon = Icons.remove;
         iconColor = Colors.red;
         transSubtitle = item['description'];
-      }
-      else if(amount >= 0){ //income
-       icon = Icons.add;
-       iconColor = Colors.green;
+      } else if (amount >= 0) {
+        //income
+        icon = Icons.add;
+        iconColor = Colors.green;
       }
       listStack.addFirst(ListTile(
         leading: Icon(
@@ -364,24 +364,26 @@ class _DashboardState extends State<Dashboard> {
         subtitle: Text(transSubtitle),
       ));
     }
-      balanceLeftOver = result+dummyMonthlyContribution;
-    }
+    balanceLeftOver = result + dummyMonthlyContribution;
+  }
 
-    static Future<Null> getIncome() async{
+  static Future<Null> getIncome() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await dbHelper.queryAllRows('income');
     double result = 0.0;
-    for(var item in data){
-       result += item['incomeAmount'];
+    for (var item in data) {
+      result += item['incomeAmount'];
     }
-    dummyIncome = result;
-    }
-  static Future<Null> getExpenses() async{
-    var data = await dbHelper.queryAllRows('expense');
-    double result = 0.0;
-    for(var item in data){
-      result += item['expenseAmount'];
-    }
-    dummyExpenses = result;
-  }
+    dummyIncome = result+prefs.get('monthlyIncome');
   }
 
+  static Future<Null> getExpenses() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = await dbHelper.queryAllRows('expense');
+    double result = 0.0;
+    for (var item in data) {
+      result += item['expenseAmount'];
+    }
+    dummyExpenses = result- prefs.get('monthlyExpense');
+  }
+}
