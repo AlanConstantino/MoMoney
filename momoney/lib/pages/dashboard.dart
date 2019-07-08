@@ -95,14 +95,15 @@ class _DashboardState extends State<Dashboard> {
                     const PopupMenuItem<String>(
                         value: 'income',
                         child: ListTile(
-                          leading: Icon(Icons.attach_money),
-                          title: Text('Income'),
+                          leading:
+                              Icon(Icons.attach_money, color: Colors.green),
+                          title: Text('Add income'),
                         )),
                     const PopupMenuItem<String>(
                       value: 'expense',
                       child: ListTile(
-                        leading: Icon(Icons.money_off),
-                        title: Text('Expense'),
+                        leading: Icon(Icons.money_off, color: Colors.red),
+                        title: Text('Add expense'),
                       ),
                     ),
                   ],
@@ -123,15 +124,15 @@ class _DashboardState extends State<Dashboard> {
                   },
                 ),
                 ListTile(
-                  title: Text('Monthly Expenses'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/monthly_expenses');
-                  },
-                ),
-                ListTile(
                   title: Text('Monthly Income'),
                   onTap: () {
                     Navigator.of(context).popAndPushNamed('/monthly_income');
+                  },
+                ),
+                ListTile(
+                  title: Text('Monthly Expenses'),
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed('/monthly_expenses');
                   },
                 ),
                 ListTile(
