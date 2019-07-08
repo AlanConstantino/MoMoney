@@ -7,147 +7,298 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  _displaySnackBar(BuildContext context, String previous, String current) {
+    final snackbar = SnackBar(
+        content: Text("Successfully changed '$previous' to '$current'"));
+    _scaffoldKey.currentState
+      ..removeCurrentSnackBar()
+      ..showSnackBar(snackbar);
+  }
+
+  String firstName;
+  String lastName;
+  double monthlyIncome;
+  double monthlyExpense;
+  int percentageToSaveMonthly;
   var _userPercentages = ['5', '10', '15', '20'];
   String _currentValue = '5'; //default
+  String value;
 
-  // user variables to save later in shared preferences
-  String _firstName;
-  String _lastName;
-  double _monthlyIncome;
-  double _monthlyExpense;
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Profile Set Up'),
+        title: Text('Edit Profile'),
       ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-          child: Builder(
-            builder: (context) => Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'First name'),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your first name';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          setState(() => this._firstName = value);
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Last name'),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your last name.';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          setState(() => this._lastName = value);
-                        },
-                      ),
-                      TextFormField(
-                        keyboardType: const TextInputType.numberWithOptions(
-                          signed: false,
-                          decimal: true,
+          // child: StatefulBuilder(
+          //   builder: (context, setState) {
+          //     return
+          //   },
+          // ),
+          child: StatefulBuilder(
+              builder: (context, setState) => Column(
+                    children: <Widget>[
+                      Card(
+                        child: ListTile(
+                          title: Text('Edit first name'),
+                          trailing: Icon(Icons.create),
+                          onTap: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('First name'),
+                                    content: TextField(
+                                      onChanged: (value) {
+                                        firstName = value;
+                                      },
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          String previous = preferences
+                                              .getString('firstName');
+                                          preferences.setString(
+                                              'firstName', firstName);
+                                          _displaySnackBar(
+                                              context, previous, firstName);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
-                        decoration: InputDecoration(
-                          hintText: '0.00',
-                          labelText: 'Monthly Income',
-                          prefixText: '\$',
+                      ),
+                      Card(
+                        child: ListTile(
+                          title: Text('Edit last name'),
+                          trailing: Icon(Icons.create),
+                          onTap: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Last name'),
+                                    content: TextField(
+                                      onChanged: (value) {
+                                        lastName = value;
+                                      },
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          String previous =
+                                              preferences.getString('lastName');
+                                          preferences.setString(
+                                              'lastName', lastName);
+                                          _displaySnackBar(
+                                              context, previous, lastName);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
-                        validator: (String value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your monthly income';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          setState(
-                              () => this._monthlyIncome = double.parse(value));
-                        },
                       ),
-                      TextFormField(
-                        keyboardType: const TextInputType.numberWithOptions(
-                          signed: false,
-                          decimal: true,
+                      Card(
+                        child: ListTile(
+                          title: Text('Edit monthly income'),
+                          trailing: Icon(Icons.create),
+                          onTap: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Monthly Income'),
+                                    content: TextField(
+                                      enableInteractiveSelection: false,
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                        signed: false,
+                                        decimal: true,
+                                      ),
+                                      decoration: InputDecoration(
+                                        hintText: '0.00',
+                                        prefixText: '\$',
+                                      ),
+                                      onChanged: (value) {
+                                        monthlyIncome = double.parse(value);
+                                      },
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          String previous = preferences
+                                              .getDouble('monthlyIncome')
+                                              .toString();
+                                          preferences.setDouble(
+                                              'monthlyIncome', monthlyIncome);
+                                          _displaySnackBar(context, previous,
+                                              monthlyIncome.toString());
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
-                        decoration: InputDecoration(
-                          hintText: '0.00',
-                          labelText: 'Monthly Expenses',
-                          prefixText: '\$',
+                      ),
+                      Card(
+                        child: ListTile(
+                          title: Text('Edit monthly expense'),
+                          trailing: Icon(Icons.create),
+                          onTap: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Monthly Expense'),
+                                    content: TextField(
+                                      enableInteractiveSelection: false,
+                                      keyboardType:
+                                          const TextInputType.numberWithOptions(
+                                        signed: false,
+                                        decimal: true,
+                                      ),
+                                      decoration: InputDecoration(
+                                        hintText: '0.00',
+                                        prefixText: '\$',
+                                      ),
+                                      onChanged: (value) {
+                                        monthlyExpense = double.parse(value);
+                                      },
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          String previous = preferences
+                                              .getDouble('monthlyExpense')
+                                              .toString();
+                                          preferences.setDouble(
+                                              'monthlyExpense', monthlyExpense);
+                                          _displaySnackBar(context, previous,
+                                              monthlyExpense.toString());
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter your monthly expenses';
-                          }
-                          return null;
-                        },
-                        onSaved: (String value) {
-                          setState(
-                            () => this._monthlyExpense = double.parse(value),
-                          );
-                        },
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 16.0),
-                        alignment: Alignment.center,
-                        child: Text(
-                            'Percentage you would like to save each month'),
+                      Card(
+                        child: ListTile(
+                          title: Text('Edit monthly expense'),
+                          trailing: Icon(Icons.create),
+                          onTap: () async {
+                            SharedPreferences preferences =
+                                await SharedPreferences.getInstance();
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Savings percentage'),
+                                    content: Container(
+                                      child: DropdownButton<String>(
+                                        // isExpanded: true,
+                                        iconSize: 28.0,
+                                        value: _currentValue,
+                                        items: _userPercentages
+                                            .map((String dropDownItem) {
+                                          return DropdownMenuItem<String>(
+                                            value: dropDownItem,
+                                            child: Text(dropDownItem),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String newValue) {
+                                          setState(() {
+                                            _currentValue = newValue;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text("Save"),
+                                        onPressed: () {
+                                          percentageToSaveMonthly =
+                                              int.parse(_currentValue);
+                                          String previous = preferences
+                                              .getInt('percentageToSaveMonthly')
+                                              .toString();
+                                          preferences.setInt(
+                                              'percentageToSaveMonthly',
+                                              percentageToSaveMonthly);
+                                          _displaySnackBar(
+                                              context,
+                                              previous,
+                                              percentageToSaveMonthly
+                                                  .toString());
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      FlatButton(
+                                        child: Text("Close"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
+                        ),
                       ),
-                      DropdownButton<String>(
-                        iconSize: 28.0,
-                        items:
-                            _userPercentages.map((String dropDownStringItem) {
-                          return DropdownMenuItem<String>(
-                            value: dropDownStringItem,
-                            child: Text(dropDownStringItem),
-                          );
-                        }).toList(),
-                        onChanged: (String newValue) {
-                          setState(() {
-                            this._currentValue = newValue;
-                          });
-                        },
-                        value: _currentValue,
-                      ),
-                      Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 16.0),
-                          child: RaisedButton(
-                              onPressed: () async {
-                                final form = _formKey.currentState;
-                                if (form.validate()) {
-                                  form.save();
-                                  SharedPreferences preferences =
-                                      await SharedPreferences.getInstance();
-
-                                  // save user data to shared preferences
-                                  preferences.setString('firstName', _firstName);
-                                  preferences.setString('lastName', _lastName);
-                                  preferences.setDouble('monthlyIncome', _monthlyIncome);
-                                  preferences.setDouble('monthlyExpense', _monthlyExpense);
-                                  preferences.setInt('percentageToSaveMonthly', int.parse(_currentValue));
-
-                                  Navigator.pushNamed(context, "/dashboard");
-                                }
-                              },
-                              child: Text('Save'))),
                     ],
-                  ),
-                ),
-          ),
+                  )),
         ),
       ),
     );

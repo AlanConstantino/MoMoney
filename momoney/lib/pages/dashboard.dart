@@ -90,15 +90,15 @@ class _DashboardState extends State<Dashboard> {
                   },
                 ),
                 ListTile(
-                  title: Text('Monthly Expenses'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/monthly_expenses');
-                  },
-                ),
-                ListTile(
                   title: Text('Monthly Income'),
                   onTap: () {
                     Navigator.of(context).popAndPushNamed('/monthly_income');
+                  },
+                ),
+                ListTile(
+                  title: Text('Monthly Expenses'),
+                  onTap: () {
+                    Navigator.of(context).popAndPushNamed('/monthly_expenses');
                   },
                 ),
                 ListTile(
