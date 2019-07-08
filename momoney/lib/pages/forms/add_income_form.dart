@@ -76,7 +76,6 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             var description = " ";
             var category = " ";
 
-            Dashboard().addIncome(_incomeAmount,formattedDate);
             Transact transact = Transact.withoutID(_incomeAmount,description,category, formattedDate);
                      dbHelper.insert('transact', transact.toMap());
             // uncomment the following to see all the rows within the income table

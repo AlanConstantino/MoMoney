@@ -8,15 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ListQueue listStack;
 final dbHelper = DatabaseHelper.instance;
-
+double progressbarValue = dummyExpenses/dummyIncome;
 double dummyMonthlyContribution = 0.0;
 double dummyUserGoal = 1.0;
-double dummyIncome = 0.0;
+double dummyIncome = 0.001;
 double dummyExpenses = 0.0;
 double monthsLeft = 0.0;
 double dummyUserBalance = 0.0;
 double counter = 0.0;
-
+double balanceLeftOver = dummyIncome - dummyExpenses + dummyMonthlyContribution;
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
 
@@ -25,31 +25,10 @@ class Dashboard extends StatefulWidget {
 
   void addExpense(double expenseAmount, String date, String description) {
     dummyExpenses -= expenseAmount;
-    /*listStack.addFirst(ListTile(
-      leading: Icon(
-        Icons.remove,
-        color: Colors.red,
-      ),
-      title: Text("-\$" + expenseAmount.toStringAsFixed(2)),
-      trailing: Text(date),
-      subtitle: Text(description),
-    ));
-
-     */
   }
 
   void addIncome(double incomeAmount, String date) {
     dummyIncome += incomeAmount;
-    /*listStack.addFirst(ListTile(
-      leading: Icon(
-        Icons.add,
-        color: Colors.green,
-      ),
-      title: Text("\$" + incomeAmount.toStringAsFixed(2)),
-      trailing: Text(date),
-    ));
-
-     */
   }
 }
 
@@ -63,9 +42,9 @@ class _DashboardState extends State<Dashboard> {
   get columnsToSelect => null; // list of expenses
 
   @override
-  void initState() {
-    addDashItem();
+  void initState(){
     getUserPrefs();
+    addDashItem();
     super.initState();
     listStack = new ListQueue();
   }
@@ -183,10 +162,7 @@ class _DashboardState extends State<Dashboard> {
                                   height: 20,
                                   width: 300,
                                   child: LinearProgressIndicator(
-                                    value: (dummyIncome -
-                                            dummyExpenses -
-                                            dummyMonthlyContribution) /
-                                        dummyUserGoal,
+                                    value: progressbarValue,
                                     backgroundColor: Colors.red,
                                     valueColor: progressColor,
                                   ))),
@@ -222,7 +198,7 @@ class _DashboardState extends State<Dashboard> {
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    "Expenses ",
+                                    "Expenses: ",
                                     textAlign: TextAlign.left,
                                   ),
                                   Text(
@@ -276,10 +252,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       Text(
                                         "\$" +
-                                            (dummyIncome +
-                                                    dummyExpenses +
-                                                    dummyMonthlyContribution)
-                                                .toStringAsFixed(2),
+                                            (balanceLeftOver).toStringAsFixed(2),
                                         textAlign: TextAlign.right,
                                       ),
                                     ])),
@@ -308,17 +281,6 @@ class _DashboardState extends State<Dashboard> {
                                 print(prefs.getDouble('monthlyExpense'));
                                 print(prefs.getInt('percentageToSaveMonthly'));
 
-                                // User user = await _query();
-                                // print(user.id);
-                                // print(user.firstName);
-                                // print(user.lastName);
-                                // print(user.monthlyIncome);
-                                // dummyUserBalance = user.monthlyIncome;
-                                // print(user.monthlyExpense);
-                                // dummyExpenses = user.monthlyExpense;
-                                // print(user.percentageToSaveMonthly);
-                                // dummyMonthlyContribution = dummyUserBalance *
-                                //     user.percentageToSaveMonthly;
                               },
                             ),
                           ),
@@ -353,19 +315,20 @@ class _DashboardState extends State<Dashboard> {
   Future<Null> refreshList() async {
     await Future.delayed(Duration(seconds: 1));
     setState(() {
+      getIncome();
+      getExpenses();
       listStack.clear();
       addDashItem();
     });
     return null;
   }
 
-  static Future<Null> getUserPrefs() async {
+  static Future<Null> getUserPrefs() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     dummyIncome += prefs.get('monthlyIncome');
-    dummyExpenses -= prefs.get('monthlyExpense');
-    dummyMonthlyContribution -=
-        dummyIncome / prefs.get('percentageToSaveMonthly');
+    dummyExpenses += prefs.get('monthlyExpense');
+    dummyMonthlyContribution -= dummyIncome / prefs.get('percentageToSaveMonthly');
   }
 
   //Reloads the lists
@@ -373,23 +336,24 @@ class _DashboardState extends State<Dashboard> {
     //var incomeData = await dbHelper.queryAllRows('income');
    // var expenseData = await dbHelper.queryAllRows('expense');
     var transactData = await dbHelper.queryAllRows('transact');
-
+    var result = 0.0;
     for (var item in transactData) {
       var icon;
       var iconColor;
-
+      var transSubtitle = " ";
       double amount = item['amount'];
       String date = item['dateAdded'];
-      counter++;
-      if(amount < 0){
+      result += amount;
+
+      if(amount < 0){ //expense
         icon = Icons.remove;
         iconColor = Colors.red;
+        transSubtitle = item['description'];
       }
-      else if(amount >= 0){
+      else if(amount >= 0){ //income
        icon = Icons.add;
        iconColor = Colors.green;
       }
-
       listStack.addFirst(ListTile(
         leading: Icon(
           icon,
@@ -397,26 +361,27 @@ class _DashboardState extends State<Dashboard> {
         ),
         title: Text(amount.toStringAsFixed(2)),
         trailing: Text(date),
+        subtitle: Text(transSubtitle),
       ));
     }
-
-   /* for (var item in expenseData) {
-      double amount = item['expenseAmount'];
-      String date = item['dateAdded'];
-      String description = item['description'];
-      listStack.addFirst(ListTile(
-        leading: Icon(
-          Icons.remove,
-          color: Colors.red,
-        ),
-        title: Text(amount.toStringAsFixed(2)),
-        subtitle: Text(description),
-        trailing: Text(date),
-      ));
-
-
+      balanceLeftOver = result+dummyMonthlyContribution;
     }
 
-    */
+    static Future<Null> getIncome() async{
+    var data = await dbHelper.queryAllRows('income');
+    double result = 0.0;
+    for(var item in data){
+       result += item['incomeAmount'];
+    }
+    dummyIncome = result;
+    }
+  static Future<Null> getExpenses() async{
+    var data = await dbHelper.queryAllRows('expense');
+    double result = 0.0;
+    for(var item in data){
+      result += item['expenseAmount'];
+    }
+    dummyExpenses = result;
   }
-}
+  }
+
