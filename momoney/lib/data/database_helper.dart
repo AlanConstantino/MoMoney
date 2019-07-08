@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,15 +24,6 @@ class DatabaseHelper {
   static final expenseColumnDescription = 'description';
   static final expenseColumnCategory = 'category';
   static final expenseColumnDateAdded = 'dateAdded';
-
-  //transaction Table
-  static final tableTransact = 'transact';
-
-  static final transactColumnId = '_id';
-  static final transactColumnExpenseAmount = 'amount';
-  static final transactColumnDescription = 'description';
-  static final transactColumnCategory = 'category';
-  static final transactColumnDateAdded = 'dateAdded';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -78,15 +70,6 @@ class DatabaseHelper {
             $expenseColumnDateAdded TEXT NOT NULL
           )
           ''');
-    await db.execute('''
-          CREATE TABLE $tableTransact (
-            $transactColumnId INTEGER PRIMARY KEY,
-            $transactColumnExpenseAmount REAL NOT NULL,
-            $transactColumnDescription TEXT NOT NULL,
-            $transactColumnCategory TEXT NOT NULL,
-            $transactColumnDateAdded TEXT NOT NULL
-          )''');
-
   }
 
   // Helper methods
