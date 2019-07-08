@@ -1,7 +1,7 @@
 class Transact {
   // attributes
   int _id;
-  double _expenseAmount;
+  double _transactAmount;
   String _description;
   String _category;
   String _dateAdded;
@@ -9,14 +9,14 @@ class Transact {
   // constructors
   Transact(
       this._id,
-      this._expenseAmount,
+      this._transactAmount,
       this._description,
       this._category,
       this._dateAdded,
       );
 
   Transact.withoutID(
-      this._expenseAmount,
+      this._transactAmount,
       this._description,
       this._category,
       this._dateAdded,
@@ -24,30 +24,30 @@ class Transact {
 
   // getters
   int get id => _id;
-  double get expenseAmount => _expenseAmount;
+  double get transactAmount => _transactAmount;
   String get description => _description;
   String get category => _category;
   String get dateAdded => _dateAdded;
 
   // setters
-  set expenseAmount(double newExpenseAmount) =>
-      this._expenseAmount = newExpenseAmount;
+  set transactAmount(double newTransactAmount) =>
+      this._transactAmount = newTransactAmount;
   set description(String newDescription) => this._description = newDescription;
   set category(String newCategory) => this._category = newCategory;
 
-  // converting a map into an Expense object
+  // converting a map into an transact object
   Transact.fromMap(Map<String, dynamic> map) {
     this._id = map['_id'];
-    this._expenseAmount = map['amount'];
+    this._transactAmount = map['amount'];
     this._description = map['description'];
     this._category = map['category'];
     this._dateAdded = map['dateAdded'];
   }
 
-  // converting an Expense object into a map
+  // converting an transact object into a map
   Map<String, dynamic> toMap() => {
     '_id': _id,
-    'amount': _expenseAmount,
+    'amount': _transactAmount,
     'description': _description,
     'category': _category,
     'dateAdded': _dateAdded,
