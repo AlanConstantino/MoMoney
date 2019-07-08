@@ -144,8 +144,9 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             final dbHelper = DatabaseHelper.instance;
             Expense expense = Expense.withoutID(_expenseAmount, _description,
                 _selectedRadioFromList, formattedDate);
+            expense.setID(expense.hashCode);
             dbHelper.insert('expense', expense.toMap());
-            Transact transact = Transact.withoutID(_expenseAmount,_description,_selectedRadioFromList, formattedDate);
+            Transact transact = Transact(expense.hashCode,_expenseAmount,_description,_selectedRadioFromList, formattedDate);
             dbHelper.insert('transact', transact.toMap());
             // uncomment the following to see all the rows within the income table
 

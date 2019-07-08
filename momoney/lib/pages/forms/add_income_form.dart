@@ -71,12 +71,13 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             // saves income object to database as a map
             final dbHelper = DatabaseHelper.instance;
             Income income = Income.withoutID(_incomeAmount, formattedDate);
+            income.setID(income.hashCode);
             dbHelper.insert('income', income.toMap());
 
             var description = " ";
             var category = " ";
 
-            Transact transact = Transact.withoutID(_incomeAmount,description,category, formattedDate);
+            Transact transact = Transact(income.hashCode,_incomeAmount,description,category, formattedDate);
                      dbHelper.insert('transact', transact.toMap());
             // uncomment the following to see all the rows within the income table
             // final allRows = await dbHelper.queryAllRows('income');

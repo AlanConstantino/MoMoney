@@ -22,6 +22,10 @@ class Expense {
     this._dateAdded,
   );
 
+  void setID(int value){
+    this._id = value;
+  }
+
   // getters
   int get id => _id;
   double get expenseAmount => _expenseAmount;

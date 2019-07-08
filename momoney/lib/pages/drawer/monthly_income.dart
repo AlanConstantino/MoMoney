@@ -47,6 +47,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
                   onDismissed: (direction) {
                     setState(() {
                       dbHelper.delete('income', snapshot.data[index].id);
+                      dbHelper.delete('transact', snapshot.data[index].id.hashCode);
                       snapshot.data.removeAt(index);
                     });
                   },

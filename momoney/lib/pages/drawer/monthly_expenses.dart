@@ -45,6 +45,7 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
                         onDismissed: (direction) {
                           setState(() {
                             dbHelper.delete('expense', snapshot.data[index].id);
+                            dbHelper.delete('transact', snapshot.data[index].id.hashCode);
                             snapshot.data.removeAt(index);
                           });
                         },
