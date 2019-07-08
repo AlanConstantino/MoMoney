@@ -22,9 +22,6 @@ class _ProfileState extends State<Profile> {
   double monthlyIncome;
   double monthlyExpense;
   int percentageToSaveMonthly;
-  var _userPercentages = ['5', '10', '15', '20'];
-  String _currentValue = '5'; //default
-  String value;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +33,6 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
-          // child: StatefulBuilder(
-          //   builder: (context, setState) {
-          //     return
-          //   },
-          // ),
           child: StatefulBuilder(
               builder: (context, setState) => Column(
                     children: <Widget>[
@@ -236,7 +228,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Card(
                         child: ListTile(
-                          title: Text('Edit monthly expense'),
+                          title: Text('Edit savings percentage'),
                           trailing: Icon(Icons.create),
                           onTap: () async {
                             SharedPreferences preferences =
@@ -247,21 +239,15 @@ class _ProfileState extends State<Profile> {
                                   return AlertDialog(
                                     title: Text('Savings percentage'),
                                     content: Container(
-                                      child: DropdownButton<String>(
-                                        // isExpanded: true,
-                                        iconSize: 28.0,
-                                        value: _currentValue,
-                                        items: _userPercentages
-                                            .map((String dropDownItem) {
-                                          return DropdownMenuItem<String>(
-                                            value: dropDownItem,
-                                            child: Text(dropDownItem),
-                                          );
-                                        }).toList(),
-                                        onChanged: (String newValue) {
-                                          setState(() {
-                                            _currentValue = newValue;
-                                          });
+                                      child: TextField(
+                                        enableInteractiveSelection: false,
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(signed: false),
+                                        decoration: InputDecoration(
+                                            hintText: '5%, 10%, 15%, etc.'),
+                                        onChanged: (value) {
+                                          percentageToSaveMonthly =
+                                              int.parse(value);
                                         },
                                       ),
                                     ),
@@ -269,8 +255,6 @@ class _ProfileState extends State<Profile> {
                                       FlatButton(
                                         child: Text("Save"),
                                         onPressed: () {
-                                          percentageToSaveMonthly =
-                                              int.parse(_currentValue);
                                           String previous = preferences
                                               .getInt('percentageToSaveMonthly')
                                               .toString();
