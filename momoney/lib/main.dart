@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
         title: 'MoMoney',
         theme: ThemeData(
           primarySwatch: Colors.blue,
-          primaryColor: const Color(0xFF2196f3),
+          // primarySwatch: Colors.teal,
+          // primaryColor: const Color(0xFF2196f3),
+          primaryColor: Colors.blueAccent,
+          // primaryColor: Colors.greenAccent,
           accentColor: const Color(0xFF2196f3),
           canvasColor: const Color(0xFFfafafa),
         ),

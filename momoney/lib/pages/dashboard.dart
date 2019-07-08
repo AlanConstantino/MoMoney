@@ -1,8 +1,10 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:momoney/data/database_helper.dart';
+import 'package:momoney/model/expense.dart';
+import 'package:momoney/model/income.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -12,320 +14,298 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  //place holders, just preparing for the database connections
-  double dummyMonthlyContribution = 0.0;
-  double dummyUserGoal = 1.0;
-  double dummyIncome = 0.0;
-  double dummyExpenses = 0.0;
-  double monthsLeft = 0.0;
-  double dummyUserBalance = 0.0;
-  double counter = 0.0;
-  ListQueue listStack;
+  final dbHelper = DatabaseHelper.instance;
+
+  double totalIncome = 0.0;
+  double totalExpense = 0.0;
+  double monthlyIncome = 0.0;
+  double monthlyExpense = 0.0;
+  double savingsPercentage = 0.0;
+  double amountToSaveMonthly = 0.0;
+  double balance = 0.0;
+  double balanceLeftOver = 0.0;
 
   Animation<Color> progressColor = AlwaysStoppedAnimation<Color>(Colors.green);
 
-//test for list
-  Key refreshKey = GlobalKey<RefreshIndicatorState>();
+  Future _initializeVariables() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var incomeData = await dbHelper.queryAllRows('income');
+    var expenseData = await dbHelper.queryAllRows('expense');
+    // [0] = income, [1] = expense, [2] = savingsPercentage
+    // [3] = monthlyIncome, [4] = percentage
+    var list = [0.0, 0.0, 0.0, 0.0, 0];
 
-  get columnsToSelect => null; // list of expenses
+    // [0] = total income (double)
+    for (var incomeMap in incomeData) {
+      Income item = Income.fromMap(incomeMap);
+      list[0] += item.incomeAmount;
+    }
 
-  @override
-  void initState() {
-    super.initState();
-    listStack = new ListQueue();
-    listStack.add("Pull to update");
+    // [1] = total expense (double)
+    for (var expenseMap in expenseData) {
+      Expense item = Expense.fromMap(expenseMap);
+      list[1] += item.expenseAmount;
+    }
+
+    // [2] = monthlyIncome (double)
+    list[2] = preferences.getDouble('monthlyIncome');
+
+    // [3] = monthlyExpense (double)
+    list[3] = preferences.getDouble('monthlyExpense');
+
+    // [4] = percentage (int)
+    list[4] = preferences.getInt('percentageToSaveMonthly');
+
+    return list;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Dashboard'),
-          actions: <Widget>[
-            PopupMenuButton<String>(
-              icon: Icon(Icons.add),
-              onSelected: (valueSelected) {
-                switch (valueSelected) {
-                  case 'income':
-                    Navigator.of(context).pushNamed('/add_income_form');
-                    break;
-                  case 'expense':
-                    Navigator.of(context).pushNamed('/add_expense_form');
-                    break;
-                  default: // should never happen... hopefully...
-                    print(
-                        'Switch statement hit default case in dashbaord.dart');
-                }
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                    const PopupMenuItem<String>(
-                        value: 'income',
-                        child: ListTile(
-                          leading:
-                              Icon(Icons.attach_money, color: Colors.green),
-                          title: Text('Add income'),
-                        )),
-                    const PopupMenuItem<String>(
-                      value: 'expense',
+      appBar: AppBar(
+        title: Text('Dashboard'),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            icon: Icon(Icons.add),
+            onSelected: (valueSelected) {
+              switch (valueSelected) {
+                case 'income':
+                  Navigator.of(context).pushNamed('/add_income_form');
+                  break;
+                case 'expense':
+                  Navigator.of(context).pushNamed('/add_expense_form');
+                  break;
+                default: // should never happen... hopefully...
+                  print('Switch statement hit default case in dashbaord.dart');
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                      value: 'income',
                       child: ListTile(
-                        leading: Icon(Icons.money_off, color: Colors.red),
-                        title: Text('Add expense'),
-                      ),
+                        leading: Icon(Icons.attach_money, color: Colors.green),
+                        title: Text('Add income'),
+                      )),
+                  const PopupMenuItem<String>(
+                    value: 'expense',
+                    child: ListTile(
+                      leading: Icon(Icons.money_off, color: Colors.red),
+                      title: Text('Add expense'),
                     ),
-                  ],
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        drawer: Drawer(
-          child: Container(
-            color: Colors.white,
-            child: ListView(
-              padding: EdgeInsets.only(top: 40.0),
-              children: <Widget>[
-                ListTile(
-                  title: Text('Profile'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/profile');
-                  },
-                ),
-                ListTile(
-                  title: Text('Monthly Income'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/monthly_income');
-                  },
-                ),
-                ListTile(
-                  title: Text('Monthly Expenses'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/monthly_expenses');
-                  },
-                ),
-                ListTile(
-                  title: Text('Settings'),
-                  onTap: () {
-                    Navigator.of(context).popAndPushNamed('/settings');
-                  },
-                ),
-              ],
-            ),
+                  ),
+                ],
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white,
+      drawer: Drawer(
+        child: Container(
+          color: Colors.white,
+          child: ListView(
+            padding: EdgeInsets.only(top: 40.0),
+            children: <Widget>[
+              ListTile(
+                title: Text('Profile'),
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed('/profile');
+                },
+              ),
+              ListTile(
+                title: Text('Total Income'),
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed('/monthly_income');
+                },
+              ),
+              ListTile(
+                title: Text('Total Expenses'),
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed('/monthly_expenses');
+                },
+              ),
+              ListTile(
+                title: Text('Settings'),
+                onTap: () {
+                  Navigator.of(context).popAndPushNamed('/settings');
+                },
+              ),
+            ],
           ),
         ),
-        body: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints viewportConstraints) {
-            return SingleChildScrollView(
-                child: RefreshIndicator(
-                    onRefresh: refreshList,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: viewportConstraints.maxHeight,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment(0, .7),
-                            child: SizedBox(
-                              height: 400,
-                              width: 400,
-                              child: ListView.separated(
-                                  separatorBuilder: (context, index) => Divider(
-                                        color: Colors.black,
-                                      ),
-                                  itemCount: listStack.length,
-                                  itemBuilder: (context, i) => ListTile(
-                                        title: Text(listStack.elementAt(i)),
-                                      )),
-                            ),
-                            color: Colors.blue.shade100,
-                          ),
-                          Container(
-                            child: Align(child: Text("Your Monthly Progress:")),
-                            height: 60.0,
-                          ),
-                          Container(
-                              child: SizedBox(
-                                  height: 20,
-                                  width: 300,
-                                  child: LinearProgressIndicator(
-                                    value: (dummyIncome -
-                                            dummyExpenses -
-                                            dummyMonthlyContribution) /
-                                        dummyUserGoal,
-                                    backgroundColor: Colors.red,
-                                    valueColor: progressColor,
-                                  ))),
-                          Container(
-                            alignment: Alignment(0, -.60),
-                            child: SizedBox(
-                              height: 40,
-                              width: 300,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    "Income",
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    "\$" + dummyIncome.toStringAsFixed(2),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            height: 60.0,
-                          ),
-                          Container(
-                            alignment: Alignment(0, -.50),
-                            child: SizedBox(
-                              height: 40,
-                              width: 300,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    "Expenses ",
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    "\$" + dummyExpenses.toStringAsFixed(2),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            height: 60.0,
-                          ),
-                          Container(
-                            alignment: Alignment(0, -.40),
-                            child: SizedBox(
-                                height: 40,
-                                width: 300,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text("Monthly Contribution:",
-                                        textAlign: TextAlign.left),
-                                    Text(
-                                      "\$" +
-                                          dummyMonthlyContribution
-                                              .toStringAsFixed(2),
-                                      textAlign: TextAlign.right,
-                                    )
-                                  ],
-                                )),
-                            height: 60.0,
-                          ),
-                          Container(
-                            child: Align(
-                                alignment: Alignment(0, -.3),
-                                child: Divider(height: 3, color: Colors.black)),
-                            height: 20.0,
-                          ),
-                          Container(
-                            alignment: Alignment(0, -.25),
-                            child: SizedBox(
-                                height: 40,
-                                width: 300,
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        "Balance Left Over",
-                                        textAlign: TextAlign.left,
-                                      ),
-                                      Text(
-                                        "\$" +
-                                            (dummyIncome -
-                                                    dummyExpenses -
-                                                    dummyMonthlyContribution)
-                                                .toStringAsFixed(2),
-                                        textAlign: TextAlign.right,
-                                      ),
-                                    ])),
-                            height: 60.0,
-                          ),
-                          Container(
-                            child: Align(
-                                alignment: Alignment(0, -.3),
-                                child: Divider(height: 5, color: Colors.black)),
-                            height: 6.0,
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            child: RaisedButton(
-                              child: Text('Print user info to debug console'),
-                              onPressed: () async {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
+      ),
+      body: FutureBuilder(
+        future: _initializeVariables(),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text("${snapshot.error}"));
+          }
 
-                                // prints whatever the user entered in the registration page
-                                print(
-                                    '\nThe following is what was saved in shared preferences\n');
-                                print(prefs.getString('firstName'));
-                                print(prefs.getString('lastName'));
-                                print(prefs.getDouble('monthlyIncome'));
-                                print(prefs.getDouble('monthlyExpense'));
-                                print(prefs.getInt('percentageToSaveMonthly'));
+          totalIncome = snapshot.data[0];
+          totalExpense = snapshot.data[1];
+          monthlyIncome = snapshot.data[2];
+          monthlyExpense = snapshot.data[3];
+          savingsPercentage = (snapshot.data[4] * 0.01);
+          amountToSaveMonthly = savingsPercentage * monthlyIncome;
+          balance = snapshot.data[0] - snapshot.data[1];
+          balanceLeftOver =
+              ((totalIncome - totalExpense) - amountToSaveMonthly);
 
-                                // User user = await _query();
-                                // print(user.id);
-                                // print(user.firstName);
-                                // print(user.lastName);
-                                // print(user.monthlyIncome);
-                                // dummyUserBalance = user.monthlyIncome;
-                                // print(user.monthlyExpense);
-                                // dummyExpenses = user.monthlyExpense;
-                                // print(user.percentageToSaveMonthly);
-                                // dummyMonthlyContribution = dummyUserBalance *
-                                //     user.percentageToSaveMonthly;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )));
-          },
-        ),
-        bottomNavigationBar: Container(
-          child: Row(children: <Widget>[
-            Expanded(
-                child: ListTile(
-              title: Text("Current Goal Balance:"),
-              subtitle: Text("\$" + ((dummyUserBalance)).toStringAsFixed(2)),
-            )),
-            Expanded(
-              child: ListTile(
-                title: Text("Months left until Goal:"),
-                subtitle: Text(
-                  ((dummyUserGoal - dummyUserBalance) /
-                              dummyMonthlyContribution)
-                          .toString() +
-                      " months",
-                  textAlign: TextAlign.right,
+          // double _getPercent(){
+          //   // can't have negative values
+          //   if((totalIncome - totalExpense).isNegative){
+          //     return 0;
+          //   }
+
+          //   if((totalIncome - totalExpense) > monthlyIncome){
+          //     return 1;
+          //   }
+
+          //   return (totalIncome - totalExpense) * 0.001;
+          // }
+          
+
+          return LayoutBuilder(
+            builder:
+                (BuildContext context, BoxConstraints viewportConstraints) {
+              return SingleChildScrollView(
+                  child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
                 ),
-              ),
-            )
-          ]),
-        ));
-  }
-
-  Future<Null> refreshList() async {
-    // User user = await _query();
-    await Future.delayed(Duration(seconds: 1));
-    setState(() {
-      // dummyIncome = user.monthlyIncome;
-      // dummyExpen ses = user.monthlyExpense;
-      // dummyMonthlyContribution =
-      // dummyUserBalance * (user.percentageToSaveMonthly) / 100;
-      listStack.addFirst("Expense/Income item ");
-    });
-    return null;
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                      child: Align(
+                        child: Text(
+                          "Your Progress",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17.0,
+                          ),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(20.0),
+                    ),
+                    // Container(
+                    //   child: CircularPercentIndicator(
+                    //     radius: 120.0,
+                    //     lineWidth: 13.0,
+                    //     animation: true,
+                    //     animateFromLastPercent: true,
+                    //     percent: _getPercent(),
+                    //     center: Text(
+                    //       '${(totalIncome - totalExpense).isNegative ? 0 : (totalIncome - totalExpense)}',
+                    //       style: TextStyle(
+                    //         fontWeight: FontWeight.bold,
+                    //         fontSize: 20.0,
+                    //       ),
+                    //     ),
+                    //     circularStrokeCap: CircularStrokeCap.round,
+                    //     progressColor: Colors.greenAccent,
+                    //   ),
+                    // ),
+                    Container(
+                      alignment: Alignment(0, -.60),
+                      child: SizedBox(
+                        height: 40,
+                        width: 300,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Total Income",
+                              textAlign: TextAlign.left,
+                            ),
+                            Text(
+                              "\$" + totalIncome.toStringAsFixed(2),
+                              textAlign: TextAlign.right,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment(0, -.50),
+                      child: SizedBox(
+                        height: 40,
+                        width: 300,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Total Expenses ", textAlign: TextAlign.left),
+                            Text(
+                              "-\$" + totalExpense.toStringAsFixed(2),
+                              textAlign: TextAlign.right,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment(0, -.40),
+                      child: SizedBox(
+                          height: 40,
+                          width: 300,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text("Savings goal:", textAlign: TextAlign.left),
+                              Text(
+                                  "\$" +
+                                      (amountToSaveMonthly).toStringAsFixed(2),
+                                  textAlign: TextAlign.right)
+                            ],
+                          )),
+                    ),
+                    Container(
+                      child: Align(
+                        child: Divider(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: SizedBox(
+                          width: 300,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Balance Left Over",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  "\$" + balanceLeftOver.toStringAsFixed(2),
+                                  textAlign: TextAlign.right,
+                                ),
+                              ])),
+                    ),
+                    Container(
+                      child: SizedBox(
+                          height: 160,
+                          width: 300,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  "Current Balance",
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text("\$" + (balance).toStringAsFixed(2),
+                                    textAlign: TextAlign.right),
+                              ])),
+                    ),
+                  ],
+                ),
+              ));
+            },
+          );
+        },
+      ),
+    );
   }
 }
