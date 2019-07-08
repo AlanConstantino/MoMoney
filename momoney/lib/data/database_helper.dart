@@ -85,8 +85,8 @@ class DatabaseHelper {
             $transactColumnDescription TEXT NOT NULL,
             $transactColumnCategory TEXT NOT NULL,
             $transactColumnDateAdded TEXT NOT NULL
-          )
-          ''');
+          )''');
+
   }
 
   // Helper methods

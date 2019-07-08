@@ -38,7 +38,7 @@ class Transact {
   // converting a map into an Expense object
   Transact.fromMap(Map<String, dynamic> map) {
     this._id = map['_id'];
-    this._expenseAmount = map['expenseAmount'];
+    this._expenseAmount = map['amount'];
     this._description = map['description'];
     this._category = map['category'];
     this._dateAdded = map['dateAdded'];
@@ -47,7 +47,7 @@ class Transact {
   // converting an Expense object into a map
   Map<String, dynamic> toMap() => {
     '_id': _id,
-    'expenseAmount': _expenseAmount,
+    'amount': _expenseAmount,
     'description': _description,
     'category': _category,
     'dateAdded': _dateAdded,

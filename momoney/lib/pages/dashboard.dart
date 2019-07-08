@@ -276,7 +276,7 @@ class _DashboardState extends State<Dashboard> {
                                       Text(
                                         "\$" +
                                             (dummyIncome +
-                                                    dummyExpenses -
+                                                    dummyExpenses +
                                                     dummyMonthlyContribution)
                                                 .toStringAsFixed(2),
                                         textAlign: TextAlign.right,
@@ -362,8 +362,8 @@ class _DashboardState extends State<Dashboard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     dummyIncome += prefs.get('monthlyIncome');
-    dummyExpenses += prefs.get('monthlyExpense');
-    dummyMonthlyContribution +=
+    dummyExpenses -= prefs.get('monthlyExpense');
+    dummyMonthlyContribution -=
         dummyIncome / prefs.get('percentageToSaveMonthly');
   }
 

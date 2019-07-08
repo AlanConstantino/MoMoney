@@ -13,6 +13,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
 
   Future<List<Income>> _getIncomeData() async {
     var data = await dbHelper.queryAllRowsByDescending('income');
+
     List<Income> list = [];
 
     for (var item in data) {
@@ -20,6 +21,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
           Income(item['_id'], item['incomeAmount'], item['dateAdded']);
       list.add(income);
     }
+
 
     return list;
   }
