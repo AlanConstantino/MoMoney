@@ -25,7 +25,7 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Monthly Income'),
+        title: Text('Total Income'),
       ),
       body: Container(
         child: FutureBuilder(

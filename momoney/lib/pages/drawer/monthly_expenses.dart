@@ -25,7 +25,7 @@ class _MonthlyExpensesState extends State<MonthlyExpenses> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Monthly Expenses'),
+          title: Text('Total Expenses'),
         ),
         body: Container(
           child: FutureBuilder(

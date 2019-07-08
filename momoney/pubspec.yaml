@@ -27,6 +27,7 @@ dependencies:
   path_provider: ^1.1.0
   shared_preferences: ^0.5.3+1
   intl: ^0.15.8
+  percent_indicator: ^2.1.1
 
 dev_dependencies:
   flutter_test:
