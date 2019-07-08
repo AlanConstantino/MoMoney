@@ -12,11 +12,13 @@ class _MonthlyIncomeState extends State<MonthlyIncome> {
 
   Future _getIncomeData() async {
     var data = await dbHelper.queryAllRowsByDescending('income');
+
     List<Income> list = [];
 
     for (var map in data) {
       list.add(Income.fromMap(map));
     }
+
 
     return list;
   }
