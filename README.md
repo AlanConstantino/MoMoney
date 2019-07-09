@@ -1,5 +1,6 @@
 # MoMoney
-COMP 380/L Project
+Software Engineering Project (Mobile Application)
+COMP 380/L
 
 Developers:
 Alan Constatino,
