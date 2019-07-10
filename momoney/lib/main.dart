@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:momoney/pages/goals.dart';
 import 'package:momoney/pages/register.dart';
 import 'package:momoney/pages/dashboard.dart';
 import 'package:momoney/pages/forms/add_expense_form.dart';
@@ -54,7 +53,6 @@ class MyApp extends StatelessWidget {
           ),
           buttonColor: Colors.black,
         ),
-        // home: Register(),
         initialRoute: '/',
         routes: {
           '/': (_) => CheckIfReturningUser(),
@@ -62,7 +60,6 @@ class MyApp extends StatelessWidget {
           '/register': (_) => Register(),
           '/settings': (_) => Settings(),
           '/profile': (_) => Profile(),
-          // '/goals': (_) => Goals(), // not currently being used
           '/monthly_expenses': (_) => MonthlyExpenses(),
           '/monthly_income': (_) => MonthlyIncome(),
           '/add_income_form': (_) => AddIncomeForm(),
