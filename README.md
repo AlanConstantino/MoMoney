@@ -37,34 +37,34 @@ Brandon Dupitas
 ## Final Product
 
 ### Gifs
-<img src="screenshots/gifs/profile-setup.GIF" width="200" height="400" />
-<img src="screenshots/gifs/add-income.GIF" width="200" height="400" />
-<img src="screenshots/gifs/add-expense.GIF" width="200" height="400" />
-<img src="screenshots/gifs/edit-profile.GIF" width="200" height="400" />
-<img src="screenshots/gifs/total-income.GIF" width="200" height="400" />
-<img src="screenshots/gifs/total-income-slide.GIF" width="200" height="400" />
-<img src="screenshots/gifs/total-expense.GIF" width="200" height="400" />
-<img src="screenshots/gifs/delete-all-data.GIF" width="200" height="400" />
+<img src="screenshots/gifs/profile-setup.GIF" width="400" height="800" />
+<img src="screenshots/gifs/add-income.GIF" width="400" height="800" />
+<img src="screenshots/gifs/add-expense.GIF" width="400" height="800" />
+<img src="screenshots/gifs/edit-profile.GIF" width="400" height="800" />
+<img src="screenshots/gifs/total-income.GIF" width="400" height="800" />
+<img src="screenshots/gifs/total-income-slide.GIF" width="400" height="800" />
+<img src="screenshots/gifs/total-expense.GIF" width="400" height="800" />
+<img src="screenshots/gifs/delete-all-data.GIF" width="400" height="800" />
 
 
 ### Screenshots
-<img src="screenshots/IMG_5833.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5834.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5835.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5836.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5837.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5838.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5839.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5840.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5844.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5845.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5846.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5847.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5848.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5849.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5850.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5851.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5852.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5853.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5854.PNG" width="200" height="400" />
-<img src="screenshots/IMG_5855.PNG" width="200" height="400" />
+<img src="screenshots/IMG_5833.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5834.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5835.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5836.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5837.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5838.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5839.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5840.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5844.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5845.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5846.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5847.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5848.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5849.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5850.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5851.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5852.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5853.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5854.PNG" width="400" height="800" />
+<img src="screenshots/IMG_5855.PNG" width="400" height="800" />
