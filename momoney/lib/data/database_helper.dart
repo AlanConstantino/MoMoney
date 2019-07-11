@@ -25,7 +25,7 @@ class DatabaseHelper {
   static final expenseColumnCategory = 'category';
   static final expenseColumnDateAdded = 'dateAdded';
 
-  // make this a singleton class
+  // singleton
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -34,12 +34,11 @@ class DatabaseHelper {
 
   Future<Database> get database async {
     if (_database != null) return _database;
-    // lazily instantiate the db the first time it is accessed
     _database = await _initDatabase();
     return _database;
   }
 
-  // this opens the database (and creates it if it doesn't exist)
+  // this opens the database (creates database if it doesn't exist)
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
@@ -72,48 +71,39 @@ class DatabaseHelper {
           ''');
   }
 
-  // Helper methods
-
-  // Inserts a row in the database where each key in the Map is a column name
-  // and the value is the column value. The return value is the id of the
-  // inserted row.
+  // Inserts a row in the database
   Future<int> insert(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     return await db.insert(tableName, row);
   }
 
-  // All of the rows are returned as a list of maps, where each map is
-  // a key-value list of columns.
+  // All of the rows are returned as a list of maps
   Future<List<Map<String, dynamic>>> queryAllRows(String tableName) async {
     Database db = await instance.database;
     return await db.query(tableName);
   }
 
-  // All of the rows are returned as a list of maps, where each map is
-  // a key-value list of columns and is sorted by descending id.
+  // All of the rows are returned as a list of maps in descending order
   Future<List<Map<String, dynamic>>> queryAllRowsByDescending(String tableName) async {
     Database db = await instance.database;
     return await db.rawQuery('SELECT * FROM $tableName ORDER BY _id DESC');
   }
 
-  // All of the methods (insert, query, update, delete) can also be done using
-  // raw SQL commands. This method uses a raw query to give the row count.
+  // A raw query to give the row count
   Future<int> queryRowCount(String tableName) async {
     Database db = await instance.database;
     return Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $tableName'));
   }
 
-  // We are assuming here that the id column in the map is set. The other
-  // column values will be used to update the row.
+  // Update an item in the database
   Future<int> update(String tableName, Map<String, dynamic> row) async {
     Database db = await instance.database;
     int id = row['_id'];
     return await db.update(tableName, row, where: '_id = ?', whereArgs: [id]);
   }
 
-  // Deletes the row specified by the id. The number of affected rows is
-  // returned. This should be 1 as long as the row exists.
+  // Deletes a row specified by the id
   Future<int> delete(String tableName, int id) async {
     Database db = await instance.database;
     return await db.delete(tableName, where: '_id = ?', whereArgs: [id]);

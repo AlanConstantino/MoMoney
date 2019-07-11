@@ -10,17 +10,10 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final dbHelper = DatabaseHelper.instance;
-  // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  // _displaySnackBar(BuildContext context) {
-  //   final snackbar = SnackBar(content: Text('All data has been deleted.'));
-  //   _scaffoldKey.currentState.showSnackBar(snackbar);
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // key: _scaffoldKey,
       appBar: AppBar(automaticallyImplyLeading: true, title: Text('Settings')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

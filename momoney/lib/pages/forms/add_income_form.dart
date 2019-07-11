@@ -26,7 +26,7 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
-                      enableInteractiveSelection: false, // disables copy/paste
+                      enableInteractiveSelection: false,
                       keyboardType: const TextInputType.numberWithOptions(
                         signed: false,
                         decimal: true,
@@ -62,7 +62,6 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
           if (form.validate()) {
             form.save();
 
-            // gets current time
             String formattedDate =
                 DateFormat('EEE M/d/y h:mm a').format(DateTime.now());
 
@@ -70,12 +69,6 @@ class _AddIncomeFormState extends State<AddIncomeForm> {
             final dbHelper = DatabaseHelper.instance;
             Income income = Income.withoutID(_incomeAmount, formattedDate);
             dbHelper.insert('income', income.toMap());
-
-            // uncomment the following to see all the rows within the income table
-
-            // final allRows = await dbHelper.queryAllRows('income');
-            // print('query all rows:');
-            // allRows.forEach((row) => print(row));
 
             Navigator.pop(context);
           }

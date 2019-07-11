@@ -73,7 +73,7 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
                 child: ListView(
                   children: <Widget>[
                     TextFormField(
-                      enableInteractiveSelection: false, // disbales copy/paste
+                      enableInteractiveSelection: false,
                       keyboardType: const TextInputType.numberWithOptions(
                         signed: false,
                         decimal: true,
@@ -143,12 +143,6 @@ class _AddExpenseFormState extends State<AddExpenseForm> {
             Expense expense = Expense.withoutID(_expenseAmount, _description,
                 _selectedRadioFromList, formattedDate);
             dbHelper.insert('expense', expense.toMap());
-
-            // uncomment the following to see all the rows within the income table
-
-            // final allRows = await dbHelper.queryAllRows('expense');
-            // print('query all rows:');
-            // allRows.forEach((row) => print(row));
 
             Navigator.pop(context);
           }

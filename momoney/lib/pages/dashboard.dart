@@ -4,7 +4,6 @@ import 'package:momoney/data/database_helper.dart';
 import 'package:momoney/model/expense.dart';
 import 'package:momoney/model/income.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:percent_indicator/percent_indicator.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key key}) : super(key: key);
@@ -150,24 +149,6 @@ class _DashboardState extends State<Dashboard> {
           balanceLeftOver =
               ((totalIncome - totalExpense) - amountToSaveMonthly);
 
-          // double _getPercent(){
-          //   // can't have negative values
-          //   if((totalIncome - totalExpense).isNegative){
-          //     return 0.0;
-          //   }
-
-          //   if((totalIncome - totalExpense) > monthlyIncome){
-          //     return 1.0;
-          //   }
-
-          //   // zeros needed to multiply
-          //   int length = monthlyIncome.toInt().toString().length - 2;
-
-
-          //   return (totalIncome - totalExpense) * 0.001;
-          // }
-          
-
           return LayoutBuilder(
             builder:
                 (BuildContext context, BoxConstraints viewportConstraints) {
@@ -192,24 +173,6 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       padding: const EdgeInsets.all(20.0),
                     ),
-                    // Container(
-                    //   child: CircularPercentIndicator(
-                    //     radius: 120.0,
-                    //     lineWidth: 13.0,
-                    //     animation: true,
-                    //     animateFromLastPercent: true,
-                    //     percent: _getPercent(),
-                    //     center: Text(
-                    //       '${(totalIncome - totalExpense).isNegative ? 0 : (totalIncome - totalExpense)}',
-                    //       style: TextStyle(
-                    //         fontWeight: FontWeight.bold,
-                    //         fontSize: 20.0,
-                    //       ),
-                    //     ),
-                    //     circularStrokeCap: CircularStrokeCap.round,
-                    //     progressColor: Colors.greenAccent,
-                    //   ),
-                    // ),
                     Container(
                       alignment: Alignment(0, -.60),
                       child: SizedBox(

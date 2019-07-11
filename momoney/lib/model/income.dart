@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Income {
   // attributes
   int _id;
@@ -22,7 +20,6 @@ class Income {
   int get id => _id;
   double get incomeAmount => _incomeAmount;
   String get dateAdded => _dateAdded;
-  Key get key => ObjectKey(this);
 
   // setter
   set incomeAmount(double newIncomeAmount) =>
